@@ -40,7 +40,7 @@ def index_sickbeard(path, library):
 
             for show_actor in nfo['tvshow']['actor']:
                 actor, created = Actor.create_or_get(name=show_actor['name'])
-                if created:
+                if created and 'thumb' in show_actor:
                     tools.cache_image(show_actor['thumb'], 'actor', actor.id)
                 SeriesActor.create(series=series, actor=actor, personage=show_actor['role'])
 
