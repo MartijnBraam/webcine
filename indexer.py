@@ -40,6 +40,8 @@ def index_sickbeard(path, library):
             if os.path.isfile(directory + '/poster.jpg'):
                 tools.cache_image_from_library(directory + '/poster.jpg', 'series', series.id)
 
+            if isinstance(nfo['tvshow']['actor'], dict):
+                nfo['tvshow']['actor'] = [nfo['tvshow']['actor']]
             for show_actor in nfo['tvshow']['actor']:
                 actor, created = Actor.create_or_get(name=show_actor['name'])
                 if created and 'thumb' in show_actor and show_actor['thumb'] is not None:
@@ -83,6 +85,9 @@ def index_sickbeard(path, library):
                                 tools.cache_image(episode_nfo['episodedetails']['thumb'], 'media_thumb', media.id)
 
                             media.save()
+
+                            if isinstance(episode_nfo['episodedetails']['actor'], dict):
+                                episode_nfo['episodedetails']['actor'] = [episode_nfo['episodedetails']['actor']]
 
                             for show_actor in episode_nfo['episodedetails']['actor']:
                                 if 'thumb' in show_actor and 'role' in show_actor:
