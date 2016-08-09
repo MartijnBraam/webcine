@@ -1,0 +1,7 @@
+flask
+pymysql
+sqlalchemy
+celery
+flask-peewee
+xmltodict
+requests
