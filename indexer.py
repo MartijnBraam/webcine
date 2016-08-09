@@ -98,8 +98,9 @@ def preprocess_media_file(media_id):
     return True
 
 
-for library in list(Library.select()):
-    path = 'storage/{}'.format(library.name)
-    if library.type == 'tvseries':
-        if library.structure == 'sickbeard':
-            index_sickbeard(path, library)
+def index():
+    for library in list(Library.select()):
+        path = 'storage/{}'.format(library.name)
+        if library.type == 'tvseries':
+            if library.structure == 'sickbeard':
+                index_sickbeard(path, library)

@@ -6,4 +6,5 @@ from models import *
 from views import *
 
 if __name__ == '__main__':
+    indexer.index()
     app.run()
