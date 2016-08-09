@@ -57,13 +57,13 @@ class Media(db.Model):
 class MediaActor(db.Model):
     media = ForeignKeyField(Media)
     actor = ForeignKeyField(Actor)
-    personage = CharField()
+    personage = CharField(null=True)
 
 
 class SeriesActor(db.Model):
     series = ForeignKeyField(Series)
     actor = ForeignKeyField(Actor)
-    personage = CharField()
+    personage = CharField(null=True)
 
 
 class WatchInfo(db.Model):
