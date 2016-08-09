@@ -76,6 +76,57 @@ def play_media(media_id):
     return render_template('play.html', media=media)
 
 
+@app.route('/progress/<int:media_id>/<int:progress>')
+@auth.login_required
+def progress(media_id, progress):
+    user = auth.get_logged_in_user()
+    media = Media.get(Media.id == media_id)
+    info = WatchInfo().get(WatchInfo.user == user and WatchInfo.media == media)
+    info.progress = progress
+
+    if progress > media.length * 0.9:
+        info.watched = True
+
+    info.save()
+    return '{}'
+
+
+@app.route('/mark-watched/<int:media_id>')
+@auth.login_required
+def mark_watched(media_id):
+    user = auth.get_logged_in_user()
+    media = Media.get(Media.id == media_id)
+    info = WatchInfo().get(WatchInfo.user == user and WatchInfo.media == media)
+    info.watched = True
+    info.save()
+    return redirect(url_for('homepage'))
+
+
+@app.route('/hide/<int:media_id>')
+@auth.login_required
+def mark_hidden(media_id):
+    user = auth.get_logged_in_user()
+    media = Media.get(Media.id == media_id)
+    info = WatchInfo().get(WatchInfo.user == user and WatchInfo.media == media)
+    info.visible = False
+    info.save()
+    return redirect(url_for('homepage'))
+
+
+@app.route('/mark-watched/<int:media_id>')
+@auth.login_required
+def mark_season_watched(media_id):
+    """ This function does horrible things to your mysql. (n*2)+3 queries"""
+    user = auth.get_logged_in_user()
+    media = Media.get(Media.id == media_id)
+    episodes = list(Media.select().where(Media.series == media.series and Media.season == media.season))
+    for episode in episodes:
+        info = WatchInfo().get(WatchInfo.user == user and WatchInfo.media == episode)
+        info.watched = True
+        info.save()
+    return redirect(url_for('homepage'))
+
+
 @app.route('/stream/<path:filename>')
 def storage(filename):
     return send_file_partial(filename)

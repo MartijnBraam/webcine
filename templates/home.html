@@ -17,9 +17,9 @@
                     <span class="episode-number">S{{ episode.media.season }}E{{ episode.media.episode }}</span>
                     <div class="hoverlay">
                         <a href="{{ url_for('play_media', media_id = episode.media.id) }}">Play</a>
-                        <a href="#">Watched</a>
-                        <a href="#">Watched season</a>
-                        <a href="#">Hide</a>
+                        <a href="{{ url_for('mark_watched', media_id = episode.media.id) }}">Watched</a>
+                        <a href="{{ url_for('mark_season_watched', media_id = episode.media.id) }}">Watched season</a>
+                        <a href="{{ url_for('mark_hidden', media_id = episode.media.id) }}">Hide</a>
                     </div>
                     {% if episode.progress and episode.progress != 0 %}
                         <div class="progress">
