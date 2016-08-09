@@ -119,6 +119,7 @@ def index_sickbeard(path, library):
 
 @celery.task
 def preprocess_media_file(media_id):
+    logging.info('Running ffprobe on media {}'.format(media_id))
     media = Media.get(Media.id == media_id)
     metadata = get_video_metadata(media.path)
     media.length = metadata.length
