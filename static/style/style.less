@@ -1,0 +1,176 @@
+@import "forms";
+
+@panel-color: rgba(255, 255, 255, 0.1);
+@primary-color: #5eb95e;
+@primary-color-hover: darken(@primary-color, 25%);
+
+* {
+  box-sizing: border-box;
+}
+
+body, html {
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  background: #000911;
+  color: #eee;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  text-align: center;
+}
+
+#login-form {
+  background: @panel-color;
+  border-radius: 10px;
+  display: block;
+  width: 300px;
+  margin: 0 auto;
+  text-align: center;
+  padding: 15px;
+}
+
+a[href] {
+  color: @primary-color;
+  text-decoration: none;
+  &:hover {
+    color: @primary-color-hover;
+  }
+}
+
+nav {
+  width: 100%;
+  height: 48px;
+  line-height: 48px;
+  background: @panel-color;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+  a.nav-btn {
+    display: inline-block;
+    height: 48px;
+    line-height: 48px;
+    padding: 0 15px;
+  }
+
+  #user {
+    float: right;
+    line-height: 48px;
+    padding-right: 15px;
+    padding-left: 15px;
+
+    img {
+      float: left;
+      margin-top: 8px;
+      margin-right: 5px;
+      border-radius: 6px;
+      border-style: solid;
+      border-color: rgba(255, 255, 255, 0.2);
+      border-width: 1px 0 0 1px;
+    }
+
+  }
+}
+
+div.message {
+  width: 100%;
+  max-width: 500px;
+  margin: 10px auto;
+  background: @panel-color;
+  border-radius: 10px;
+  padding: 10px;
+  text-align: center;
+}
+
+p.message {
+  text-align: center;
+}
+
+article.serie {
+  background: @panel-color;
+  width: 100%;
+  max-width: 1000px;
+  margin: 10px auto;
+  text-align: left;
+  position: relative;
+  min-height: 220px;
+  padding: 10px 15px 10px 165px;
+
+  h2 {
+    text-align: left;
+  }
+  img {
+    position: absolute;
+    width: 150px;
+    left: 0;
+    top: 0;
+  }
+  div.meta {
+    position: absolute;
+    bottom: 0;
+    height: 22px;
+    line-height: 22px;
+    left: 165px;
+    font-size: 0.8em;
+
+    span {
+      padding-right: 15px;
+    }
+  }
+  a.add {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: @primary-color;
+    color: black;
+    display: inline-block;
+    padding: 6px 15px;
+    border-radius: 0 0 0 5px;
+    &:hover {
+      background: @primary-color-hover;
+    }
+  }
+}
+
+article.episode {
+  width: 300px;
+  background: @panel-color;
+  float: left;
+  position: relative;
+  margin: 15px;
+
+  img {
+    width: 100%;
+    height: auto;
+  }
+
+  span {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    color: white;
+    font-weight: bold;
+    font-size: 2em;
+    text-shadow: 0 0 4px #000;
+  }
+
+  div.progress {
+    position: absolute;
+    height: 5px;
+    background: rgba(0, 0, 0, 0.2);
+    top: 264px;
+    left:5px;
+    right: 5px;
+    .progress-inner {
+      height: 5px;
+      background-color: @primary-color;
+    }
+  }
+}
+
+div.clearfix::after {
+  content: " ";
+  clear: both;
+  display: block;
+}

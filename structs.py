@@ -1,0 +1,39 @@
+class VideoMetadata:
+    def __init__(self):
+        self.container = None
+        self.container_long = None
+        self.video = VideoStream()
+        self.audio = []
+        self.subtitles = []
+        self.length = 0
+        self.bitrate = 0
+
+
+class AudioStream:
+    def __init__(self):
+        self.codec = None
+        self.codec_long = None
+        self.language = None
+        self.title = None
+        self.channels = 2
+        self.bitrate = 0
+
+    def __repr__(self):
+        return '<AudioStream {} {} ({})>'.format(self.codec, self.language, self.title)
+
+
+class VideoStream:
+    def __init__(self):
+        self.codec = None
+        self.codec_long = None
+        self.bitrate = 0
+        self.width = 0
+        self.height = 0
+
+
+class SubtitleStream:
+    def __init__(self):
+        self.codec = None
+        self.codec_long = None
+        self.language = None
+        self.title = None

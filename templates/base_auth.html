@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <nav>
+        <a href="{{ url_for('homepage') }}" class="nav-btn">Dashboard</a>
+        <a href="{{ url_for('available_series') }}" class="nav-btn">Available series</a>
+        <div id="user">
+            <img src="{{ user.gravatar_url(size=32) }}">
+            <a href="{{ url_for('auth.logout') }}">log out</a>
+        </div>
+    </nav>
+    <main>
+        {% block main %}
+
+        {% endblock %}
+    </main>
+{% endblock %}

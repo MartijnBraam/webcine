@@ -1,0 +1,24 @@
+{% extends "base_auth.html" %}
+
+{% block main %}
+    <h1>Available series</h1>
+    {% for serie in series %}
+        <article class="serie">
+            <img src="{{ url_for('cache', type='series', id=serie.series.id) }}" class="thumbnail">
+            <a href="{{ url_for('start_series', series_id=serie.series.id) }}" class="add">Start watching</a>
+            <h2>{{ serie.series.name }}</h2>
+            <p class="plot">{{ serie.series.description }}</p>
+            <div class="meta">
+                <span>
+                    {{ serie.series.genre }}
+                </span>
+                <span>
+                    {{ serie.series.mpaa }}
+                </span>
+                <span>
+                    {{ serie.series.studio }}
+                </span>
+            </div>
+        </article>
+    {% endfor %}
+{% endblock %}

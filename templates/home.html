@@ -1,0 +1,42 @@
+{% extends "base_auth.html" %}
+
+{% block content_title %}Dashboard{% endblock %}
+
+{% block main %}
+    {% if nothing_to_watch %}
+        <div class="message">
+            <h2>Nothing to watch!</h2>
+            <a href="{{ url_for('available_series') }}">Start watching a new tv series</a>
+        </div>
+    {% else %}
+        <h2>TV Series</h2>
+        <div class="clearfix">
+            {% for episode in episodes %}
+                <article class="episode">
+                    <img src="{{ url_for('cache', type='media_thumb', id=episode.media.id) }}">
+                    <span class="episode-number">S{{ episode.media.season }}E{{ episode.media.episode }}</span>
+                    {% if episode.progress and episode.progress != 0 %}
+                        <div class="progress">
+                            <div class="progress-inner"
+                                 style="width: {{ (episode.progress/episode.media.length)*100 }}%"></div>
+                        </div>
+                    {% endif %}
+                    <h3>{{ episode.media.series.name }}</h3>
+                    <h4>{{ episode.media.name }}</h4>
+                </article>
+            {% else %}
+                <p class="message">No new episodes available</p>
+            {% endfor %}
+        </div>
+        <h2>Movies</h2>
+        <div class="clearfix">
+            {% for movie in movies %}
+                <article class="movie">
+                    <img src="{{ url_for('cache', type='media_thumb', id=movie.media.id) }}">
+                </article>
+            {% else %}
+                <p class="message">No unwatched movies available</p>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endblock %}
