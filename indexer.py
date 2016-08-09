@@ -6,6 +6,7 @@ import xmltodict
 import re
 from app import celery
 from ffmpeg import get_video_metadata
+import logging
 
 REGEX_EPISODE = re.compile(r'S(\d+)E(\d+)')
 REGEX_VIDEOEXT = re.compile(r'(mp4|mkv|mpg|avi|wmv|ts)$', re.IGNORECASE)
@@ -17,6 +18,7 @@ def parse_episode_number(filename):
         groups = match.groups()
         return int(groups[0]), int(groups[1])
     else:
+        logging.error('No episode number in filename: {}'.format(filename))
         return None
 
 
