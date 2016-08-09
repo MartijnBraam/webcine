@@ -132,11 +132,17 @@ article.serie a.add:hover {
   background: #2e6a2e;
 }
 article.episode {
-  width: 300px;
+  width: 278px;
   background: rgba(255, 255, 255, 0.1);
   float: left;
   position: relative;
   margin: 15px;
+}
+article.episode h3 {
+  font-size: 1em;
+}
+article.episode h4 {
+  font-size: 0.7em;
 }
 article.episode img {
   width: 100%;
