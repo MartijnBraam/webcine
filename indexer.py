@@ -55,7 +55,7 @@ def index_sickbeard(path, library):
                 if test:
                     season_number, episode_number = parse_episode_number(episode)
                     try:
-                        Media.get(Media.series == series, Media.episode == episode_number,
+                        Media.get(Media.series == series and Media.episode == episode_number and
                                   Media.season == season_number)
                     except:
                         media = Media()
@@ -79,7 +79,8 @@ def index_sickbeard(path, library):
                                 episode_nfo = xmltodict.parse(handle.read())
                             media.name = episode_nfo['episodedetails']['title']
                             media.description = episode_nfo['episodedetails']['plot']
-                            tools.cache_image(episode_nfo['episodedetails']['thumb'], 'media_thumb', media.id)
+                            if 'thumb' in episode_nfo['episodedetails']:
+                                tools.cache_image(episode_nfo['episodedetails']['thumb'], 'media_thumb', media.id)
 
                             media.save()
 
