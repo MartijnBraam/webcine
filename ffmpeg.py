@@ -2,7 +2,6 @@ from structs import VideoMetadata, AudioStream, SubtitleStream
 import subprocess
 import json
 import logging
-import pprint
 
 
 def get_video_metadata(path):
@@ -50,5 +49,5 @@ def get_video_metadata(path):
         return result
     except Exception as e:
         logging.error('Exception in ffprobe process ({})'.format(path))
-        logging.error(pprint.pprint(data))
+        logging.error(data)
         raise e
