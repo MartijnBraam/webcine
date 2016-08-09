@@ -8,7 +8,7 @@ from app import celery
 from ffmpeg import get_video_metadata
 import logging
 
-REGEX_EPISODE = re.compile(r'S(\d+)E(\d+)')
+REGEX_EPISODE = re.compile(r'S(\d+)E(\d+)', re.IGNORECASE)
 REGEX_VIDEOEXT = re.compile(r'(mp4|mkv|mpg|avi|wmv|ts)$', re.IGNORECASE)
 
 
