@@ -42,7 +42,7 @@ def index_sickbeard(path, library):
 
             for show_actor in nfo['tvshow']['actor']:
                 actor, created = Actor.create_or_get(name=show_actor['name'])
-                if created and 'thumb' in show_actor:
+                if created and 'thumb' in show_actor and show_actor['thumb'] is not None:
                     tools.cache_image(show_actor['thumb'], 'actor', actor.id)
                 SeriesActor.create(series=series, actor=actor, personage=show_actor['role'])
 
@@ -79,7 +79,7 @@ def index_sickbeard(path, library):
                                 episode_nfo = xmltodict.parse(handle.read())
                             media.name = episode_nfo['episodedetails']['title']
                             media.description = episode_nfo['episodedetails']['plot']
-                            if 'thumb' in episode_nfo['episodedetails']:
+                            if 'thumb' in episode_nfo['episodedetails'] and episode_nfo['episodedetails'] is not None:
                                 tools.cache_image(episode_nfo['episodedetails']['thumb'], 'media_thumb', media.id)
 
                             media.save()
@@ -87,7 +87,7 @@ def index_sickbeard(path, library):
                             for show_actor in episode_nfo['episodedetails']['actor']:
                                 if 'thumb' in show_actor and 'role' in show_actor:
                                     actor, created = Actor.create_or_get(name=show_actor['name'])
-                                    if created:
+                                    if created and 'thumb' in show_actor and show_actor['thumb'] is not None:
                                         tools.cache_image(show_actor['thumb'], 'actor', actor.id)
                                     MediaActor.create(media=media, actor=actor, personage=show_actor['role'])
 
