@@ -15,6 +15,12 @@
                 <article class="episode">
                     <img src="{{ url_for('cache', type='media_thumb', id=episode.media.id) }}">
                     <span class="episode-number">S{{ episode.media.season }}E{{ episode.media.episode }}</span>
+                    <div class="hoverlay">
+                        <a href="#">Play</a>
+                        <a href="#">Watched</a>
+                        <a href="#">Watched season</a>
+                        <a href="#">Hide</a>
+                    </div>
                     {% if episode.progress and episode.progress != 0 %}
                         <div class="progress">
                             <div class="progress-inner"
