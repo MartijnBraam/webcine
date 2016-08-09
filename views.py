@@ -1,4 +1,9 @@
-from flask import request, redirect, url_for, render_template, flash, send_file
+import mimetypes
+
+from flask import request, redirect, url_for, render_template, flash, send_file, Response
+
+import os
+import re
 
 from app import app
 from auth import auth
@@ -62,3 +67,53 @@ def cache(type, id):
     ext = 'jpg'
     file = 'storage/cache/{}/{}.{}'.format(type, id, ext)
     return send_file(file)
+
+
+@app.route('/play/<int:media_id>')
+@auth.login_required
+def play_media(media_id):
+    media = Media.get(Media.id == media_id)
+    return render_template('play.html', media=media)
+
+
+@app.route('/stream/<path:filename>')
+def storage(filename):
+    return send_file_partial(filename)
+
+
+def send_file_partial(path):
+    """
+        Simple wrapper around send_file which handles HTTP 206 Partial Content
+        (byte ranges)
+        TODO: handle all send_file args, mirror send_file's error handling
+        (if it has any)
+    """
+    print("Start stream response")
+    range_header = request.headers.get('Range', None)
+    if not range_header: return send_file(path)
+
+    size = os.path.getsize(path)
+    byte1, byte2 = 0, None
+
+    m = re.search('(\d+)-(\d*)', range_header)
+    g = m.groups()
+
+    if g[0]: byte1 = int(g[0])
+    if g[1]: byte2 = int(g[1])
+
+    length = size - byte1
+    if byte2 is not None:
+        length = byte2 - byte1
+
+    with open(path, 'rb') as f:
+        f.seek(byte1)
+        data = f.read(length)
+
+    rv = Response(data,
+                  206,
+                  mimetype=mimetypes.guess_type(path)[0],
+                  direct_passthrough=True)
+    rv.headers.add('Content-Range', 'bytes {0}-{1}/{2}'.format(byte1, byte1 + length - 1, size))
+    rv.headers.add('Keep-Alive', 'no')
+    print("Stream done")
+    return rv

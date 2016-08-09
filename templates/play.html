@@ -1,0 +1,9 @@
+{% extends "base_auth.html" %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/play.css') }}">
+{% endblock %}
+
+{% block main %}
+    <video src="/stream/{{ media.path }}" controls></video>
+{% endblock %}
