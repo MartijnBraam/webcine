@@ -20,7 +20,8 @@ def get_video_metadata(path):
             if stream['codec_type'] == 'video':
                 result.video.codec = stream['codec_name']
                 result.video.codec_long = stream['codec_long_name']
-                result.video.bitrate = int(float(stream['bit_rate']))
+                if 'bit_rate' in stream:
+                    result.video.bitrate = int(float(stream['bit_rate']))
                 result.video.width = int(stream['width'])
                 result.video.height = int(stream['height'])
 
@@ -29,7 +30,8 @@ def get_video_metadata(path):
                 audio.codec = stream['codec_name']
                 audio.codec_long = stream['codec_long_name']
                 audio.channels = int(stream['channels'])
-                audio.bitrate = int(float(stream['bit_rate']))
+                if 'bit_rate' in stream:
+                    audio.bitrate = int(float(stream['bit_rate']))
                 if 'language' in stream['tags']:
                     audio.language = stream['tags']['language']
                 if 'title' in stream['tags']:
