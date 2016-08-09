@@ -79,7 +79,7 @@ def index_sickbeard(path, library):
                                 episode_nfo = xmltodict.parse(handle.read())
                             media.name = episode_nfo['episodedetails']['title']
                             media.description = episode_nfo['episodedetails']['plot']
-                            if 'thumb' in episode_nfo['episodedetails'] and episode_nfo['episodedetails'] is not None:
+                            if 'thumb' in episode_nfo['episodedetails'] and episode_nfo['episodedetails']['thumb'] is not None:
                                 tools.cache_image(episode_nfo['episodedetails']['thumb'], 'media_thumb', media.id)
 
                             media.save()
