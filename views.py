@@ -72,8 +72,10 @@ def cache(type, id):
 @app.route('/play/<int:media_id>')
 @auth.login_required
 def play_media(media_id):
+    user = auth.get_logged_in_user()
     media = Media.get(Media.id == media_id)
-    return render_template('play.html', media=media)
+    watchinfo = WatchInfo.get(WatchInfo.user == user, WatchInfo.media == media)
+    return render_template('play.html', media=media, watchinfo=watchinfo)
 
 
 @app.route('/progress/<int:media_id>/<int:progress>')
