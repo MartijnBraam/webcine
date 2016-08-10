@@ -32,20 +32,22 @@ def get_video_metadata(path):
                 audio.channels = int(stream['channels'])
                 if 'bit_rate' in stream:
                     audio.bitrate = int(float(stream['bit_rate']))
-                if 'language' in stream['tags']:
-                    audio.language = stream['tags']['language']
-                if 'title' in stream['tags']:
-                    audio.title = stream['tags']['title']
+                if 'tags' in stream:
+                    if 'language' in stream['tags']:
+                        audio.language = stream['tags']['language']
+                    if 'title' in stream['tags']:
+                        audio.title = stream['tags']['title']
                 result.audio.append(audio)
 
             if stream['codec_type'] == 'subtitle':
                 sub = SubtitleStream()
                 sub.codec = stream['codec_name']
                 sub.codec_long = stream['codec_long_name']
-                if 'language' in stream['tags']:
-                    sub.language = stream['tags']['language']
-                if 'title' in stream['tags']:
-                    sub.title = stream['tags']['title']
+                if 'tags' in stream:
+                    if 'language' in stream['tags']:
+                        sub.language = stream['tags']['language']
+                    if 'title' in stream['tags']:
+                        sub.title = stream['tags']['title']
                 result.subtitles.append(sub)
 
         return result
