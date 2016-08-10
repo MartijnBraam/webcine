@@ -18,7 +18,8 @@ def parse_episode_number(filename):
     try:
         match = REGEX_EPISODE.search(filename)
         if match:
-            groups = match.groups()
+            groups = list(match.groups())
+            groups = list(filter(None, groups))
             return int(groups[0]), int(groups[1])
         else:
             logging.error('No episode number in filename: {}'.format(filename))
