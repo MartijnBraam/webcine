@@ -204,3 +204,42 @@ div.clearfix::after {
   clear: both;
   display: block;
 }
+
+.splitcontainer {
+  padding: 15px;
+  &::after {
+    content: " ";
+    clear: both;
+    display: block;
+  }
+  .split-left, .split-right {
+    width: 50%;
+  }
+  .split-left {
+    float: left;
+    padding-right: 7px;
+  }
+  .split-right {
+    float: right;
+    padding-left: 7px;
+  }
+}
+
+section.actor {
+  background: @panel-color;
+  width: 100%;
+  margin: 10px auto;
+  text-align: left;
+  position: relative;
+  min-height: 72px;
+  padding: 10px 15px 10px 64px;
+
+  img {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 48px;
+    height: 48px;
+    background: @panel-color;
+  }
+}

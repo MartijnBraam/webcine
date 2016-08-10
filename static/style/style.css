@@ -194,3 +194,40 @@ div.clearfix::after {
   clear: both;
   display: block;
 }
+.splitcontainer {
+  padding: 15px;
+}
+.splitcontainer::after {
+  content: " ";
+  clear: both;
+  display: block;
+}
+.splitcontainer .split-left,
+.splitcontainer .split-right {
+  width: 50%;
+}
+.splitcontainer .split-left {
+  float: left;
+  padding-right: 7px;
+}
+.splitcontainer .split-right {
+  float: right;
+  padding-left: 7px;
+}
+section.actor {
+  background: rgba(255, 255, 255, 0.1);
+  width: 100%;
+  margin: 10px auto;
+  text-align: left;
+  position: relative;
+  min-height: 72px;
+  padding: 10px 15px 10px 64px;
+}
+section.actor img {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 48px;
+  height: 48px;
+  background: rgba(255, 255, 255, 0.1);
+}

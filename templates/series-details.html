@@ -26,7 +26,7 @@
             <h3>Actors</h3>
             {% for actor in actors %}
                 <section class="actor">
-                    <img src="{{ url_for('cache', type='actor', id=actor.actor.id) }}" width="48" height="48">
+                    <img src="{{ url_for('cache', type='actor', id=actor.actor.id) }}" width="48" height="72">
                     <h4>{{ actor.actor.name }}</h4>
                     <p>{{ actor.personage }}</p>
                 </section>
