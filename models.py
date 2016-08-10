@@ -47,6 +47,7 @@ class Media(db.Model):
     series = ForeignKeyField(Series, null=True)
     season = IntegerField(null=True)
     episode = IntegerField(null=True)
+    dual_episode = BooleanField(default=False)
     part = IntegerField(null=True)
     name = CharField()
 

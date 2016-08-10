@@ -8,6 +8,8 @@ from app import celery
 from ffmpeg import get_video_metadata
 import logging
 
+from structs import EpisodeInfo, ActorInfo
+
 logging.basicConfig(level=logging.INFO)
 
 REGEX_EPISODE = re.compile(r'(?:S(\d+)E(\d+)|[^0-9x](\d)(\d\d)[^0-9p])', re.IGNORECASE)
@@ -29,6 +31,99 @@ def parse_episode_number(filename):
         if groups:
             logging.error(groups)
         raise
+
+
+def load_xbmc_episode_metadata(filename):
+    with open(filename) as handle:
+        episode_nfo = xmltodict.parse(handle.read())
+    episodes = []
+    if 'xbmcmultiepisode' in episode_nfo:
+        episodes.extend(episode_nfo['xbmcmultiepisode']['episodedetails'])
+    else:
+        episodes.append(episode_nfo['episodedetails'])
+    result = []
+    for episode in episodes:
+        if isinstance(episode['actor'], dict):
+            episode['actor'] = [episode['actor']]
+
+        processed = EpisodeInfo()
+        processed.episode_title = episode['title']
+        processed.series_name = episode['showtitle']
+        processed.season_number = int(episode['season'])
+        processed.episode_number = int(episode['episode'])
+        processed.description = episode['plot']
+
+        if 'thumb' in episode and episode['thumb']:
+            processed.thumbnail = episode['thumb']
+
+        for actor in episode['actor']:
+            ai = ActorInfo()
+            ai.name = actor['name']
+            if 'role' in actor:
+                ai.role = actor['role']
+            if 'thumb' in actor:
+                ai.picture = actor['thumb']
+            processed.actors.append(ai)
+
+        result.append(processed)
+    return result
+
+
+def index_sickbeard_season(path, library, series):
+    for episode in glob(path + '*'):
+        test = REGEX_VIDEOEXT.search(episode)
+        if test:
+            logging.info('Processing episode file')
+            season_number, episode_number = parse_episode_number(episode)
+            logging.info('Episode file is season {} episode {}'.format(season_number, episode_number))
+            try:
+                Media.get(Media.series == series, Media.episode == episode_number,
+                          Media.season == season_number)
+            except Media.DoesNotExist:
+                logging.info('Episode file not indexed yet. Indexing now')
+                media = Media()
+                media.type = 'tvepisode'
+                media.library = library
+                media.series = series
+                media.season = season_number
+                media.episode = episode_number
+                media.path = episode
+                media.name = '[processing...]'
+                media.save()
+
+                logging.info('Creating ffprobe task for backgroundworker')
+                preprocess_media_file.delay(media.id)
+
+                episode_thumb = os.path.splitext(episode)[0] + '.thumb.jpg'
+                if os.path.isfile(episode_thumb):
+                    logging.info('Using episode thumbnail from season folder')
+                    tools.cache_image_from_library(episode_thumb, 'media', media.id)
+                episode_nfo = os.path.splitext(episode)[0] + '.nfo'
+                if os.path.isfile(episode_nfo):
+                    logging.info('Processing episode .nfo file')
+                    episode_nfo = load_xbmc_episode_metadata(episode_nfo)
+
+                    media.name = episode_nfo[0].episode_title
+                    media.description = episode_nfo[0].description
+
+                    if len(episode_nfo) > 1:
+                        media.dual_episode = True
+
+                    if episode_nfo[0].thumbnail is not None:
+                        logging.info('Downloading thumbnail from episode .nfo file')
+                        tools.cache_image(episode_nfo[0].thumbnail, 'media_thumb', media.id)
+
+                    media.save()
+
+                    for show_actor in episode_nfo[0].actors:
+                        actor, created = Actor.create_or_get(name=show_actor.name)
+                        if created and show_actor.picture is not None:
+                            tools.cache_image(show_actor.picture, 'actor', actor.id)
+
+                        media_actor = MediaActor.create(media=media, actor=actor)
+                        if show_actor.role:
+                            media_actor.personage = show_actor.role
+                            media_actor.save()
 
 
 def index_sickbeard(path, library):
@@ -71,57 +166,7 @@ def index_sickbeard(path, library):
                 SeriesWatchInfo.create(user=user, series=series).save()
 
         for season in glob(directory + '/Season */'):
-            for episode in glob(season + '*'):
-                test = REGEX_VIDEOEXT.search(episode)
-                if test:
-                    logging.info('Processing episode file')
-                    season_number, episode_number = parse_episode_number(episode)
-                    logging.info('Episode file is season {} episode {}'.format(season_number, episode_number))
-                    try:
-                        Media.get(Media.series == series, Media.episode == episode_number,
-                                  Media.season == season_number)
-                    except Media.DoesNotExist:
-                        logging.info('Episode file not indexed yet. Indexing now')
-                        media = Media()
-                        media.type = 'tvepisode'
-                        media.library = library
-                        media.series = series
-                        media.season = season_number
-                        media.episode = episode_number
-                        media.path = episode
-                        media.name = '[processing...]'
-                        media.save()
-
-                        logging.info('Creating ffprobe task for backgroundworker')
-                        preprocess_media_file.delay(media.id)
-
-                        episode_thumb = os.path.splitext(episode)[0] + '.thumb.jpg'
-                        if os.path.isfile(episode_thumb):
-                            logging.info('Using episode thumbnail from season folder')
-                            tools.cache_image_from_library(episode_thumb, 'media', media.id)
-                        episode_nfo = os.path.splitext(episode)[0] + '.nfo'
-                        if os.path.isfile(episode_nfo):
-                            logging.info('Processing episode .nfo file')
-                            with open(episode_nfo) as handle:
-                                episode_nfo = xmltodict.parse(handle.read())
-                            media.name = episode_nfo['episodedetails']['title']
-                            media.description = episode_nfo['episodedetails']['plot']
-                            if 'thumb' in episode_nfo['episodedetails'] and episode_nfo['episodedetails'][
-                                'thumb'] is not None:
-                                logging.info('Downloading thumbnail from episode .nfo file')
-                                tools.cache_image(episode_nfo['episodedetails']['thumb'], 'media_thumb', media.id)
-
-                            media.save()
-
-                            if isinstance(episode_nfo['episodedetails']['actor'], dict):
-                                episode_nfo['episodedetails']['actor'] = [episode_nfo['episodedetails']['actor']]
-
-                            for show_actor in episode_nfo['episodedetails']['actor']:
-                                if 'thumb' in show_actor and 'role' in show_actor:
-                                    actor, created = Actor.create_or_get(name=show_actor['name'])
-                                    if created and 'thumb' in show_actor and show_actor['thumb'] is not None:
-                                        tools.cache_image(show_actor['thumb'], 'actor', actor.id)
-                                    MediaActor.create(media=media, actor=actor, personage=show_actor['role'])
+            index_sickbeard_season(season, library, series)
 
 
 @celery.task

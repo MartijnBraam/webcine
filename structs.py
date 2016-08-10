@@ -37,3 +37,21 @@ class SubtitleStream:
         self.codec_long = None
         self.language = None
         self.title = None
+
+
+class EpisodeInfo:
+    def __init__(self):
+        self.episode_title = None
+        self.series_name = None
+        self.episode_number = 0
+        self.season_number = 0
+        self.description = None
+        self.thumbnail = None
+        self.actors = []
+
+
+class ActorInfo:
+    def __init__(self):
+        self.name = None
+        self.role = None
+        self.picture = None
