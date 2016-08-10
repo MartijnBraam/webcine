@@ -36,8 +36,12 @@
         var progressTimer = setInterval(updateProgress, 5000);
 
         {% if watchinfo.progress and watchinfo.progress > 0 %}
-            video.addEventListener('loadstart', function(){
-                video.currentTime = {{ watchinfo.progress }};
+            var resumed = false;
+            video.addEventListener('play', function () {
+                if (!resumed) {
+                    resumed = true;
+                    video.currentTime = {{ watchinfo.progress }};
+                }
             });
         {% endif %}
     </script>
