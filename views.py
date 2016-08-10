@@ -14,7 +14,7 @@ from models import WatchInfo, SeriesWatchInfo, Media, Series
 @auth.login_required
 def homepage():
     user = auth.get_logged_in_user()
-    watch_next = list(WatchInfo.select().where(
+    watch_next = list(WatchInfo.select().join(Media).where(
         WatchInfo.user == user and WatchInfo.visible == True and WatchInfo.watched == False).order_by(
         -WatchInfo.media.season, -WatchInfo.media.episode))
 
