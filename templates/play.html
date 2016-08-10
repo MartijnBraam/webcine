@@ -10,9 +10,9 @@
         <a href="#">Play</a>
         <a href="{{ url_for('homepage') }}">Stop</a>
         <div id="progress">
-            <div></div>
+            <div id="progress-inner" style="width: 0;"></div>
         </div>
-        <span>0:00 / 0:00</span>
+        <span id="timer">0:00 / 0:00</span>
     </div>
     <script>
         function moved() {
@@ -42,6 +42,12 @@
         }
 
         var progressTimer = setInterval(updateProgress, 2000);
+
+        var progressBar = document.getElementById('progress-inner');
+        video.addEventListener('timeupdate', function () {
+            var progress = (video.currentTime / video.duration) * 100;
+            progressBar.style.width = progress + '%';
+        });
 
         {% if watchinfo.progress and watchinfo.progress > 0 %}
             var resumed = false;
