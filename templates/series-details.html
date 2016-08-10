@@ -4,11 +4,16 @@
     <h1>{{ series.name }}</h1>
     <p>{{ series.description }}</p>
     <table class="episode-table">
+        <tr>
+            <th>Season</th>
+            <th>Episode</th>
+            <th>Name</th>
+        </tr>
         {% for episode in episodes %}
             <tr>
                 <td>{{ episode.season }}</td>
                 <td>{{ episode.episode }}</td>
-                <td>{{ episode.name }}</td>
+                <td><a href="{{ url_for('play_media', media_id=episode.id) }}">{{ episode.name }}</a></td>
             </tr>
         {% endfor %}
     </table>
