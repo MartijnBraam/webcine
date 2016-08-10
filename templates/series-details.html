@@ -1,0 +1,15 @@
+{% extends "base_auth.html" %}
+
+{% block main %}
+    <h1>{{ series.name }}</h1>
+    <p>{{ series.description }}</p>
+    <table class="episode-table">
+        {% for episode in episodes %}
+            <tr>
+                <td>{{ episode.season }}</td>
+                <td>{{ episode.episode }}</td>
+                <td>{{ episode.name }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

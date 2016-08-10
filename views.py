@@ -132,6 +132,16 @@ def mark_season_watched(media_id):
     return redirect(url_for('homepage'))
 
 
+@app.route('/series-details/<int:series_id>')
+@auth.login_required
+def series_details(series_id):
+    user = auth.get_logged_in_user()
+    series = Series.get(Series.id == series_id)
+    episodes = list(Media.select().where(Media.series == series))
+
+    return render_template('series-details.html', series=series, episodes=episodes)
+
+
 @app.route('/stream/<path:filename>')
 def storage(filename):
     return send_file_partial(filename)

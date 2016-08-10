@@ -23,7 +23,7 @@
                     <div class="hoverlay">
                         <a href="{{ url_for('play_media', media_id = episode.media.id) }}">Play</a>
                         <a href="{{ url_for('mark_watched', media_id = episode.media.id) }}">Watched</a>
-                        <a href="{{ url_for('mark_season_watched', media_id = episode.media.id) }}">Watched season</a>
+                        <a href="{{ url_for('series_details', series_id = episode.media.series.id) }}">Details</a>
                         <a href="{{ url_for('mark_hidden', media_id = episode.media.id) }}">Hide</a>
                     </div>
                     {% if episode.progress and episode.progress != 0 %}
