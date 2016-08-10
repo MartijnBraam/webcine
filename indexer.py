@@ -115,6 +115,10 @@ def index_sickbeard_season(path, library, series):
 
                     media.save()
 
+                    for swi in SeriesWatchInfo.select().where(SeriesWatchInfo.following == True,
+                                                              SeriesWatchInfo.series == series):
+                        WatchInfo.create(user=swi.user, media=media)
+
                     for show_actor in episode_nfo[0].actors:
                         actor, created = Actor.create_or_get(name=show_actor.name)
                         if created and show_actor.picture is not None:
