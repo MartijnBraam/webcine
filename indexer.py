@@ -25,6 +25,8 @@ def parse_episode_number(filename):
             return None
     except Exception:
         logging.error('Cannot parse episode number in: {}'.format(filename))
+        if groups:
+            logging.error(groups)
         raise
 
 
