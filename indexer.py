@@ -78,9 +78,9 @@ def index_sickbeard(path, library):
                     season_number, episode_number = parse_episode_number(episode)
                     logging.info('Episode file is season {} episode {}'.format(season_number, episode_number))
                     try:
-                        Media.get(Media.series == series and Media.episode == episode_number and
+                        Media.get(Media.series == series, Media.episode == episode_number,
                                   Media.season == season_number)
-                    except:
+                    except Media.DoesNotExist:
                         logging.info('Episode file not indexed yet. Indexing now')
                         media = Media()
                         media.type = 'tvepisode'
