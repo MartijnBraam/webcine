@@ -9,8 +9,13 @@ video {
   background: black;
 }
 nav {
+  transition: top 1s;
   position: absolute;
-  top: 0;
+  top: -48px;
   left: 0;
   z-index: 100;
+  background: rgba(0, 0, 0, 0.5) !important;
+}
+body.moved nav {
+  top: 0;
 }

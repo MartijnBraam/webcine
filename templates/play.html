@@ -6,4 +6,18 @@
 
 {% block main %}
     <video src="/stream/{{ media.path }}" controls></video>
+    <script>
+        function moved() {
+            body.className = 'moved';
+        }
+
+        var body = document.getElementsByTagName('body')[0];
+        body.className = 'moved';
+        movementTimer = setTimeout(moved, 5000);
+        body.addEventListener('mousemove', function () {
+            body.className = 'moved';
+            clearTimeout(movementTimer);
+            movementTimer = setTimeout(moved, 5000);
+        })
+    </script>
 {% endblock %}
