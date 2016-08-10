@@ -15,7 +15,8 @@ from models import WatchInfo, SeriesWatchInfo, Media, Series
 def homepage():
     user = auth.get_logged_in_user()
     watch_next = list(WatchInfo.select().where(
-        WatchInfo.user == user and WatchInfo.visible == True and WatchInfo.watched == False))
+        WatchInfo.user == user and WatchInfo.visible == True and WatchInfo.watched == False).order_by(
+        -WatchInfo.media.season, -WatchInfo.media.episode))
 
     movies = []
     series = []
@@ -137,7 +138,7 @@ def mark_season_watched(media_id):
 def series_details(series_id):
     user = auth.get_logged_in_user()
     series = Series.get(Series.id == series_id)
-    episodes = list(Media.select().where(Media.series == series))
+    episodes = list(Media.select().where(Media.series == series).order_by(-Media.season, -Media.episode))
 
     return render_template('series-details.html', series=series, episodes=episodes)
 
