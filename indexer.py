@@ -92,7 +92,7 @@ def index_sickbeard_season(path, library, series):
                 media.save()
 
                 logging.info('Creating ffprobe task for backgroundworker')
-                preprocess_media_file.delay(media.id)
+                preprocess_media_file(media.id)
 
                 episode_thumb = os.path.splitext(episode)[0] + '.thumb.jpg'
                 if os.path.isfile(episode_thumb):
@@ -173,7 +173,6 @@ def index_sickbeard(path, library):
             index_sickbeard_season(season, library, series)
 
 
-@celery.task
 def preprocess_media_file(media_id):
     logging.info('Running ffprobe on media {}'.format(media_id))
     media = Media.get(Media.id == media_id)
