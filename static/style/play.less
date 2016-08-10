@@ -10,9 +10,19 @@ video {
 }
 
 nav {
-  transition: top 1s;
+  transition: top 500ms;
   position: absolute;
   top: -48px;
+  left: 0;
+  z-index: 100;
+  background: rgba(0, 0, 0, 0.5) !important;
+}
+
+#controls {
+  transition: bottom 500ms;
+  height: 48px;
+  position: absolute;
+  bottom: -48px;
   left: 0;
   z-index: 100;
   background: rgba(0, 0, 0, 0.5) !important;
@@ -21,5 +31,8 @@ nav {
 body.moved {
   nav {
     top: 0;
+  }
+  #controls {
+    bottom: 0;
   }
 }

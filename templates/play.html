@@ -6,6 +6,9 @@
 
 {% block main %}
     <video src="/stream/{{ media.path }}" controls id="player" autoplay></video>
+    <div id="controls">
+    
+    </div>
     <script>
         function moved() {
             body.className = '';
