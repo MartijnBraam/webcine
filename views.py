@@ -113,7 +113,7 @@ def mark_hidden(media_id):
     return redirect(url_for('homepage'))
 
 
-@app.route('/mark-watched/<int:media_id>')
+@app.route('/mark-season-watched/<int:media_id>')
 @auth.login_required
 def mark_season_watched(media_id):
     """ This function does horrible things to your mysql. (n*2)+3 queries"""

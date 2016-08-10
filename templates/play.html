@@ -5,20 +5,35 @@
 {% endblock %}
 
 {% block main %}
-    <video src="/stream/{{ media.path }}" controls></video>
+    <video src="/stream/{{ media.path }}" controls id="player"></video>
     <script>
         function moved() {
             body.className = '';
         }
 
         var body = document.getElementsByTagName('body')[0];
-        body.className = 'moved';
-        movementTimer = setTimeout(moved, 5000);
+        var video = document.getElementById('player');
 
+        var movementTimer = setTimeout(moved, 5000);
+
+        body.className = 'moved';
         body.addEventListener('mousemove', function () {
             body.className = 'moved';
             clearTimeout(movementTimer);
             movementTimer = setTimeout(moved, 5000);
-        })
+        });
+
+        function updateProgress() {
+            if (video.isPlaying) {
+                var progress = Math.floor(video.currentTime);
+
+                var xhr = new XMLHttpRequest();
+                xhr.open('GET', '/progress/{{ media.id }}/' + progress);
+                xhr.send(null);
+            }
+        }
+
+        var progressTimer = setInterval(updateProgress, 5000);
+
     </script>
 {% endblock %}
