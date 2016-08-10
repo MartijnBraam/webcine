@@ -7,7 +7,7 @@ import re
 
 from app import app
 from auth import auth
-from models import WatchInfo, SeriesWatchInfo, Media, Series
+from models import WatchInfo, SeriesWatchInfo, Media, Series, Actor, SeriesActor
 
 
 @app.route('/')
@@ -139,8 +139,8 @@ def series_details(series_id):
     user = auth.get_logged_in_user()
     series = Series.get(Series.id == series_id)
     episodes = list(Media.select().where(Media.series == series).order_by(-Media.season, -Media.episode))
-
-    return render_template('series-details.html', series=series, episodes=episodes)
+    actors = SeriesActor.select().join(Actor).where(SeriesActor.series == series)
+    return render_template('series-details.html', series=series, episodes=episodes, actors=actors)
 
 
 @app.route('/stream/<path:filename>')

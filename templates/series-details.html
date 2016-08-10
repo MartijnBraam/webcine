@@ -2,19 +2,36 @@
 
 {% block main %}
     <h1>{{ series.name }}</h1>
-    <p>{{ series.description }}</p>
-    <table class="episode-table">
-        <tr>
-            <th>Season</th>
-            <th>Episode</th>
-            <th>Name</th>
-        </tr>
-        {% for episode in episodes %}
-            <tr>
-                <td>{{ episode.season }}</td>
-                <td>{{ episode.episode }}</td>
-                <td><a href="{{ url_for('play_media', media_id=episode.id) }}">{{ episode.name }}</a></td>
-            </tr>
-        {% endfor %}
-    </table>
+    <div class="splitcontainer">
+        <div class="split-left">
+            <h2>Episodes</h2>
+            <table class="episode-table">
+                <tr>
+                    <th>Season</th>
+                    <th>Episode</th>
+                    <th>Name</th>
+                </tr>
+                {% for episode in episodes %}
+                    <tr>
+                        <td>{{ episode.season }}</td>
+                        <td>{{ episode.episode }}</td>
+                        <td><a href="{{ url_for('play_media', media_id=episode.id) }}">{{ episode.name }}</a></td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+        <div class="split-right">
+            <h2>Details</h2>
+            <p>{{ series.description }}</p>
+            <h3>Actors</h3>
+            {% for actor in actors %}
+                <section class="actor">
+                    <img src="{{ url_for('cache', type='actor', id=actor.actor.id) }}" width="48" height="48">
+                    <h4>{{ actor.actor.name }}</h4>
+                    <p>{{ actor.personage }}</p>
+                </section>
+            {% endfor %}
+        </div>
+    </div>
+
 {% endblock %}
