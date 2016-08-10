@@ -214,6 +214,11 @@ div.clearfix::after {
   float: right;
   padding-left: 7px;
 }
+table td,
+table th {
+  padding: 10px;
+  text-align: left;
+}
 section.actor {
   background: rgba(255, 255, 255, 0.1);
   width: 100%;
@@ -235,4 +240,8 @@ section.actor h4 {
   text-align: left;
   padding: 0;
   margin: 0;
+}
+section.actor p {
+  padding-bottom: 0;
+  margin-bottom: 0;
 }
