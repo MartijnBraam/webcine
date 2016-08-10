@@ -1,3 +1,6 @@
+@primary-color: #5eb95e;
+@primary-color-hover: darken(@primary-color, 25%);
+
 video {
   position: absolute;
   top: 0;
@@ -25,7 +28,29 @@ nav {
   bottom: -48px;
   left: 0;
   z-index: 100;
-  background: rgba(0, 0, 0, 0.5) !important;
+  background: rgba(0, 0, 0, 0.5);
+  width: 100%;
+
+  #progress {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: rgba(0, 0, 0, 0.5);
+
+    div {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 5px;
+      background: @primary-color;
+    }
+  }
+}
+
+body {
+  overflow: hidden;
 }
 
 body.moved {

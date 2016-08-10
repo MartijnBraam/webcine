@@ -5,9 +5,14 @@
 {% endblock %}
 
 {% block main %}
-    <video src="/stream/{{ media.path }}" controls id="player" autoplay></video>
+    <video src="/stream/{{ media.path }}" id="player" autoplay></video>
     <div id="controls">
-    
+        <a href="#">Play</a>
+        <a href="{{ url_for('homepage') }}">Stop</a>
+        <div id="progress">
+            <div></div>
+        </div>
+        <span>0:00 / 0:00</span>
     </div>
     <script>
         function moved() {

@@ -23,7 +23,26 @@ nav {
   bottom: -48px;
   left: 0;
   z-index: 100;
-  background: rgba(0, 0, 0, 0.5) !important;
+  background: rgba(0, 0, 0, 0.5);
+  width: 100%;
+}
+#controls #progress {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  background: rgba(0, 0, 0, 0.5);
+}
+#controls #progress div {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 5px;
+  background: #5eb95e;
+}
+body {
+  overflow: hidden;
 }
 body.moved nav {
   top: 0;
