@@ -15,13 +15,17 @@ REGEX_VIDEOEXT = re.compile(r'(mp4|mkv|mpg|avi|wmv|ts)$', re.IGNORECASE)
 
 
 def parse_episode_number(filename):
-    match = REGEX_EPISODE.search(filename)
-    if match:
-        groups = match.groups()
-        return int(groups[0]), int(groups[1])
-    else:
-        logging.error('No episode number in filename: {}'.format(filename))
-        return None
+    try:
+        match = REGEX_EPISODE.search(filename)
+        if match:
+            groups = match.groups()
+            return int(groups[0]), int(groups[1])
+        else:
+            logging.error('No episode number in filename: {}'.format(filename))
+            return None
+    except Exception:
+        logging.error('Cannot parse episode number in: {}'.format(filename))
+        raise
 
 
 def index_sickbeard(path, library):
