@@ -16,7 +16,7 @@ def homepage():
     user = auth.get_logged_in_user()
     watch_next = list(WatchInfo.select().join(Media).where(
         WatchInfo.user == user and WatchInfo.visible == True and WatchInfo.watched == False).order_by(
-        -Media.season, -Media.episode))
+        Media.season, Media.episode))
 
     movies = []
     series = []
