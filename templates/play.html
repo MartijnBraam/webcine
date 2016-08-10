@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block main %}
-    <video src="/stream/{{ media.path }}" controls id="player"></video>
+    <video src="/stream/{{ media.path }}" controls id="player" autoplay></video>
     <script>
         function moved() {
             body.className = '';
@@ -24,7 +24,7 @@
         });
 
         function updateProgress() {
-            if (video.isPlaying) {
+            if (!video.paused) {
                 var progress = Math.floor(video.currentTime);
 
                 var xhr = new XMLHttpRequest();
