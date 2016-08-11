@@ -7,7 +7,7 @@ import re
 
 from app import app
 from auth import auth
-from models import WatchInfo, SeriesWatchInfo, Media, Series, Actor, SeriesActor
+from models import WatchInfo, SeriesWatchInfo, Media, Series, Actor, SeriesActor, Season
 
 
 @app.route('/')
@@ -140,9 +140,16 @@ def mark_season_watched(media_id):
 def series_details(series_id):
     user = auth.get_logged_in_user()
     series = Series.get(Series.id == series_id)
+    seasons = Season.get(Season.series == series)
     episodes = list(Media.select().where(Media.series == series).order_by(-Media.season, -Media.episode))
+    season_episodes = {}
+    for episode in episodes:
+        if episode.season not in season_episodes.keys():
+            season_episodes[episode.season] = {}
+        season_episodes[episode.season][episode.episode] = episode
     actors = SeriesActor.select().join(Actor).where(SeriesActor.series == series)
-    return render_template('series-details.html', series=series, episodes=episodes, actors=actors)
+    return render_template('series-details.html', series=series, season_episodes=season_episodes, actors=actors,
+                           seasons=seasons)
 
 
 @app.route('/stream/<path:filename>')

@@ -10,7 +10,7 @@ def update_tvdb_data():
         for season in tvdb_series:
             if season > 0:
                 try:
-                    Season.get(series=series, number=season)
+                    Season.get(Season.series == series, Season.number == season)
                 except:
                     print("Creating season info for {} season {}".format(series.name, season))
                     episodes = len(tvdb_series[season].keys())
