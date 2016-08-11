@@ -7,7 +7,8 @@
 {% block main %}
     <video src="/stream/{{ media.path }}" id="player" autoplay></video>
     <div id="controls">
-        <a href="#">Play</a>
+        <a href="#" id="control-play">Play</a>
+        <a href="#" id="control-pause">Pause</a>
         <a href="{{ url_for('homepage') }}">Stop</a>
         <div id="progress">
             <div id="progress-inner" style="width: 0;"></div>
@@ -47,6 +48,30 @@
         video.addEventListener('timeupdate', function () {
             var progress = (video.currentTime / video.duration) * 100;
             progressBar.style.width = progress + '%';
+        });
+
+        progressBar.addEventListener('click', function (event) {
+            var clickedPixels = event.pageX - this.clientLeft;
+            var totalPixels = this.clientWidth;
+            var toProgress = (clickedPixels / totalPixels) * 100;
+            video.currentTime = video.duration * toProgress;
+        });
+
+        var playButton = document.getElementById('control-play');
+        var pauseButton = document.getElementById('control-pause');
+
+        playButton.addEventListener('click', function (event) {
+            event.preventDefault();
+            this.style.display = 'none';
+            video.play();
+            pauseButton.style.display = 'inline-block';
+        });
+
+        pauseButton.addEventListener('click', function (event) {
+            event.preventDefault();
+            this.style.display = 'none';
+            video.pause();
+            playButton.style.display = 'inline-block';
         });
 
         {% if watchinfo.progress and watchinfo.progress > 0 %}
