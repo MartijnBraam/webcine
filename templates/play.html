@@ -10,6 +10,7 @@
         <a href="#" id="control-play" style="display: none;">Play</a>
         <a href="#" id="control-pause">Pause</a>
         <a href="{{ url_for('homepage') }}">Stop</a>
+        <div id="progress-control-container"></div>
         <div id="progress">
             <div id="progress-inner" style="width: 0;"></div>
             <div id="progress-hover" style="width: 0"></div>
@@ -48,6 +49,8 @@
         var progressBar = document.getElementById('progress');
         var progressBarInner = document.getElementById('progress-inner');
         var progressBarHover = document.getElementById('progress-hover');
+        var progressControlContainer = document.getElementById('progress-control-container');
+
         var timer = document.getElementById('timer');
         video.addEventListener('timeupdate', function () {
             var progress = (video.currentTime / video.duration) * 100;
@@ -62,7 +65,7 @@
             video.currentTime = video.duration * progressFactor;
         });
 
-        progressBar.addEventListener('mousemove', function (event) {
+        progressControlContainer.addEventListener('mousemove', function (event) {
             var hoverPixels = event.pageX - this.clientLeft;
             progressBarHover.style.width = hoverPixels + 'px';
         });
