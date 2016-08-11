@@ -4,6 +4,7 @@ pymysql.install_as_MySQLdb()
 
 from app import app, db, celery
 import indexer
+import metadata
 from auth import *
 from models import *
 from views import *
@@ -17,7 +18,15 @@ if __name__ == '__main__':
 
     parser = argparse.ArgumentParser(description="Webcine console tool")
     parser.add_argument('--verbose', '-v', help='More verbose messages', action='store_true', default=False)
+
+    parser.add_argument('--indexer', help='Run indexer', action='store_true', default=False)
+    parser.add_argument('--metadata', help='Run metadata fetcher', action='store_true', default=False)
+
     args = parser.parse_args()
     if args.verbose:
         logging.basicConfig(level=logging.INFO)
-    indexer.index()
+
+    if args.indexer:
+        indexer.index()
+    if args.metadata:
+        metadata.update_tvdb_data()

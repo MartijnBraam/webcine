@@ -37,6 +37,18 @@ class Series(db.Model):
     studio = CharField(null=True)
 
 
+class Season(db.Model):
+    series = ForeignKeyField(Series)
+    number = IntegerField()
+    episodes = IntegerField()
+    description = TextField(null=True)
+
+    class Meta:
+        indexes = (
+            (('series', 'number'), True),
+        )
+
+
 class Media(db.Model):
     type = CharField(max_length=10)
     length = IntegerField(null=True)
@@ -94,6 +106,8 @@ if not Library.table_exists():
     Library.create(name='tv', type='tvseries', structure='sickbeard')
 if not Series.table_exists():
     Series.create_table()
+if not Season.table_exists():
+    Season.create_table()
 if not Media.table_exists():
     Media.create_table()
 if not WatchInfo.table_exists():
