@@ -23,9 +23,9 @@
         </div>
         <span id="timer">0:00 / 0:00</span>
         {% if media.series %}
-            <span id="title">{{ media.title }} S{{ media.season }} E{{ media.episode }}</span>
+            <span id="title">{{ media.series.name }} S{{ media.season }} E{{ media.episode }} {{ media.name }}</span>
         {% else %}
-            <span id="title">{{ media.title }}</span>
+            <span id="title">{{ media.name }}</span>
         {% endif %}
     </div>
     <script>
