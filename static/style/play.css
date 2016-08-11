@@ -9,6 +9,16 @@ video {
   background: black;
   cursor: pointer;
 }
+#cornerhint {
+  position: absolute;
+  top: 96px;
+  left: 48px;
+  width: 100px;
+  height: 100px;
+}
+#cornerhint img {
+  display: none;
+}
 nav {
   transition: top 500ms;
   position: absolute;
