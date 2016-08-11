@@ -45,6 +45,12 @@
             movementTimer = setTimeout(moved, 5000);
         });
 
+        body.addEventListener('touchstart', function () {
+            body.className = 'moved';
+            clearTimeout(movementTimer);
+            movementTimer = setTimeout(moved, 5000);
+        });
+
         function updateProgress() {
             if (!video.paused) {
                 var progress = Math.floor(video.currentTime);
