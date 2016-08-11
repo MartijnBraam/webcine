@@ -10,10 +10,11 @@
         <a href="#" id="control-play" style="display: none;">Play</a>
         <a href="#" id="control-pause">Pause</a>
         <a href="{{ url_for('homepage') }}">Stop</a>
-        <div id="progress-control-container"></div>
-        <div id="progress">
-            <div id="progress-inner" style="width: 0;"></div>
-            <div id="progress-hover" style="width: 0"></div>
+        <div id="progress-control-container">
+            <div id="progress">
+                <div id="progress-inner" style="width: 0;"></div>
+                <div id="progress-hover" style="width: 0"></div>
+            </div>
         </div>
         <span id="timer">0:00 / 0:00</span>
     </div>
@@ -58,7 +59,7 @@
             timer.innerHTML = secondsToTime(video.currentTime) + ' / ' + secondsToTime(video.duration);
         });
 
-        progressBar.addEventListener('click', function (event) {
+        progressControlContainer.addEventListener('click', function (event) {
             var clickedPixels = event.pageX - this.clientLeft;
             var totalPixels = this.clientWidth;
             var progressFactor = (clickedPixels / totalPixels);
