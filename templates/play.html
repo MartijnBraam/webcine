@@ -22,6 +22,11 @@
             </div>
         </div>
         <span id="timer">0:00 / 0:00</span>
+        {% if media.series %}
+            <span id="title">{{ media.title }} S{{ media.season }} E{{ media.episode }}</span>
+        {% else %}
+            <span id="title">{{ media.title }}</span>
+        {% endif %}
     </div>
     <script>
         function moved() {
