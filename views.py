@@ -140,7 +140,7 @@ def mark_season_watched(media_id):
 def series_details(series_id):
     user = auth.get_logged_in_user()
     series = Series.get(Series.id == series_id)
-    seasons = Season.get(Season.series == series)
+    seasons = Season.select().where(Season.series == series)
     episodes = list(Media.select().where(Media.series == series).order_by(-Media.season, -Media.episode))
     season_episodes = {}
     for episode in episodes:
