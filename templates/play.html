@@ -44,10 +44,11 @@
 
         var progressTimer = setInterval(updateProgress, 2000);
 
-        var progressBar = document.getElementById('progress-inner');
+        var progressBar = document.getElementById('progress');
+        var progressBarInner = document.getElementById('progress-inner');
         video.addEventListener('timeupdate', function () {
             var progress = (video.currentTime / video.duration) * 100;
-            progressBar.style.width = progress + '%';
+            progressBarInner.style.width = progress + '%';
         });
 
         progressBar.addEventListener('click', function (event) {
