@@ -7,7 +7,8 @@
 {% block main %}
     <video src="/stream/{{ media.path }}" id="player" autoplay></video>
     <div id="cornerhint">
-        <img src="{{ url_for('static', filename='loading.svg') }}" id="icon-loading" width="100" height="100">
+        <img src="{{ url_for('static', filename='loading.svg') }}" id="icon-loading" width="100" height="100"
+             style="display: inline-block;">
         <img src="{{ url_for('static', filename='pause.svg') }}" id="icon-pause" width="100" height="100">
     </div>
     <div id="controls">
@@ -74,6 +75,18 @@
                 video.pause();
                 iconPause.style.display = 'inline-block';
             }
+        });
+
+        video.addEventListener('seeking', function () {
+            iconLoading.style.display = 'inline-block';
+        });
+
+        video.addEventListener('seeked', function () {
+            iconLoading.style.display = 'none';
+        });
+
+        video.addEventListener('loadeddata', function () {
+            iconLoading.style.display = 'none';
         });
 
         progressControlContainer.addEventListener('click', function (event) {
