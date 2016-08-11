@@ -51,6 +51,7 @@ nav {
   left: 0;
   width: 100%;
   height: 20px;
+  cursor: pointer;
 }
 #controls #progress-control-container:hover #progress-hover {
   display: block;
