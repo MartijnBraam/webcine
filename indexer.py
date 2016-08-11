@@ -10,8 +10,6 @@ import logging
 
 from structs import EpisodeInfo, ActorInfo
 
-logging.basicConfig(level=logging.INFO)
-
 REGEX_EPISODE = re.compile(r'(?:S(\d+)E(\d+)|[^0-9x](\d)(\d\d)[^0-9p])', re.IGNORECASE)
 REGEX_VIDEOEXT = re.compile(r'(mp4|mkv|mpg|avi|wmv|ts)$', re.IGNORECASE)
 
@@ -80,7 +78,7 @@ def index_sickbeard_season(path, library, series):
                 Media.get(Media.series == series, Media.episode == episode_number,
                           Media.season == season_number)
             except Media.DoesNotExist:
-                logging.info('Episode file not indexed yet. Indexing now')
+                print('New episode: {} S{} E{}'.format(series.name, season_number, episode_number))
                 media = Media()
                 media.type = 'tvepisode'
                 media.library = library
