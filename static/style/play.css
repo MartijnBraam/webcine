@@ -42,12 +42,22 @@ nav {
   height: 5px;
   background: rgba(128, 128, 128, 0.5);
 }
-#controls #progress div {
+#controls #progress #progress-inner,
+#controls #progress #progress-hover {
   position: absolute;
   top: 0;
   left: 0;
   height: 5px;
+}
+#controls #progress #progress-inner {
   background: #5eb95e;
+}
+#controls #progress #progress-hover {
+  display: none;
+  background: rgba(0, 0, 0, 0.5);
+}
+#controls #progress:hover #progress-hover {
+  display: block;
 }
 body {
   overflow: hidden;

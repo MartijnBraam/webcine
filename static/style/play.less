@@ -47,12 +47,24 @@ nav {
     height: 5px;
     background: rgba(128, 128, 128, 0.5);
 
-    div {
+    #progress-inner, #progress-hover {
       position: absolute;
       top: 0;
       left: 0;
       height: 5px;
+    }
+
+    #progress-inner {
       background: @primary-color;
+    }
+
+    #progress-hover {
+      display: none;
+      background: rgba(0, 0, 0, 0.5);
+    }
+
+    &:hover #progress-hover {
+      display: block;
     }
   }
 }
