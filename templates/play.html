@@ -54,8 +54,8 @@
         progressBar.addEventListener('click', function (event) {
             var clickedPixels = event.pageX - this.clientLeft;
             var totalPixels = this.clientWidth;
-            var toProgress = (clickedPixels / totalPixels) * 100;
-            video.currentTime = video.duration * toProgress;
+            var progressFactor = (clickedPixels / totalPixels);
+            video.currentTime = video.duration * progressFactor;
         });
 
         var playButton = document.getElementById('control-play');
