@@ -29,7 +29,7 @@ def homepage():
                 episodes.append(watchable)
                 series.append(watchable.media.series.name)
 
-    episodes = sorted(episodes, key=lambda x: x.series.id)
+    episodes = sorted(episodes, key=lambda x: x.media.series.id)
 
     context = {
         'nothing_to_watch': len(watch_next) == 0,
