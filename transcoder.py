@@ -24,7 +24,7 @@ def create_transcode_task(media, settings):
         'codec': settings.codec,
         'target': target_file
     }
-    task += json.loads(settings.settings)
+    task.update(json.loads(settings.settings))
     task = json.dumps(task)
 
     channel.basic_publish(exchange='', routing_key='transcode', body=task.encode(),
