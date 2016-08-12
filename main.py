@@ -23,7 +23,7 @@ if __name__ == '__main__':
     parser.add_argument('--indexer', help='Run indexer', action='store_true', default=False)
     parser.add_argument('--metadata', help='Run metadata fetcher', action='store_true', default=False)
     parser.add_argument('--transcode', help='Scan for media that needs transcoding', action='store_true', default=False)
-    parser.add_argument('--transcodeone', help='Transcode one media id')
+    parser.add_argument('--transcodeone', help='Transcode one media id', type=int)
 
     args = parser.parse_args()
     if args.verbose:
