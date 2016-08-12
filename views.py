@@ -85,7 +85,7 @@ def play_media(media_id, transcode_id):
     if transcode_id:
         src = '/stream/transcoded/{}/{}.mkv'.format(transcode_id, media.id)
     return render_template('play.html', media=media, watchinfo=watchinfo, transcodes=transcodes,
-                           transcode_id=transcode_id)
+                           transcode_id=transcode_id, src=src)
 
 
 @app.route('/progress/<int:media_id>/<int:progress>')
