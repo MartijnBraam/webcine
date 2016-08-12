@@ -3,14 +3,15 @@ import argparse
 import json
 import ffmpeg
 import requests
+import os
 
 
 def transcode(ch, method, properties, body):
     body = json.loads(body.decode())
     if body['codec'] == 'x264':
         parameters = {
-            'path': body['file'],
-            'target': body['target']
+            'path': os.path.join(args.storagepath, body['file']),
+            'target': os.path.join(args.storagepath, body['target'])
         }
         if 'crf' in body:
             parameters['crf'] = body['crf']
