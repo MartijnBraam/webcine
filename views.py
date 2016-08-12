@@ -74,7 +74,7 @@ def cache(type, id):
 
 
 @app.route('/play/<int:media_id>', defaults={'transcode_id': None})
-@app.route('/play/<int:media_id>/<int:transcode_id>', name='play_media_transcoded')
+@app.route('/play/<int:media_id>/<int:transcode_id>', endpoint='play_media_transcoded')
 @auth.login_required
 def play_media(media_id, transcode_id):
     user = auth.get_logged_in_user()
