@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block main %}
-    <video src="/stream/{{ media.path }}" id="player" autoplay></video>
+    <video src="{{ src }}" id="player" autoplay></video>
     <div id="cornerhint">
         <img src="{{ url_for('static', filename='loading.svg') }}" id="icon-loading" width="100" height="100"
              style="display: inline-block;">

@@ -31,7 +31,7 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
-    connection = pika.BlockingConnection(pika.ConnectionParameters(args.host))
+    connection = pika.BlockingConnection(pika.ConnectionParameters(args.host), heartbeat_interval=0)
     channel = connection.channel()
     channel.queue_declare(queue='transcode', durable=True)
 

@@ -8,7 +8,7 @@ import re
 
 from app import app
 from auth import auth
-from models import WatchInfo, SeriesWatchInfo, Media, Series, Actor, SeriesActor, Season
+from models import WatchInfo, SeriesWatchInfo, Media, Series, Actor, SeriesActor, Season, TranscodedMedia
 
 
 @app.route('/')
@@ -73,13 +73,19 @@ def cache(type, id):
     return send_file(file)
 
 
-@app.route('/play/<int:media_id>')
+@app.route('/play/<int:media_id>', defaults={'transcode_id': None})
+@app.route('/play/<int:media_id>/<int:transcode_id>', name='play_media_transcoded')
 @auth.login_required
-def play_media(media_id):
+def play_media(media_id, transcode_id):
     user = auth.get_logged_in_user()
     media = Media.get(Media.id == media_id)
     watchinfo = WatchInfo.get(WatchInfo.user == user, WatchInfo.media == media)
-    return render_template('play.html', media=media, watchinfo=watchinfo)
+    transcodes = TranscodedMedia.select().where(TranscodedMedia.media == media)
+    src = '/stream/{}'.format(media.path)
+    if transcode_id:
+        src = '/stream/transcoded/{}/{}.mkv'.format(transcode_id, media.id)
+    return render_template('play.html', media=media, watchinfo=watchinfo, transcodes=transcodes,
+                           transcode_id=transcode_id)
 
 
 @app.route('/progress/<int:media_id>/<int:progress>')
