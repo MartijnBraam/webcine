@@ -37,6 +37,14 @@ def finished_transcode_task(id):
     tm.save()
 
 
+def transcode_one(id):
+    media = Media.get(Media.id == id)
+    for setting in TranscodingSettings.select():
+        print("Transcode {} to {}".format(media.name, setting.label))
+
+        create_transcode_task(media, setting)
+
+
 def create_transcode_tasks():
     settings = list(TranscodingSettings.select())
     for media in Media.select():

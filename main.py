@@ -23,6 +23,7 @@ if __name__ == '__main__':
     parser.add_argument('--indexer', help='Run indexer', action='store_true', default=False)
     parser.add_argument('--metadata', help='Run metadata fetcher', action='store_true', default=False)
     parser.add_argument('--transcode', help='Scan for media that needs transcoding', action='store_true', default=False)
+    parser.add_argument('--transcodeone', help='Transcode one media id')
 
     args = parser.parse_args()
     if args.verbose:
@@ -34,3 +35,5 @@ if __name__ == '__main__':
         transcoder.create_transcode_tasks()
     if args.metadata:
         metadata.update_tvdb_data()
+    if args.transcodeone:
+        transcoder.transcode_one(args.transcodeone)
