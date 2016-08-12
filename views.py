@@ -1,5 +1,6 @@
 import mimetypes
 
+import transcoder
 from flask import request, redirect, url_for, render_template, flash, send_file, Response
 
 import os
@@ -133,6 +134,12 @@ def mark_season_watched(media_id):
         except Exception:
             pass
     return redirect(url_for('homepage'))
+
+
+@app.route('/mark-transcode-done/<int:id>')
+def mark_transcode_done(id):
+    transcoder.finished_transcode_task(id)
+    return '{}'
 
 
 @app.route('/series-details/<int:series_id>')

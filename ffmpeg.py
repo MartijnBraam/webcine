@@ -4,6 +4,21 @@ import json
 import logging
 
 
+def transcode_x264(path, target, crf=23, max_bitrate=None, tune='film', twopass=False):
+    command = ['ffmpeg', '-y', '-i', path, '-c:v', 'libx264', '-crf', str(crf)]
+    if max_bitrate:
+        command.append('-maxrate')
+        command.append('{}k'.format(max_bitrate * 1000))
+    command.append('-tune')
+    command.append(tune)
+    command.append('-c:a')
+    command.append('libfdk_aac')
+    command.append('-b:a')
+    command.append('128k')
+    command.append(target)
+    return subprocess.check_call(command)
+
+
 def get_video_metadata(path):
     command = ['ffprobe', '-v', 'quiet', '-print_format', 'json', '-show_format', '-show_streams', path]
     result = subprocess.check_output(command)

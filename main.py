@@ -5,6 +5,7 @@ pymysql.install_as_MySQLdb()
 from app import app, db, celery
 import indexer
 import metadata
+import transcoder
 from auth import *
 from models import *
 from views import *
@@ -21,6 +22,7 @@ if __name__ == '__main__':
 
     parser.add_argument('--indexer', help='Run indexer', action='store_true', default=False)
     parser.add_argument('--metadata', help='Run metadata fetcher', action='store_true', default=False)
+    parser.add_argument('--transcode', help='Scan for media that needs transcoding', action='store_true', default=False)
 
     args = parser.parse_args()
     if args.verbose:
@@ -28,5 +30,7 @@ if __name__ == '__main__':
 
     if args.indexer:
         indexer.index()
+    if args.transcode:
+        transcoder.create_transcode_tasks()
     if args.metadata:
         metadata.update_tvdb_data()

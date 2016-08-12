@@ -67,6 +67,19 @@ class Media(db.Model):
         order_by = ('series', 'episode', 'name', 'part')
 
 
+class TranscodingSettings(db.Model):
+    label = CharField(unique=True)
+    codec = CharField()
+    settings = TextField(default='{}')
+
+
+class TranscodedMedia(db.Model):
+    media = ForeignKeyField(Media, related_name='transcodes')
+    settings = ForeignKeyField(TranscodingSettings)
+    done = BooleanField(default=False)
+    progress = IntegerField(default=0)
+
+
 class MediaActor(db.Model):
     media = ForeignKeyField(Media)
     actor = ForeignKeyField(Actor)
@@ -120,3 +133,8 @@ if not SeriesActor.table_exists():
     SeriesActor.create_table()
 if not SeriesWatchInfo.table_exists():
     SeriesWatchInfo.create_table()
+if not TranscodingSettings.table_exists():
+    TranscodingSettings.create_table()
+    TranscodingSettings.create(label='H264 HD', codec='x264', settings='{}')
+if not TranscodedMedia.table_exists():
+    TranscodedMedia.create_table()
