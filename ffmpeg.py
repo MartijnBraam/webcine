@@ -5,6 +5,8 @@ import logging
 
 
 def transcode_x264(path, target, crf=23, max_bitrate=None, tune='film', twopass=False):
+    probe = get_video_metadata(path)
+
     command = ['ffmpeg', '-v', 'quiet', '-stats', '-y', '-i', path, '-c:v', 'libx264', '-crf', str(crf)]
     if max_bitrate:
         command.append('-maxrate')
@@ -16,7 +18,9 @@ def transcode_x264(path, target, crf=23, max_bitrate=None, tune='film', twopass=
     command.append('-c:a')
     command.append('libfdk_aac')
     command.append('-b:a')
-    command.append('128k')
+    audio_bitrate = probe.audio.channels * 64
+    command.append('{}k'.format(audio_bitrate))
+
     command.append(target)
     return subprocess.check_call(command)
 
