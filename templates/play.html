@@ -29,7 +29,7 @@
         {% endif %}
         <a href="{{ url_for('play_media', media_id=media.id) }}" class="control-format">Original</a>
         {% for format in transcodes %}
-            <a href="{{ url_for('play_media', media_id=media.id, transcode_id=format.id) }}"
+            <a href="{{ url_for('play_media_transcoded', media_id=media.id, transcode_id=format.id) }}"
                class="control-format">{{ format.settings.label }}</a>
         {% endfor %}
     </div>
