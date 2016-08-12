@@ -83,7 +83,7 @@ def play_media(media_id, transcode_id):
     transcodes = TranscodedMedia.select().where(TranscodedMedia.media == media)
     src = '/stream/{}'.format(media.path)
     if transcode_id:
-        src = '/stream/transcoded/{}/{}.mkv'.format(transcode_id, media.id)
+        src = '/stream/storage/transcoded/{}/{}.mkv'.format(transcode_id, media.id)
     return render_template('play.html', media=media, watchinfo=watchinfo, transcodes=transcodes,
                            transcode_id=transcode_id, src=src)
 
