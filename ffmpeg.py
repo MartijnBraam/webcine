@@ -18,7 +18,7 @@ def transcode_x264(path, target, crf=23, max_bitrate=None, tune='film', twopass=
     command.append('-c:a')
     command.append('libfdk_aac')
     command.append('-b:a')
-    audio_bitrate = probe.audio.channels * 64
+    audio_bitrate = probe.audio[0].channels * 64
     command.append('{}k'.format(audio_bitrate))
 
     command.append(target)
