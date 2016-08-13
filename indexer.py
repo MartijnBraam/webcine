@@ -237,3 +237,6 @@ def index():
         if library.type == 'tvseries':
             if library.structure == 'sickbeard':
                 index_sickbeard(path, library)
+        if library.type == 'movies':
+            if library.structure == 'couchpotato':
+                index_movie_directory(path, library)
