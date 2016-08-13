@@ -197,7 +197,7 @@ def index_movie(path, library, name, year):
         logging.info('Querying tmdb for movie info')
         result = ts.movie(query=name, year=year)
         logging.info(result)
-        result = result[0]
+        result = result.results[0]
 
         media = Media()
         media.description = result['overview']
