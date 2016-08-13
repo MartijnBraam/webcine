@@ -136,6 +136,7 @@ article.serie a.add:hover {
 }
 article.movie {
   width: 200px;
+  height: 300px;
   background: rgba(255, 255, 255, 0.1);
   float: left;
   position: relative;
@@ -151,8 +152,8 @@ article.movie:hover div.hoverlay {
 article.movie div.progress {
   position: absolute;
   height: 5px;
-  background: rgba(0, 0, 0, 0.2);
-  top: 234px;
+  background: rgba(0, 0, 0, 0.5);
+  top: 293px;
   left: 5px;
   right: 5px;
 }
