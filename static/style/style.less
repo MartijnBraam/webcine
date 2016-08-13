@@ -153,6 +153,19 @@ article.movie {
     opacity: 1;
   }
 
+  div.progress {
+    position: absolute;
+    height: 5px;
+    background: rgba(0, 0, 0, 0.2);
+    top: 234px;
+    left: 5px;
+    right: 5px;
+    .progress-inner {
+      height: 5px;
+      background-color: @primary-color;
+    }
+  }
+
   div.hoverlay {
     opacity: 0;
     transition: opacity 300ms;

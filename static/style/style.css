@@ -148,6 +148,18 @@ article.movie img {
 article.movie:hover div.hoverlay {
   opacity: 1;
 }
+article.movie div.progress {
+  position: absolute;
+  height: 5px;
+  background: rgba(0, 0, 0, 0.2);
+  top: 234px;
+  left: 5px;
+  right: 5px;
+}
+article.movie div.progress .progress-inner {
+  height: 5px;
+  background-color: #5eb95e;
+}
 article.movie div.hoverlay {
   opacity: 0;
   transition: opacity 300ms;
