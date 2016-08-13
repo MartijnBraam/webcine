@@ -31,7 +31,7 @@ def homepage():
                 series.append(watchable.media.series.name)
 
     episodes = sorted(episodes, key=lambda x: x.media.series.id)
-    movies = sorted(episodes, key=lambda x: "{0:03d}-{}".format(x.progress, x.media.name))
+    movies = sorted(episodes, key=lambda x: "{0:03d}-{1}".format(x.progress, x.media.name))
     context = {
         'nothing_to_watch': len(watch_next) == 0,
         'movies': movies,
