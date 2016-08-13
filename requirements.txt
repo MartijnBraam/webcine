@@ -6,4 +6,4 @@ flask-peewee
 xmltodict
 requests
 tvdb_api
-simpletmdb
+tmdbsimple
