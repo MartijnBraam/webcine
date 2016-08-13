@@ -13,7 +13,7 @@
         <div class="clearfix">
             {% for episode in episodes %}
                 <article class="episode">
-                    <img src="{{ url_for('cache', type='media_thumb', id=episode.media.id) }}">
+                    <img src="{{ url_for('cache', type='media_thumb', id=episode.media.id) }}" class="poster">
                     <span class="episode-number">
                         S{{ episode.media.season }} E{{ episode.media.episode }}
                         {% if episode.media.dual_episode %}

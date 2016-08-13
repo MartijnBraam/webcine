@@ -4,7 +4,7 @@
     <h1>Available series</h1>
     {% for serie in series %}
         <article class="serie">
-            <img src="{{ url_for('cache', type='series', id=serie.series.id) }}" class="thumbnail">
+            <img src="{{ url_for('cache', type='series', id=serie.series.id) }}" class="thumbnail poster">
             <a href="{{ url_for('start_series', series_id=serie.series.id) }}" class="add">Start watching</a>
             <h2>{{ serie.series.name }}</h2>
             <p class="plot">{{ serie.series.description }}</p>
