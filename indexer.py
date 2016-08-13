@@ -201,7 +201,11 @@ def index_movie(path, library, name, year):
         ts = tmdb.Search()
         logging.info('Querying tmdb for movie info')
         result = ts.movie(query=name, year=year)
-        logging.info(result)
+        if len(result['results']) == 0:
+            result = ts.movie(query=name)
+        if len(result['results']) == 0:
+            logging.error('Cannot find {} ({}) on themoviedb.org'.format(name, year))
+            return
         result = result['results'][0]
 
         media = Media()
