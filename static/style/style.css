@@ -141,6 +141,10 @@ article.movie {
   position: relative;
   margin: 15px;
 }
+article.movie img {
+  width: 200px;
+  height: 300px;
+}
 article.movie:hover div.hoverlay {
   opacity: 1;
 }
