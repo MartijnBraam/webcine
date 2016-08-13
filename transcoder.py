@@ -37,6 +37,12 @@ def finished_transcode_task(id):
     tm.save()
 
 
+def progress_transcode_task(id, progress):
+    tm = TranscodedMedia.get(TranscodedMedia.id == id)
+    tm.progress = progress
+    tm.save()
+
+
 def transcode_one(id):
     media = Media.get(Media.id == id)
     for setting in TranscodingSettings.select():

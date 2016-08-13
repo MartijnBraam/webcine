@@ -1,10 +1,13 @@
+import re
+
+import requests
 from structs import VideoMetadata, AudioStream, SubtitleStream
 import subprocess
 import json
 import logging
 
 
-def transcode_x264(path, target, crf=23, max_bitrate=None, tune='film', twopass=False):
+def transcode_x264(path, target, crf=23, max_bitrate=None, tune='film', twopass=False, progress_callback=None):
     probe = get_video_metadata(path)
 
     command = ['ffmpeg', '-v', 'quiet', '-stats', '-y', '-i', path, '-c:v', 'libx264', '-crf', str(crf)]
@@ -22,7 +25,32 @@ def transcode_x264(path, target, crf=23, max_bitrate=None, tune='film', twopass=
     command.append('{}k'.format(audio_bitrate))
 
     command.append(target)
-    return subprocess.check_call(command)
+    return ffmpeg_wrapper(command, probe, progress_callback)
+
+
+def ffmpeg_wrapper(command, metadata, progress_callback):
+    total_time = metadata.length
+    process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, universal_newlines=True)
+    regex_time = re.compile(r'time=(\d+:\d+:\d+)')
+    last_progress = 0
+    while process.returncode is None:
+        line = process.stdout.readline()
+        time = regex_time.search(line)
+        if time:
+            time = time.groups()[0]
+            hours, minutes, seconds = time.split(':')
+            seconds = int(seconds)
+            minutes = int(minutes)
+            hours = int(hours)
+            minutes += hours * 60
+            seconds += minutes * 60
+            progress = int((seconds / total_time) * 100.0)
+            if progress > last_progress:
+                print("Transcoding {}%".format(progress))
+                last_progress = progress
+                if progress_callback is not None:
+                    progress_callback(progress)
+    return process.returncode
 
 
 def get_video_metadata(path):

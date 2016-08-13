@@ -5,8 +5,15 @@ import ffmpeg
 import requests
 import os
 
+task_id = None
+
+
+def progress_callback(progress):
+    requests.get('http://{}/transcode-progress/{}/{}'.format(args.host, task_id, progress))
+
 
 def transcode(ch, method, properties, body):
+    global task_id
     body = json.loads(body.decode())
     if body['codec'] == 'x264':
         parameters = {
@@ -19,6 +26,8 @@ def transcode(ch, method, properties, body):
             parameters['max_bitrate'] = body['max_bitrate']
         if 'tune' in body:
             parameters['tune'] = body['tune']
+        parameters['progress_callback'] = progress_callback
+        task_id = body['id']
         ffmpeg.transcode_x264(**parameters)
         requests.get('http://{}/mark-transcode-done/{}'.format(args.host, body['id']))
         ch.basic_ack(delivery_tag=method.delivery_tag)
