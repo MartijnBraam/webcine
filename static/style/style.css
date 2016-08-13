@@ -134,6 +134,33 @@ article.serie a.add {
 article.serie a.add:hover {
   background: #2e6a2e;
 }
+article.movie {
+  width: 200px;
+  background: rgba(255, 255, 255, 0.1);
+  float: left;
+  position: relative;
+  margin: 15px;
+}
+article.movie:hover div.hoverlay {
+  opacity: 1;
+}
+article.movie div.hoverlay {
+  opacity: 0;
+  transition: opacity 300ms;
+  text-align: center;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding-top: 40px;
+  background: rgba(0, 0, 0, 0.5);
+}
+article.movie div.hoverlay a {
+  display: block;
+  padding: 5px;
+  text-shadow: 0 0 4px #000;
+}
 article.episode {
   width: 287px;
   background: rgba(255, 255, 255, 0.1);
