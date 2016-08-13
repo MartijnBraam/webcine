@@ -43,7 +43,18 @@
         <div class="clearfix">
             {% for movie in movies %}
                 <article class="movie">
-                    <img src="{{ url_for('cache', type='media_thumb', id=movie.media.id) }}">
+                    <img src="{{ url_for('cache', type='movie', id=movie.media.id) }}">
+                    <div class="hoverlay">
+                        <a href="{{ url_for('play_media', media_id = movie.media.id) }}">Play</a>
+                        <a href="{{ url_for('mark_watched', media_id = movie.media.id) }}">Watched</a>
+                        <a href="{{ url_for('mark_hidden', media_id = movie.media.id) }}">Hide</a>
+                    </div>
+                    {% if movie.progress and movie.progress != 0 %}
+                        <div class="progress">
+                            <div class="progress-inner"
+                                 style="width: {{ (movie.progress/movie.media.length)*100 }}%"></div>
+                        </div>
+                    {% endif %}
                 </article>
             {% else %}
                 <p class="message">No unwatched movies available</p>
