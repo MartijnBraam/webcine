@@ -9,7 +9,7 @@ task_id = None
 
 
 def progress_callback(progress):
-    requests.get('http://{}/transcode-progress/{}/{}'.format(args.host, task_id, progress))
+    requests.get('http://{}/mark-transcode-progress/{}/{}'.format(args.host, task_id, progress))
 
 
 def transcode(ch, method, properties, body):

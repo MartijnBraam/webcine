@@ -142,9 +142,10 @@ def mark_season_watched(media_id):
     return redirect(url_for('homepage'))
 
 
-@app.route('/mark-transcode-done/<int:transcode_id>/<int:progress>')
+@app.route('/mark-transcode-progress/<int:transcode_id>/<int:progress>')
 def mark_transcode_progress(transcode_id, progress):
     transcoder.progress_transcode_task(transcode_id, progress)
+    return '{}'
 
 
 @app.route('/mark-transcode-done/<int:id>')
