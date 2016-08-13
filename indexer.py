@@ -186,6 +186,13 @@ def get_largest_file(directory):
     return largest_file
 
 
+def add_media_watchinfo(media_id):
+    for user in User.select():
+        logging.info('Adding WatchInfo for user {}'.format(user.username))
+        media = Media.get(Media.id == media_id)
+        WatchInfo.create(user=user, media=media).save()
+
+
 def index_movie(path, library, name, year):
     movie_file = get_largest_file(path)
     if not movie_file:
@@ -221,6 +228,7 @@ def index_movie(path, library, name, year):
         poster_path = result['poster_path']
         poster_url = 'http://image.tmdb.org/t/p/w500{}'.format(poster_path)
         tools.cache_image(poster_url, 'movie', media.id)
+        add_media_watchinfo(media.id)
 
 
 def index_movie_directory(path, library):
