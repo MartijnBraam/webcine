@@ -194,7 +194,8 @@ def index_movie(path, library, name, year):
     except:
         print("Adding movie {} ({}) to index".format(name, year))
         ts = tmdb.Search()
-        result = ts.movie(query=name, year=year)[0]
+        result = ts.movie(query=name, year=year)
+        result = result[0]
 
         media = Media()
         media.description = result['overview']
@@ -214,7 +215,7 @@ def index_movie(path, library, name, year):
 def index_movie_directory(path, library):
     logging.info('Processing movie index in {}'.format(path))
     for movie in glob(path + '/*'):
-        parsed = REGEX_MOVIE_DIRECTORY.search(movie)
+        parsed = REGEX_MOVIE_DIRECTORY.search(os.path.basename(movie))
         if parsed:
             name, year = parsed.groups()
             year = int(year)
