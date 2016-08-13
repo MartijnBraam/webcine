@@ -7,11 +7,15 @@ import re
 from app import celery
 from ffmpeg import get_video_metadata
 import logging
+import tmdbsimple as tmdb
 
 from structs import EpisodeInfo, ActorInfo
 
 REGEX_EPISODE = re.compile(r'(?:S(\d+)E(\d+)|[^0-9x](\d)(\d\d)[^0-9p])', re.IGNORECASE)
 REGEX_VIDEOEXT = re.compile(r'(mp4|mkv|mpg|avi|wmv|ts)$', re.IGNORECASE)
+REGEX_MOVIE_DIRECTORY = re.compile(r'(.+)\((\d{4})\)')
+
+tmdb.API_KEY = '329e421f927379309e3631719b6d42b3'
 
 
 def parse_episode_number(filename):
@@ -169,6 +173,53 @@ def index_sickbeard(path, library):
 
         for season in glob(directory + '/Season */'):
             index_sickbeard_season(season, library, series)
+
+
+def get_largest_file(directory):
+    largest_size = 0
+    largest_file = None
+    for file in glob(os.path.join(directory, '*')):
+        size = os.path.getsize(file)
+        if size > largest_size:
+            largest_size = size
+            largest_file = file
+    return largest_file
+
+
+def index_movie(path, library, name, year):
+    movie_file = get_largest_file(path)
+    probe = get_video_metadata(movie_file)
+    try:
+        Media.get(Media.path == movie_file)
+    except:
+        print("Adding movie {} ({}) to index".format(name, year))
+        ts = tmdb.Search()
+        result = ts.movie(query=name, year=year)[0]
+
+        media = Media()
+        media.description = result['overview']
+        media.type = 'movie'
+        media.length = probe.length
+        media.library = library
+        media.path = movie_file
+        media.name = name
+        media.save()
+
+        print("Downloading poster")
+        poster_path = result['poster_path']
+        poster_url = 'http://image.tmdb.org/t/p/w500{}'.format(poster_path)
+        tools.cache_image(poster_url, 'movie', media.id)
+
+
+def index_movie_directory(path, library):
+    logging.info('Processing movie index in {}'.format(path))
+    for movie in glob(path + '/*'):
+        parsed = REGEX_MOVIE_DIRECTORY.search(movie)
+        if parsed:
+            name, year = parsed.groups()
+            year = int(year)
+            name = name.strip()
+            index_movie(movie, library, name, year)
 
 
 def preprocess_media_file(media_id):
