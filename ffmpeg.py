@@ -33,8 +33,7 @@ def ffmpeg_wrapper(command, metadata, progress_callback):
     process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, universal_newlines=True)
     regex_time = re.compile(r'time=(\d+:\d+:\d+)')
     last_progress = 0
-    while process.returncode is None:
-        line = process.stdout.readline()
+    for line in process.stdout:
         time = regex_time.search(line)
         if time:
             time = time.groups()[0]
@@ -50,7 +49,8 @@ def ffmpeg_wrapper(command, metadata, progress_callback):
                 last_progress = progress
                 if progress_callback is not None:
                     progress_callback(progress)
-    return process.returncode
+    process.stdout.close()
+    return process.wait()
 
 
 def get_video_metadata(path):
