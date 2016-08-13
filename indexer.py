@@ -188,6 +188,8 @@ def get_largest_file(directory):
 
 def index_movie(path, library, name, year):
     movie_file = get_largest_file(path)
+    if not movie_file:
+        return
     probe = get_video_metadata(movie_file)
     try:
         Media.get(Media.path == movie_file)
