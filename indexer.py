@@ -194,7 +194,9 @@ def index_movie(path, library, name, year):
     except:
         print("Adding movie {} ({}) to index".format(name, year))
         ts = tmdb.Search()
+        logging.info('Querying tmdb for movie info')
         result = ts.movie(query=name, year=year)
+        logging.info(result)
         result = result[0]
 
         media = Media()
