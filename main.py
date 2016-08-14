@@ -1,3 +1,4 @@
+import cleaner
 import pymysql
 
 pymysql.install_as_MySQLdb()
@@ -24,6 +25,7 @@ if __name__ == '__main__':
     parser.add_argument('--metadata', help='Run metadata fetcher', action='store_true', default=False)
     parser.add_argument('--transcode', help='Scan for media that needs transcoding', action='store_true', default=False)
     parser.add_argument('--transcodeone', help='Transcode one media id', type=int)
+    parser.add_argument('--cleanup', help='Clean various database inconsistencies', action='store_true', default=False)
 
     args = parser.parse_args()
     if args.verbose:
@@ -37,3 +39,5 @@ if __name__ == '__main__':
         metadata.update_tvdb_data()
     if args.transcodeone:
         transcoder.transcode_one(args.transcodeone)
+    if args.cleanup:
+        cleaner.remove_broken_media()
