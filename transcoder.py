@@ -56,7 +56,7 @@ def create_transcode_tasks():
     for media in Media.select():
         for setting in settings:
             try:
-                TranscodedMedia.get(media == media, settings == setting)
+                TranscodedMedia.get(TranscodedMedia.media == media, TranscodedMedia.settings == setting)
             except:
                 print("Transcode {} to {}".format(media.name, setting.label))
                 create_transcode_task(media, setting)
