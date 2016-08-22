@@ -6,6 +6,7 @@ A media center application build as a webapplication (like plex and netflix) wri
 
 * Full html5 based interface (no video player plugins)
 * Ahead of time video transcoding for incompatible file formats
+* Transcoding on other/multiple computers
 * Sickbeard integration
 
 ## Roadmap
@@ -13,6 +14,7 @@ A media center application build as a webapplication (like plex and netflix) wri
 * Transmission / Sabnzbd / Couchpotato integration
 * Mobile version
 * Android TV version
+* Theme support
 
 ## Requirements
 
