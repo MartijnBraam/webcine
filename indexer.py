@@ -137,8 +137,10 @@ def index_sickbeard_season(path, library, series):
 def index_sickbeard(path, library):
     logging.info('Processing sickbeard index in {}'.format(path))
     for nfo_file in glob(path + '/*/tvshow.nfo'):
+        logging.info('Processing {}'.format(nfo_file))
         with open(nfo_file) as handle:
-            nfo = xmltodict.parse(handle.read())
+            xml_data = handle.read()
+        nfo = xmltodict.parse(xml_data)
 
         directory = nfo_file.replace('/tvshow.nfo', '')
 
