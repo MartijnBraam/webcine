@@ -38,8 +38,10 @@ def parse_episode_number(filename):
 
 
 def load_xbmc_episode_metadata(filename):
+    logging.info('Processing xbmc metadata {}'.format(filename))
     with open(filename) as handle:
-        episode_nfo = xmltodict.parse(handle.read())
+        xml_data = handle.read()
+    episode_nfo = xmltodict.parse(xml_data)
     episodes = []
     if 'xbmcmultiepisode' in episode_nfo:
         episodes.extend(episode_nfo['xbmcmultiepisode']['episodedetails'])
