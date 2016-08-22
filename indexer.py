@@ -1,3 +1,5 @@
+import subprocess
+
 from models import Library, Series, Actor, MediaActor, SeriesActor, Media, User, SeriesWatchInfo, WatchInfo
 from glob import glob
 import os
@@ -245,8 +247,11 @@ def index_movie_directory(path, library):
 def preprocess_media_file(media_id):
     logging.info('Running ffprobe on media {}'.format(media_id))
     media = Media.get(Media.id == media_id)
-    metadata = get_video_metadata(media.path)
-    media.length = metadata.length
+    try:
+        metadata = get_video_metadata(media.path)
+        media.length = metadata.length
+    except subprocess.CalledProcessError as e:
+        media.playable = False
     media.save()
     return True
 
