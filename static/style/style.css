@@ -12,6 +12,28 @@ button[type=submit] {
   padding: 6px 15px;
   border-radius: 15px;
 }
+ul.settings {
+  float: left;
+  width: 200px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 5px;
+  display: block;
+  padding: 0;
+  margin: 0;
+  margin-left: 15px;
+  list-style: none;
+}
+ul.settings li {
+  list-style: none;
+  display: block;
+  padding: 4px 15px;
+  color: #5eb95e;
+}
+div.settings-panel {
+  float: right;
+  width: calc(100% - 245px);
+  margin-right: 15px;
+}
 * {
   box-sizing: border-box;
 }

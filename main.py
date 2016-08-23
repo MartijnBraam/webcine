@@ -10,6 +10,7 @@ import transcoder
 from auth import *
 from models import *
 from views import *
+from settings import *
 
 # mod_wsgi support
 application = app
