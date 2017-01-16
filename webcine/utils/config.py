@@ -1,11 +1,12 @@
 import os
+import sys
 import configparser
 import logging
 
 
-def get_config():
+def get_config(app):
     paths = [
-        './webcine.conf'
+        './webcine.conf',
         '/etc/webcine.conf'
     ]
     for path in paths:
@@ -27,7 +28,8 @@ def get_config():
                 'QUEUE': parser.get('rabbitmq', 'url'),
             }
 
-            return config_obj
+            app.config.update(config_obj)
+            return
 
     logging.critical('Config file not found. Exiting')
-    exit(1)
+    sys.exit(1)

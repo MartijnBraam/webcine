@@ -8,7 +8,6 @@ from webcine.controller.settings import *
 
 # mod_wsgi support
 application = app
-
 if __name__ == '__main__':
     import argparse
     import logging
