@@ -130,14 +130,11 @@ def mark_season_watched(season_id):
     """ This function does horrible things to your mysql. (n*2)+3 queries"""
     user = auth.get_logged_in_user()
     season = Season.get(Season.id == season_id)
-    episodes = list(Media.select().where(Media.series == season.series and Media.season == season.number))
+    episodes = list(Media.select().where((Media.series == season.series) & (Media.season == season.number)))
     for episode in episodes:
-        try:
-            info = WatchInfo().get(WatchInfo.user == user and WatchInfo.media == episode)
-            info.watched = True
-            info.save()
-        except:
-            pass
+        info = WatchInfo().get((WatchInfo.user == user) & (WatchInfo.media == episode))
+        info.watched = True
+        info.save()
 
     return redirect(url_for('homepage'))
 
