@@ -287,6 +287,9 @@ table th {
   padding: 10px;
   text-align: left;
 }
+.text-center {
+  text-align: center;
+}
 section.actor {
   background: rgba(255, 255, 255, 0.1);
   width: 100%;

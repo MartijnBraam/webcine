@@ -7,6 +7,8 @@
             <h2>Episodes</h2>
             {% for season in seasons %}
                 <h3>Season {{ season.number }}</h3>
+                <a href="{{ url_for('mark_season_watched', season_id=season.id) }}" class="text-center">Mark season
+                    watched</a>
                 <table class="episode-table">
                     <tr>
                         <th>Episode</th>

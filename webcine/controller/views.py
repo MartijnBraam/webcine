@@ -124,13 +124,13 @@ def mark_hidden(media_id):
     return redirect(url_for('homepage'))
 
 
-@app.route('/mark-season-watched/<int:media_id>')
+@app.route('/mark-season-watched/<int:season_id>')
 @auth.login_required
-def mark_season_watched(media_id):
+def mark_season_watched(season_id):
     """ This function does horrible things to your mysql. (n*2)+3 queries"""
     user = auth.get_logged_in_user()
-    media = Media.get(Media.id == media_id)
-    episodes = list(Media.select().where(Media.series == media.series and Media.season == media.season))
+    season = Season.get(Season.id == season_id)
+    episodes = list(Media.select().where(Media.series == season.series and Media.season == season))
     for episode in episodes:
         try:
             info = WatchInfo().get(WatchInfo.user == user and WatchInfo.media == episode)
