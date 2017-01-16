@@ -132,9 +132,13 @@ def mark_season_watched(season_id):
     season = Season.get(Season.id == season_id)
     episodes = list(Media.select().where(Media.series == season.series and Media.season == season.number))
     for episode in episodes:
-        info = WatchInfo().get(WatchInfo.user == user and WatchInfo.media == episode)
-        info.watched = True
-        info.save()
+        try:
+            info = WatchInfo().get(WatchInfo.user == user and WatchInfo.media == episode)
+            info.watched = True
+            info.save()
+        except:
+            pass
+
     return redirect(url_for('homepage'))
 
 
