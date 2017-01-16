@@ -68,7 +68,7 @@ def start_series(series_id):
 @auth.login_required
 def cache(type, id):
     ext = 'jpg'
-    file = 'storage/cache/{}/{}.{}'.format(type, id, ext)
+    file = '{}/cache/{}/{}.{}'.format(app.config['STORAGE'], type, id, ext)
     return send_file(file)
 
 
