@@ -45,7 +45,7 @@ body {
   background: #000911;
   color: #eee;
 }
-.format-control.disabled {
+.control-format.disabled {
   color: #777;
 }
 h1,
