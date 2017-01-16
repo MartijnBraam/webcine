@@ -30,7 +30,7 @@
         <a href="{{ url_for('play_media', media_id=media.id) }}" class="control-format">Original</a>
         {% for format in transcodes %}
             <a href="{{ url_for('play_media_transcoded', media_id=media.id, transcode_id=format.settings.id) }}"
-               class="control-format">{{ format.settings.label }}</a>
+               class="control-format {% if not format.done %}disabled{% endif %}">{{ format.settings.label }}{% if not format.done %} ({{ format.progress }}%){% endif %}</a>
         {% endfor %}
     </div>
     <script>
