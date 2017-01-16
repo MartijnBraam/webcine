@@ -1,6 +1,7 @@
 import requests
 import os
 import shutil
+from webcine.app import app
 
 
 def format_resolution(width, height):
@@ -22,10 +23,10 @@ def format_resolution(width, height):
 
 def cache_image(url, type, id, ext='jpg'):
     response = requests.get(url)
-    path = 'storage/cache/{}/{}.{}'.format(type, id, ext)
+    path = '{}/cache/{}/{}.{}'.format(app.config['STORAGE'], type, id, ext)
 
-    if not os.path.isdir('storage/cache/{}'.format(type)):
-        os.mkdir('storage/cache/{}'.format(type))
+    if not os.path.isdir('{}/cache/{}'.format(app.config['STORAGE'], type)):
+        os.mkdir('{}/cache/{}'.format(app.config['STORAGE'], type))
 
     with open(path, 'wb') as handle:
         handle.write(response.content)
@@ -33,7 +34,7 @@ def cache_image(url, type, id, ext='jpg'):
 
 def cache_image_from_library(path, type, id):
     name, ext = os.path.splitext(path)
-    if not os.path.isdir('storage/cache/{}'.format(type)):
-        os.mkdir('storage/cache/{}'.format(type))
+    if not os.path.isdir('{}/cache/{}'.format(app.config['STORAGE'], type)):
+        os.mkdir('{}/cache/{}'.format(app.config['STORAGE'], type))
 
-    shutil.copy(path, 'storage/cache/{}/{}{}'.format(type, id, ext))
+    shutil.copy(path, '{}/cache/{}/{}{}'.format(app.config['STORAGE'], type, id, ext))
