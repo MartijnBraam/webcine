@@ -131,13 +131,16 @@ def mark_season_watched(season_id):
     user = auth.get_logged_in_user()
     season = Season.get(Season.id == season_id)
     episodes = list(Media.select().where(Media.season == season))
+    debug = []
     for episode in episodes:
+        debug.append(episode.name)
         try:
             info = WatchInfo().get(WatchInfo.user == user and WatchInfo.media == episode)
             info.watched = True
             info.save()
         except Exception:
             pass
+    return "season: {}<br>{}".format(season, '<br>- '.join(debug))
     return redirect(url_for('homepage'))
 
 
