@@ -4,6 +4,7 @@ import os
 import pika
 import webcine.app
 from webcine.utils.queue import create_connection_from_url
+from webcine.app import app
 
 from webcine.models import TranscodingSettings, Media, TranscodedMedia
 
@@ -16,7 +17,7 @@ channel.queue_declare(queue='transcode', durable=True)
 def create_transcode_task(media, settings):
     tm = TranscodedMedia.create(media=media, settings=settings)
 
-    target_file = 'storage/transcoded/{}/{}.mkv'.format(settings.id, media.id)
+    target_file = '{}/transcoded/{}/{}.mkv'.format(app.config['STORAGE'], settings.id, media.id)
     if not os.path.isdir(os.path.dirname(target_file)):
         os.makedirs(os.path.dirname(target_file))
 

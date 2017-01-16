@@ -26,6 +26,7 @@ def get_config(app):
                     'password': parser.get('database', 'password')
                 },
                 'QUEUE': parser.get('rabbitmq', 'url'),
+                'STORAGE': parser.get('webcine', 'storage')
             }
 
             app.config.update(config_obj)

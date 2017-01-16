@@ -11,6 +11,7 @@ from webcine.models import Library, Series, Actor, MediaActor, SeriesActor, Medi
 from webcine.structs import EpisodeInfo, ActorInfo
 from webcine.utils import tools
 from webcine.utils.ffmpeg import get_video_metadata
+from webcine.app import app
 
 REGEX_EPISODE = re.compile(r'(?:S(\d+)E(\d+)|[^0-9x](\d)(\d\d)[^0-9p])', re.IGNORECASE)
 REGEX_VIDEOEXT = re.compile(r'(mp4|mkv|mpg|avi|wmv|ts)$', re.IGNORECASE)
@@ -261,7 +262,7 @@ def preprocess_media_file(media_id):
 
 def index():
     for library in list(Library.select()):
-        path = 'storage/{}'.format(library.name)
+        path = '{}/{}'.format(app.config['STORAGE'], library.name)
         if library.type == 'tvseries':
             if library.structure == 'sickbeard':
                 index_sickbeard(path, library)
