@@ -1,16 +1,10 @@
-import cleaner
 import pymysql
 
 pymysql.install_as_MySQLdb()
 
-from app import app, db, celery
-import indexer
-import metadata
-import transcoder
-from auth import *
-from models import *
-from views import *
-from settings import *
+from webcine.utils import metadata, indexer, cleaner
+from webcine.controller.views import *
+from webcine.controller.settings import *
 
 # mod_wsgi support
 application = app

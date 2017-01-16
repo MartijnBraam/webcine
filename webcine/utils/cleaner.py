@@ -1,5 +1,5 @@
-from models import Media
-import ffmpeg
+from webcine.models import Media
+from webcine.utils import ffmpeg
 
 
 def remove_broken_media():

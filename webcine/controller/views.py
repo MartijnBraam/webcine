@@ -1,14 +1,13 @@
 import mimetypes
-
-import transcoder
-from flask import request, redirect, url_for, render_template, flash, send_file, Response
-
 import os
 import re
 
-from app import app
-from auth import auth
-from models import WatchInfo, SeriesWatchInfo, Media, Series, Actor, SeriesActor, Season, TranscodedMedia
+from flask import request, redirect, url_for, render_template, send_file, Response
+
+from webcine.app import app
+from webcine.models import WatchInfo, SeriesWatchInfo, Media, Series, Actor, SeriesActor, Season, TranscodedMedia
+from webcine.utils import transcoder
+from webcine.utils.auth import auth
 
 
 @app.route('/')

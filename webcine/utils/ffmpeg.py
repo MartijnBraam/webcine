@@ -1,10 +1,9 @@
-import re
-
-import requests
-from structs import VideoMetadata, AudioStream, SubtitleStream
-import subprocess
 import json
 import logging
+import re
+import subprocess
+
+from webcine.structs import VideoMetadata, AudioStream, SubtitleStream
 
 
 def transcode_x264(path, target, crf=23, max_bitrate=None, tune='film', twopass=False, progress_callback=None):

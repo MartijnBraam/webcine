@@ -1,5 +1,6 @@
 import tvdb_api
-from models import Series, Season
+
+from webcine.models import Series, Season
 
 
 def update_tvdb_data():

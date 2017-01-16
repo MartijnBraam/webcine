@@ -1,8 +1,9 @@
 import json
-
-from models import TranscodingSettings, Media, TranscodedMedia
-import pika
 import os
+
+import pika
+
+from webcine.models import TranscodingSettings, Media, TranscodedMedia
 
 connection = pika.BlockingConnection(pika.ConnectionParameters(
     host='localhost'))

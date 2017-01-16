@@ -1,7 +1,8 @@
-from flask import request, redirect, url_for, render_template, flash, send_file, Response
-from app import app
-from auth import auth
-from models import User
+from flask import render_template
+
+from webcine.app import app
+from webcine.models import User
+from webcine.utils.auth import auth
 
 
 @app.route('/admin/users')

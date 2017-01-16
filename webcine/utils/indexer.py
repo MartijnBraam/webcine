@@ -1,17 +1,16 @@
-import subprocess
-
-from models import Library, Series, Actor, MediaActor, SeriesActor, Media, User, SeriesWatchInfo, WatchInfo
-from glob import glob
-import os
-import tools
-import xmltodict
-import re
-from app import celery
-from ffmpeg import get_video_metadata
 import logging
-import tmdbsimple as tmdb
+import os
+import re
+import subprocess
+from glob import glob
 
-from structs import EpisodeInfo, ActorInfo
+import tmdbsimple as tmdb
+import xmltodict
+
+from webcine.models import Library, Series, Actor, MediaActor, SeriesActor, Media, User, SeriesWatchInfo, WatchInfo
+from webcine.structs import EpisodeInfo, ActorInfo
+from webcine.utils import tools
+from webcine.utils.ffmpeg import get_video_metadata
 
 REGEX_EPISODE = re.compile(r'(?:S(\d+)E(\d+)|[^0-9x](\d)(\d\d)[^0-9p])', re.IGNORECASE)
 REGEX_VIDEOEXT = re.compile(r'(mp4|mkv|mpg|avi|wmv|ts)$', re.IGNORECASE)

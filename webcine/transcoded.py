@@ -1,9 +1,13 @@
-import pika
 import argparse
 import json
-import ffmpeg
-import requests
 import os
+import sys
+
+import pika
+import requests
+
+from webcine.utils import ffmpeg
+from webcine.utils import queue
 
 task_id = None
 
@@ -33,14 +37,23 @@ def transcode(ch, method, properties, body):
         ch.basic_ack(delivery_tag=method.delivery_tag)
 
 
+def validate_storage_root(path):
+    if not os.path.isdir(path):
+        print('Storage path {} is not an existing directory'.format(path), file=sys.stderr)
+        exit(1)
+
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser("Webcine transcoding daemon")
-    parser.add_argument('--host', help='RabbitMQ hostname', default='localhost')
+    parser.add_argument('--queue', help='AMQP Server url', default='amqp://localhost')
+    parser.add_argument('--host', help='Webcine host', default='localhost')
     parser.add_argument('storagepath', help='Path to storage root')
 
     args = parser.parse_args()
 
-    connection = pika.BlockingConnection(pika.ConnectionParameters(args.host, heartbeat_interval=0))
+    validate_storage_root(args.storagepath)
+
+    connection = queue.create_connection_from_url(args.queue)
     channel = connection.channel()
     channel.queue_declare(queue='transcode', durable=True)
 

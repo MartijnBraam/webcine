@@ -1,9 +1,9 @@
+from hashlib import md5
+
 from flask_peewee.auth import BaseUser
 from peewee import *
 
-from hashlib import md5
-
-from app import db
+from webcine.app import db
 
 
 class User(db.Model, BaseUser):
