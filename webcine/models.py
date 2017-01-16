@@ -48,6 +48,9 @@ class Season(db.Model):
             (('series', 'number'), True),
         )
 
+    def __repr__(self):
+        return '<Season {} for series id {}>'.format(self.number, self.series)
+
 
 class Media(db.Model):
     type = CharField(max_length=10)
