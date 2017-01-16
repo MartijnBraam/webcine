@@ -93,7 +93,7 @@ def index_sickbeard_season(path, library, series):
                 media.series = series
                 media.season = season_number
                 media.episode = episode_number
-                media.path = episode.replace('/' + app.config['STORAGE'], '')
+                media.path = episode.replace(app.config['STORAGE'] + '/', '')
                 media.name = '[processing...]'
                 media.save()
 
