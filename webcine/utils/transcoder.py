@@ -2,11 +2,12 @@ import json
 import os
 
 import pika
+import webcine.app
+from webcine.utils.queue import create_connection_from_url
 
 from webcine.models import TranscodingSettings, Media, TranscodedMedia
 
-connection = pika.BlockingConnection(pika.ConnectionParameters(
-    host='localhost'))
+connection = create_connection_from_url(webcine.app.app.config['QUEUE'])
 channel = connection.channel()
 
 channel.queue_declare(queue='transcode', durable=True)
