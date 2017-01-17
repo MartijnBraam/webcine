@@ -94,8 +94,42 @@
             }
 
             var xhr = new XMLHttpRequest();
+            xhr.addEventListener('load', function (event) {
+
+                for (var i = 0; i < row.children.length; i++) {
+                    var field = row.children[i];
+                    if (field.dataset.hasOwnProperty('field')) {
+
+                        var fieldType = field.dataset.type;
+                        switch (fieldType) {
+                            case "text":
+                            case "email":
+                                field.innerText = field.children[0].value;
+                                break;
+                            case "checkbox":
+                                if (field.children[0].value == 'on') {
+                                    field.innerText = 'Yes'
+                                } else {
+                                    field.innerText = 'No'
+                                }
+                                break;
+                            case "password":
+                                field.innerText = '[hidden]';
+                                break;
+                        }
+                    }
+                }
+                row.classList.remove('editing');
+                table.classList.remove('editing');
+
+            });
+
+            xhr.addEventListener('error', function (event) {
+                console.log('error', event);
+            });
+
             xhr.open('POST', '/admin/save/' + entity);
-            xhr.send(payload);
+            xhr.send(JSON.stringify(payload));
             console.log(payload);
         }
 
