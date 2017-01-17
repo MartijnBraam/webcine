@@ -21,3 +21,23 @@ div.settings-panel {
   width: ~"calc(100% - 245px)";
   margin-right: 15px;
 }
+
+#users {
+
+  a[data-action=cancel],
+  a[data-action=save] {
+    display: none;
+  }
+
+  &.editing {
+    a[data-action=edit] {
+      display: none;
+    }
+  }
+  tr.editing {
+    a[data-action=cancel],
+    a[data-action=save] {
+      display: inline;
+    }
+  }
+}

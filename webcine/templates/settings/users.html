@@ -27,6 +27,8 @@
                     <th data-field="password" data-type="password">[hidden]</th>
                     <th>
                         <a href="#" data-action="edit">Edit</a>
+                        <a href="#" data-action="cancel">Cancel</a>
+                        <a href="#" data-action="save">Save</a>
                     </th>
                 </tr>
             {% endfor %}
@@ -47,6 +49,8 @@
         }
 
         function editUser(row) {
+            row.classList.add('editing');
+            traverseUp(row, 'TABLE').classList.add('editing');
             for (var i = 0; i < row.children.length; i++) {
                 var field = row.children[i];
                 if (field.dataset.hasOwnProperty('field')) {
