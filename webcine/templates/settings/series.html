@@ -16,6 +16,11 @@
             {% for wiId in watchinfo %}
                 <tr>
                     <td>{{ series[wiId].name }}</td>
+                    {% for user in users %}
+                        <td>
+                            {{ watchinfo[wiId][user.id].permissions }}
+                        </td>
+                    {% endfor %}
                 </tr>
             {% endfor %}
         </table>
