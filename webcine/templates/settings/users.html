@@ -48,6 +48,28 @@
             return null;
         }
 
+        function cancelEdit(row) {
+            row.classList.remove('editing');
+            traverseUp(row, 'TABLE').classList.remove('editing');
+            for (var i = 0; i < row.children.length; i++) {
+                var field = row.children[i];
+                if (field.dataset.hasOwnProperty('field')) {
+
+                    var fieldType = field.dataset.type;
+                    switch (fieldType) {
+                        case "text":
+                        case "email":
+                        case "checkbox":
+                            field.innerText = field.dataset.oldValue;
+                            break;
+                        case "password":
+                            field.innerText = '[hidden]';
+                            break;
+                    }
+                }
+            }
+        }
+
         function editUser(row) {
             row.classList.add('editing');
             traverseUp(row, 'TABLE').classList.add('editing');
@@ -87,9 +109,13 @@
         usersTable.addEventListener('click', function (event) {
             if (event.target.tagName == 'A') {
                 event.preventDefault();
+                var row = traverseUp(event.target, 'TR');
+
                 if (event.target.dataset.action == 'edit') {
-                    var row = traverseUp(event.target, 'TR');
                     editUser(row);
+                }
+                if (event.target.dataset.action == 'cancel') {
+                    cancelEdit(row);
                 }
             }
         });
