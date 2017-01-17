@@ -25,7 +25,7 @@ ul.settings {
 ul.settings li {
   list-style: none;
   display: block;
-  padding: 4px 15px;
+  padding: 10px 15px;
   color: #5eb95e;
 }
 div.settings-panel {
