@@ -6,7 +6,7 @@
     {% include "settings/menu.html" %}
     <div class="settings-panel">
         <h1>Users</h1>
-        <table id="users">
+        <table id="users" data-entity="user">
             <tr>
                 <th colspan="2">User</th>
                 <th>Email</th>
@@ -70,7 +70,28 @@
             }
         }
 
-        function editUser(row) {
+        function saveEdit(row) {
+            var table = traverseUp(row, 'TABLE');
+            var entity = table.dataset.entity;
+            var entityId = row.dataset.id;
+
+            var payload = {
+                '_entity': entity,
+                'id': entityId
+            };
+
+            for (var i = 0; i < row.children.length; i++) {
+                var field = row.children[i];
+                if (field.dataset.hasOwnProperty('field')) {
+
+                    var fieldName = field.dataset.field;
+                    payload[fieldName] = field.children[0].value;
+                }
+            }
+            console.log(payload);
+        }
+
+        function editRow(row) {
             row.classList.add('editing');
             traverseUp(row, 'TABLE').classList.add('editing');
             for (var i = 0; i < row.children.length; i++) {
@@ -112,7 +133,7 @@
                 var row = traverseUp(event.target, 'TR');
 
                 if (event.target.dataset.action == 'edit') {
-                    editUser(row);
+                    editRow(row);
                 }
                 if (event.target.dataset.action == 'cancel') {
                     cancelEdit(row);
