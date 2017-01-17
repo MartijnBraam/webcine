@@ -57,7 +57,10 @@ def start_series(series_id):
     for episode in series_media:
         WatchInfo.create(user=user, media=episode)
 
-    watchinfo = SeriesWatchInfo.get(SeriesWatchInfo.series == series, SeriesWatchInfo.user == user)
+    try:
+        watchinfo = SeriesWatchInfo.get(SeriesWatchInfo.series == series, SeriesWatchInfo.user == user)
+    except:
+        watchinfo = SeriesWatchInfo.create(series=series, user=user, visible=True, permissions=False, following=False)
     watchinfo.following = True
     watchinfo.save()
 
