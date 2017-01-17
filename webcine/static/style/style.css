@@ -44,6 +44,12 @@ div.settings-panel {
 #users tr.editing a[data-action=save] {
   display: inline;
 }
+form-group {
+  display: block;
+}
+form-group label {
+  display: block;
+}
 * {
   box-sizing: border-box;
   font-family: sans-serif;

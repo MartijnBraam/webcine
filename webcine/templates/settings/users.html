@@ -33,6 +33,27 @@
                 </tr>
             {% endfor %}
         </table>
+        <form action="/admin/users/add">
+            <form-group>
+                <label for="username">Username:</label>
+                <input type="text" name="username" id="username">
+            </form-group>
+            <form-group>
+                <label for="email">Email address:</label>
+                <input type="email" name="email" id="email">
+            </form-group>
+            <form-group>
+                <label for="password">Password:</label>
+                <input type="password" name="password" id="password">
+            </form-group>
+            <form-group>
+                <label><input type="checkbox" name="active"> Active</label><br>
+                <label><input type="checkbox" name="admin"> Admin</label><br>
+            </form-group>
+            <form-group>
+                <input type="submit" value="Create">
+            </form-group>
+        </form>
     </div>
 {% endblock %}
 
