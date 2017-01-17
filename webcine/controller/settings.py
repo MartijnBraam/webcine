@@ -59,3 +59,21 @@ def admin_series():
         series[s.id] = s
 
     return render_template('settings/series.html', users=users, watchinfo=watchinfo, series=series)
+
+
+@app.route('/admin/series/set/<int:series_id>/<int:user_id>/<state>')
+@auth.admin_required
+def admin_series_set_permission(series_id, user_id, state):
+    series = Series.get(Series.id == series_id)
+    user = User.get(User.id == user_id)
+
+    try:
+        watchinfo = SeriesWatchInfo.get((SeriesWatchInfo.series == series) & (SeriesWatchInfo.user == user))
+        watchinfo.permissions = state == 'on'
+        watchinfo.save()
+    except:
+        permissions = state == 'on'
+        watchinfo = SeriesWatchInfo.create(series=series, user=user, visible=True, following=False,
+                                           permissions=permissions)
+        watchinfo.save()
+    return '{}'

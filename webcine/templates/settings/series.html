@@ -6,7 +6,7 @@
     {% include "settings/menu.html" %}
     <div class="settings-panel">
         <h1>Series</h1>
-        <table>
+        <table id="series">
             <tr>
                 <th>Series</th>
                 {% for user in users %}
@@ -33,4 +33,18 @@
             {% endfor %}
         </table>
     </div>
+{% endblock %}
+
+{% block javascript %}
+    <script>
+        var seriesTable = document.getElementById('series');
+        seriesTable.addEventListener('click', function (event) {
+            if (event.target.tagName == 'INPUT') {
+                var series = event.target.dataset.series;
+                var user = event.target.dataset.user;
+                var state = event.target.value;
+                console.log(series, user, state);
+            }
+        });
+    </script>
 {% endblock %}
