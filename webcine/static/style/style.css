@@ -44,8 +44,15 @@ div.settings-panel {
 #users tr.editing a[data-action=save] {
   display: inline;
 }
+form {
+  background: rgba(255, 255, 255, 0.1);
+  margin: 15px 0;
+  border-radius: 5px;
+  padding: 10px;
+}
 form-group {
   display: block;
+  padding: 10px 0;
 }
 form-group label {
   display: block;
