@@ -8,7 +8,7 @@
         <h1>Users</h1>
         <table>
             <tr>
-                <th>User</th>
+                <th colspan="2">User</th>
                 <th>Email</th>
                 <th>Active</th>
                 <th>Admin</th>
@@ -17,8 +17,8 @@
                 <tr>
                     <td>
                         <img src="{{ user.gravatar_url(size=32) }}" class="gravatar">
-                        {{ user.username }}
                     </td>
+                    <td>{{ user.username }}</td>
                     <td>{{ user.email }}</td>
                     <td>{{ user.active }}</td>
                     <td>{{ user.admin }}</td>
