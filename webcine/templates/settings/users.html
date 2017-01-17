@@ -73,7 +73,7 @@
         function saveEdit(row) {
             var table = traverseUp(row, 'TABLE');
             var entity = table.dataset.entity;
-            var entityId = row.dataset.id;
+            var entityId = parseInt(row.dataset.id, 10);
 
             var payload = {
                 '_entity': entity,
@@ -85,9 +85,17 @@
                 if (field.dataset.hasOwnProperty('field')) {
 
                     var fieldName = field.dataset.field;
-                    payload[fieldName] = field.children[0].value;
+                    var value = field.children[0].value;
+                    if (field.dataset.type == 'checkbox') {
+                        value = value == 'on';
+                    }
+                    payload[fieldName] = value;
                 }
             }
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/admin/save/' + entity);
+            xhr.send(payload);
             console.log(payload);
         }
 
