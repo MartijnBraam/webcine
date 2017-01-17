@@ -36,14 +36,37 @@
 
 {% block javascript %}
     <script>
+
+        function traverseUp(el, tag) {
+            while (el.parentNode) {
+                el = el.parentNode;
+                if (el.tagName === tag)
+                    return el;
+            }
+            return null;
+        }
+
+        function editUser(row) {
+            for (var i = 0; i < row.children.length; i++) {
+                var field = row.children[i];
+                if (field.dataset.hasOwnProperty('field')) {
+                    field.dataset.oldValue = field.innerText;
+                    var fieldName = field.dataset.field;
+                    field.innerHTML = '<input id="edit-field-' + fieldName + '" type="text">';
+                }
+            }
+
+        }
+
+
         var usersTable = document.getElementById('users');
         usersTable.addEventListener('click', function (event) {
             if (event.target.tagName == 'A') {
                 event.preventDefault();
                 if (event.target.dataset.action == 'edit') {
-                    console.log('edit');
+                    var row = traverseUp(event.target, 'TR');
+                    editUser(row);
                 }
-                console.log(event);
             }
         });
     </script>
