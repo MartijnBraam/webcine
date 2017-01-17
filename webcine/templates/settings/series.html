@@ -20,12 +20,12 @@
                         <td>
                             {% if user.id in watchinfo[wiId] %}
                                 {% if watchinfo[wiId][user.id].permissions %}
-                                    <input type="checkbox" name="perm-{{ wiId }}-{{ user.id }}" checked>
+                                    <input type="checkbox" checked data-series="{{ wiId }}" data-user="{{ user.id }}">
                                 {% else %}
-                                    <input type="checkbox" name="perm-{{ wiId }}-{{ user.id }}">
+                                    <input type="checkbox" data-series="{{ wiId }}" data-user="{{ user.id }}">
                                 {% endif %}
                             {% else %}
-                                <input type="checkbox" name="perm-{{ wiId }}-{{ user.id }}">
+                                <input type="checkbox" data-series="{{ wiId }}" data-user="{{ user.id }}">
                             {% endif %}
                         </td>
                     {% endfor %}
