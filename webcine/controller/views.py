@@ -44,7 +44,9 @@ def homepage():
 def available_series():
     user = auth.get_logged_in_user()
     user_series = list(SeriesWatchInfo.select().where(
-        SeriesWatchInfo.user == user and SeriesWatchInfo.visible == True and SeriesWatchInfo.following == False))
+        (SeriesWatchInfo.user == user) & (SeriesWatchInfo.visible == True) & (SeriesWatchInfo.following == False) & (
+        SeriesWatchInfo.permissions == True)
+    ))
     return render_template('available_series.html', series=user_series)
 
 
