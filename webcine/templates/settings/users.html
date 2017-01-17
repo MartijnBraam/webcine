@@ -138,6 +138,9 @@
                 if (event.target.dataset.action == 'cancel') {
                     cancelEdit(row);
                 }
+                if (event.target.dataset.action == 'save') {
+                    saveEdit(row);
+                }
             }
         });
     </script>
