@@ -6,24 +6,41 @@
     {% include "settings/menu.html" %}
     <div class="settings-panel">
         <h1>Users</h1>
-        <table>
+        <table id="users">
             <tr>
                 <th colspan="2">User</th>
                 <th>Email</th>
                 <th>Active</th>
                 <th>Admin</th>
+                <th>Password</th>
+                <th></th>
             </tr>
             {% for user in users %}
-                <tr>
-                    <td>
+                <tr data-id="{{ user.id }}">
+                    <td width="32">
                         <img src="{{ user.gravatar_url(size=32) }}" class="gravatar">
                     </td>
-                    <td>{{ user.username }}</td>
-                    <td>{{ user.email }}</td>
-                    <td>{% if user.active %}Yes{% else %}No{% endif %}</td>
-                    <td>{% if user.admin %}Yes{% else %}No{% endif %}</td>
+                    <td data-field="username">{{ user.username }}</td>
+                    <td data-field="email">{{ user.email }}</td>
+                    <td data-field="active">{% if user.active %}Yes{% else %}No{% endif %}</td>
+                    <td data-field="admin">{% if user.admin %}Yes{% else %}No{% endif %}</td>
+                    <th data-field="password">[hidden]</th>
+                    <th>
+                        <a href="#">Edit</a>
+                    </th>
                 </tr>
             {% endfor %}
         </table>
     </div>
+{% endblock %}
+
+{% block javascript %}
+    <script>
+        var usersTable = document.getElementById('users');
+        usersTable.addEventListener('click', function (event) {
+            if (event.target.tag = 'a') {
+                console.log(event);
+            }
+        });
+    </script>
 {% endblock %}
