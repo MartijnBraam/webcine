@@ -42,3 +42,10 @@ def admin_create_user():
     user.set_password(password)
     user.save()
     return redirect(url_for('admin_users'))
+
+
+@app.route('/admin/series')
+@auth.admin_required
+def admin_series():
+    users = list(User.select())
+    return render_template('settings/users.html', users=users)
