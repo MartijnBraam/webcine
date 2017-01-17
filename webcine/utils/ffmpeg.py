@@ -55,7 +55,9 @@ def ffmpeg_wrapper(command, metadata, progress_callback):
 
 def get_video_metadata(path):
     path = app.config['STORAGE'] + path
+    print('Get video metadata: {}'.format(path))
     command = ['ffprobe', '-v', 'quiet', '-print_format', 'json', '-show_format', '-show_streams', path]
+    print(' '.join(command))
     result = subprocess.check_output(command)
     data = json.loads(result.decode('utf-8'))
 
