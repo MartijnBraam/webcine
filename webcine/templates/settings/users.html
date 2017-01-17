@@ -20,11 +20,11 @@
                     <td width="32">
                         <img src="{{ user.gravatar_url(size=32) }}" class="gravatar">
                     </td>
-                    <td data-field="username">{{ user.username }}</td>
-                    <td data-field="email">{{ user.email }}</td>
-                    <td data-field="active">{% if user.active %}Yes{% else %}No{% endif %}</td>
-                    <td data-field="admin">{% if user.admin %}Yes{% else %}No{% endif %}</td>
-                    <th data-field="password">[hidden]</th>
+                    <td data-field="username" data-type="text">{{ user.username }}</td>
+                    <td data-field="email" data-type="email">{{ user.email }}</td>
+                    <td data-field="active" data-type="checkbox">{% if user.active %}Yes{% else %}No{% endif %}</td>
+                    <td data-field="admin" data-type="checkbox">{% if user.admin %}Yes{% else %}No{% endif %}</td>
+                    <th data-field="password" data-type="password">[hidden]</th>
                     <th>
                         <a href="#" data-action="edit">Edit</a>
                     </th>
@@ -52,7 +52,27 @@
                 if (field.dataset.hasOwnProperty('field')) {
                     field.dataset.oldValue = field.innerText;
                     var fieldName = field.dataset.field;
-                    field.innerHTML = '<input id="edit-field-' + fieldName + '" type="text">';
+                    var fieldType = field.dataset.type;
+                    var input = document.createElement('INPUT');
+                    input.id = 'edit-field-' + fieldName;
+                    switch (fieldType) {
+                        case "text":
+                        case "email":
+                            input.type = fieldType;
+                            input.value = field.innerText;
+                            break;
+                        case "password":
+                            input.type = 'password';
+                            input.placeholder = 'Unchanged';
+                            break;
+                        case "checkbox":
+                            input.type = 'checkbox';
+                            input.checked = field.innerText == 'Yes';
+                    }
+
+                    field.innerHTML = '';
+                    field.appendChild(input);
+
                 }
             }
 
