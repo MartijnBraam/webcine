@@ -2,6 +2,7 @@ import json
 import logging
 import re
 import subprocess
+from webcine.app import app
 
 from webcine.structs import VideoMetadata, AudioStream, SubtitleStream
 
@@ -53,6 +54,7 @@ def ffmpeg_wrapper(command, metadata, progress_callback):
 
 
 def get_video_metadata(path):
+    path = app.config['STORAGE'] + path
     command = ['ffprobe', '-v', 'quiet', '-print_format', 'json', '-show_format', '-show_streams', path]
     result = subprocess.check_output(command)
     data = json.loads(result.decode('utf-8'))
