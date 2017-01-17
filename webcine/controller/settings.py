@@ -2,7 +2,6 @@ from flask import render_template, request
 
 from webcine.app import app
 from webcine.models import User
-import webcine.models
 from webcine.utils.auth import auth
 
 
@@ -13,10 +12,18 @@ def admin_users():
     return render_template('settings/users.html', users=users)
 
 
-@app.route('/admin/save/<entity>', methods=['POST'])
+@app.route('/admin/save/user', methods=['POST'])
 @auth.admin_required
-def admin_save_entity(entity):
-    entity = entity.title()
+def admin_save_user():
     payload = request.json
-    entity = getattr(webcine.models, entity).get(getattr(webcine.models, entity).id == payload['id'])
-    return repr(entity)
+    entity = User.get(User.id == payload['id'])
+    entity.username = payload['username']
+    entity.email = payload['email']
+    entity.admin = payload['admin']
+    entity.enabled = payload['enabled']
+
+    if payload['password'] != "":
+        entity.set_password(payload['password'])
+
+    entity.save()
+    return '{}'
