@@ -20,7 +20,7 @@ def admin_save_user():
     entity.username = payload['username']
     entity.email = payload['email']
     entity.admin = payload['admin']
-    entity.enabled = payload['enabled']
+    entity.active = payload['active']
 
     if payload['password'] != "":
         entity.set_password(payload['password'])
