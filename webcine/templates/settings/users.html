@@ -129,6 +129,7 @@
             });
 
             xhr.open('POST', '/admin/save/' + entity);
+            xhr.setRequestHeader("Content-type", "application/json");
             xhr.send(JSON.stringify(payload));
         }
 
