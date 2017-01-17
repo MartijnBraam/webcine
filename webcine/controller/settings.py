@@ -56,6 +56,6 @@ def admin_series():
 
     series = {}
     for s in Series.select():
-        series[s.id] = series
+        series[s.id] = s
 
     return render_template('settings/series.html', users=users, watchinfo=watchinfo, series=series)

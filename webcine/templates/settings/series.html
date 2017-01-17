@@ -10,7 +10,7 @@
             <tr>
                 <th>Series</th>
                 {% for user in users %}
-                    <th>user.username</th>
+                    <th>{{ user.username }}</th>
                 {% endfor %}
             </tr>
             {% for wiId in watchinfo %}
