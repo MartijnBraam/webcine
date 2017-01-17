@@ -74,6 +74,8 @@ def start_series(series_id):
 def cache(type, id):
     ext = 'jpg'
     file = '{}/cache/{}/{}.{}'.format(app.config['STORAGE'], type, id, ext)
+    if not os.path.isfile(file):
+        file = 'static/fallback.png'
     return send_file(file)
 
 
