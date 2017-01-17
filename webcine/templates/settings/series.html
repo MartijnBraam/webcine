@@ -42,7 +42,7 @@
             if (event.target.tagName == 'INPUT') {
                 var series = event.target.dataset.series;
                 var user = event.target.dataset.user;
-                var state = event.target.value;
+                var state = event.target.checked;
                 console.log(series, user, state);
             }
         });
