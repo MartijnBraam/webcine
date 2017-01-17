@@ -1,0 +1,23 @@
+{% extends "base_auth.html" %}
+
+{% block content_title %}Series | Admin{% endblock %}
+
+{% block main %}
+    {% include "settings/menu.html" %}
+    <div class="settings-panel">
+        <h1>Series</h1>
+        <table>
+            <tr>
+                <th>Series</th>
+                {% for user in users %}
+                    <th>user.username</th>
+                {% endfor %}
+            </tr>
+            {% for wiId in watchinfo %}
+                <tr>
+                    <td>{{ series[wiId] }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+{% endblock %}

@@ -1,7 +1,7 @@
 from flask import render_template, request, redirect, url_for
 
 from webcine.app import app
-from webcine.models import User
+from webcine.models import User, SeriesWatchInfo, Series
 from webcine.utils.auth import auth
 
 
@@ -48,4 +48,14 @@ def admin_create_user():
 @auth.admin_required
 def admin_series():
     users = list(User.select())
-    return render_template('settings/users.html', users=users)
+    watchinfo = {}
+    for wi in SeriesWatchInfo.select():
+        if wi.series.id not in watchinfo:
+            watchinfo[wi.series.id] = {}
+        watchinfo[wi.series.id][wi.user.id] = wi
+
+    series = {}
+    for s in Series.select():
+        series[s.id] = series
+
+    return render_template('settings/series.html', users=users, watchinfo=watchinfo, series=series)
