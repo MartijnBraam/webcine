@@ -102,6 +102,8 @@ def get_video_metadata(path):
 
         return result
     except Exception as e:
+        print('Exception in ffprobe process ({})'.format(path))
+        print(data)
         logging.error('Exception in ffprobe process ({})'.format(path))
         logging.error(data)
         raise e
