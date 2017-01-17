@@ -58,7 +58,7 @@ def get_video_metadata(path):
     command = ['ffprobe', '-v', 'quiet', '-print_format', 'json', '-show_format', '-show_streams', path]
     result = subprocess.check_output(command)
     data = json.loads(result.decode('utf-8'))
-
+    print(data)
     try:
         result = VideoMetadata()
         result.container = data['format']['format_name']
@@ -99,7 +99,7 @@ def get_video_metadata(path):
                     if 'title' in stream['tags']:
                         sub.title = stream['tags']['title']
                 result.subtitles.append(sub)
-
+        print(result)
         return result
     except Exception as e:
         print('Exception in ffprobe process ({})'.format(path))
