@@ -43,7 +43,20 @@
                 var series = event.target.dataset.series;
                 var user = event.target.dataset.user;
                 var state = event.target.checked;
-                console.log(series, user, state);
+
+                event.target.disabled = true;
+
+                var xhr = new XMLHttpRequest();
+                xhr.addEventListener('load', function () {
+                    event.target.disabled = false;
+                });
+                var url = '/admin/series/set/' + series + '/' + user + '/';
+                if (state) {
+                    url += 'on';
+                } else {
+                    url += 'off';
+                }
+                xhr.open('GET', url);
             }
         });
     </script>
