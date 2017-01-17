@@ -18,7 +18,9 @@
                     <td>{{ series[wiId].name }}</td>
                     {% for user in users %}
                         <td>
-                            {{ watchinfo[wiId][user.id].permissions }}
+                            {% if user.id in watchinfo[wiId] %}
+                                {{ watchinfo[wiId][user.id].permissions }}
+                            {% endif %}
                         </td>
                     {% endfor %}
                 </tr>
