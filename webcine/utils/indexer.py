@@ -1,40 +1,22 @@
 import logging
-import os
-import re
 import subprocess
 from glob import glob
 
+import os
+import re
 import tmdbsimple as tmdb
 import xmltodict
-
+from webcine.app import app
 from webcine.models import Library, Series, Actor, MediaActor, SeriesActor, Media, User, SeriesWatchInfo, WatchInfo
 from webcine.structs import EpisodeInfo, ActorInfo
 from webcine.utils import tools
 from webcine.utils.ffmpeg import get_video_metadata
-from webcine.app import app
+from webcine.utils.nameparser import parse_episode_number
 
-REGEX_EPISODE = re.compile(r'(?:S(\d+)E(\d+)|[^0-9x](\d)(\d\d)[^0-9p])', re.IGNORECASE)
 REGEX_VIDEOEXT = re.compile(r'(mp4|mkv|mpg|avi|wmv|ts)$', re.IGNORECASE)
 REGEX_MOVIE_DIRECTORY = re.compile(r'(.+)\((\d{4})\)')
 
 tmdb.API_KEY = '329e421f927379309e3631719b6d42b3'
-
-
-def parse_episode_number(filename):
-    try:
-        match = REGEX_EPISODE.search(filename)
-        if match:
-            groups = list(match.groups())
-            groups = list(filter(None, groups))
-            return int(groups[0]), int(groups[1])
-        else:
-            logging.error('No episode number in filename: {}'.format(filename))
-            return None
-    except Exception:
-        logging.error('Cannot parse episode number in: {}'.format(filename))
-        if groups:
-            logging.error(groups)
-        raise
 
 
 def load_xbmc_episode_metadata(filename):
