@@ -21,6 +21,7 @@ A media center application build as a webapplication (like plex and netflix) wri
 * mysql server
 * rabbitmq server
 * webserver to handle static file serving and wsgi (apache, nginx)
+* Sickbeard if you want to add a tv library (It depends on sickbeard metadata)
 
 ## Screenshots
 
