@@ -19,6 +19,18 @@ video {
 #cornerhint img {
   display: none;
 }
+#icon-volume-change {
+  color: #5eb95e;
+  font-size: 2em;
+}
+#icon-volume-change .name {
+  text-align: center;
+  font-size: 2em;
+}
+#icon-volume-change .volume {
+  text-align: center;
+  font-size: 3em;
+}
 nav {
   transition: top 500ms;
   position: absolute;

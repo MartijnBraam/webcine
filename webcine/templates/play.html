@@ -71,7 +71,7 @@
             }
         }
 
-        var progressTimer = setTimeout(updateProgress, 2000);
+        var progressTimer = setInterval(updateProgress, 2000);
 
         var progressBar = document.getElementById('progress');
         var progressBarInner = document.getElementById('progress-inner');
@@ -94,7 +94,7 @@
             iconVolume.style.display = 'none';
         }
 
-        var volumeIconTimer = setInterval(hideVolumeIcon, 2000);
+        var volumeIconTimer = setTimeout(hideVolumeIcon, 2000);
 
         video.addEventListener('click', function () {
             if (video.paused) {
