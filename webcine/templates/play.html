@@ -114,7 +114,7 @@
             }
             iconVolumeLevel.innerText = Math.floor(video.volume * 100) + '%';
             iconVolume.style.display = 'inline-block';
-            clearTimeout(progressTimer);
+            clearTimeout(volumeIconTimer);
             volumeIconTimer = setTimeout(updateProgress, 2000);
 
         });
