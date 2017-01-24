@@ -30,7 +30,8 @@
         <a href="{{ url_for('play_media', media_id=media.id) }}" class="control-format">Original</a>
         {% for format in transcodes %}
             <a href="{{ url_for('play_media_transcoded', media_id=media.id, transcode_id=format.settings.id) }}"
-               class="control-format {% if not format.done %}disabled{% endif %}">{{ format.settings.label }}{% if not format.done %} ({{ format.progress }}%){% endif %}</a>
+               class="control-format {% if not format.done %}disabled{% endif %}">
+                {{ format.settings.label }}{% if not format.done %} ({{ format.progress }}%){% endif %}</a>
         {% endfor %}
     </div>
     <script>
@@ -90,6 +91,14 @@
             } else {
                 video.pause();
                 iconPause.style.display = 'inline-block';
+            }
+        });
+
+        video.addEventListener('wheel', function (event) {
+            if (event.deltaY > 0) {
+                video.volume += 0.1;
+            } else {
+                video.volume -= 0.1;
             }
         });
 
