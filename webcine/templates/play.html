@@ -10,6 +10,10 @@
         <img src="{{ url_for('static', filename='loading.svg') }}" id="icon-loading" width="100" height="100"
              style="display: inline-block;">
         <img src="{{ url_for('static', filename='pause.svg') }}" id="icon-pause" width="100" height="100">
+        <div id="icon-volume-change" style="display: none;">
+            <div class="name">Volume</div>
+            <div class="volume">100%</div>
+        </div>
     </div>
     <div id="controls">
         <a href="#" id="control-play" style="display: none;">Play</a>
@@ -67,7 +71,7 @@
             }
         }
 
-        var progressTimer = setInterval(updateProgress, 2000);
+        var progressTimer = setTimeout(updateProgress, 2000);
 
         var progressBar = document.getElementById('progress');
         var progressBarInner = document.getElementById('progress-inner');
@@ -76,6 +80,8 @@
 
         var iconLoading = document.getElementById('icon-loading');
         var iconPause = document.getElementById('icon-pause');
+        var iconVolume = document.getElementById('icon-volume-change');
+        var iconVolumeLevel = document.querySelector('#icon-volume-change .volume');
 
         var timer = document.getElementById('timer');
         video.addEventListener('timeupdate', function () {
@@ -83,6 +89,12 @@
             progressBarInner.style.width = progress + '%';
             timer.innerHTML = secondsToTime(video.currentTime) + ' / ' + secondsToTime(video.duration);
         });
+
+        function hideVolumeIcon() {
+            iconVolume.style.display = 'none';
+        }
+
+        var volumeIconTimer = setInterval(hideVolumeIcon, 2000);
 
         video.addEventListener('click', function () {
             if (video.paused) {
@@ -100,6 +112,11 @@
             } else {
                 video.volume += 0.1;
             }
+            iconVolumeLevel.innerText = Math.floor(video.volume * 100) + '%';
+            iconVolume.style.display = 'inline-block';
+            clearTimeout(progressTimer);
+            progressTimer = setTimeout(updateProgress, 2000);
+
         });
 
         video.addEventListener('seeking', function () {
