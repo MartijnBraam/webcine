@@ -8,7 +8,7 @@ from webcine.structs import VideoMetadata, AudioStream, SubtitleStream
 
 
 def transcode_x264(path, target, crf=23, max_bitrate=None, tune='film', twopass=False, progress_callback=None):
-    probe = get_video_metadata(path)
+    probe = get_video_metadata(path, True)
 
     command = ['ffmpeg', '-v', 'quiet', '-stats', '-y', '-i', path, '-c:v', 'libx264', '-crf', str(crf)]
     if max_bitrate:
@@ -53,9 +53,10 @@ def ffmpeg_wrapper(command, metadata, progress_callback):
     return process.wait()
 
 
-def get_video_metadata(path):
-    storage = get_storage_path()
-    path = storage + '/' + path
+def get_video_metadata(path, is_absolute_path=False):
+    if not is_absolute_path:
+        storage = get_storage_path()
+        path = storage + '/' + path
     command = ['ffprobe', '-v', 'quiet', '-print_format', 'json', '-show_format', '-show_streams', path]
     result = subprocess.check_output(command)
     data = json.loads(result.decode('utf-8'))
