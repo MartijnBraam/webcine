@@ -3,6 +3,8 @@ import sys
 import configparser
 import logging
 
+STORAGE_PATH = None
+
 
 def get_config(app):
     paths = [
@@ -34,3 +36,24 @@ def get_config(app):
 
     logging.critical('Config file not found. Exiting')
     sys.exit(1)
+
+
+def get_storage_path():
+    global STORAGE_PATH
+    if STORAGE_PATH:
+        return STORAGE_PATH
+
+    paths = [
+        './webcine.conf',
+        '/etc/webcine.conf'
+    ]
+    for path in paths:
+        logging.debug('Checking {}'.format(path))
+        if os.path.isfile(path):
+            logging.info('Using config {}'.format(path))
+            parser = configparser.ConfigParser()
+            parser.read(path)
+
+            STORAGE_PATH = parser.get('webcine', 'storage')
+
+            return STORAGE_PATH
