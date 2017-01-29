@@ -18,12 +18,15 @@ def progress_callback(progress):
 
 def transcode(ch, method, properties, body):
     global task_id
+    print('Got transcode task')
     body = json.loads(body.decode())
     if body['codec'] == 'x264':
+        print('   codec: x264')
         parameters = {
             'path': os.path.join(args.storagepath, body['file']),
             'target': os.path.join(args.storagepath, body['target'])
         }
+        print('    source: {path}\n    target: {target}'.format(**parameters))
         if 'crf' in body:
             parameters['crf'] = body['crf']
         if 'max_bitrate' in body:
@@ -32,8 +35,10 @@ def transcode(ch, method, properties, body):
             parameters['tune'] = body['tune']
         parameters['progress_callback'] = progress_callback
         task_id = body['id']
+        print('    start transcode')
         ffmpeg.transcode_x264(**parameters)
         requests.get('http://{}/mark-transcode-done/{}'.format(args.host, body['id']))
+        print('    finished transcode')
         ch.basic_ack(delivery_tag=method.delivery_tag)
 
 
@@ -59,4 +64,5 @@ if __name__ == '__main__':
 
     channel.basic_qos(prefetch_count=1)
     channel.basic_consume(transcode, queue='transcode')
+    print('Start listening for transcode tasks')
     channel.start_consuming()
