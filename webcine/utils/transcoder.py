@@ -15,7 +15,13 @@ channel.queue_declare(queue='transcode', durable=True)
 
 
 def create_transcode_task(media, settings):
-    tm = TranscodedMedia.create(media=media, settings=settings)
+    existing = list(TranscodedMedia.select().where((media == media) & (settings == settings)))
+
+    if len(existing) == 0:
+        tm = TranscodedMedia.create(media=media, settings=settings)
+    else:
+        print('Database row already exists for this media file. Re-adding task to transode queue only')
+        tm = existing[0]
 
     target_file = '{}/transcoded/{}/{}.mkv'.format(app.config['STORAGE'], settings.id, media.id)
     if not os.path.isdir(os.path.dirname(target_file)):
