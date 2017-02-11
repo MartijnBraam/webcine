@@ -24,15 +24,15 @@ class AudioStream:
         self.channels = 2
         self.bitrate = 0
 
-        def get_name():
-            lookup = {
-                "aac": "AAC",
-                "ac3": "AC-3"
-            }
-            if self.codec in lookup:
-                return lookup[self.codec]
-            else:
-                return self.codec.capitalize()
+    def get_name(self):
+        lookup = {
+            "aac": "AAC",
+            "ac3": "AC-3"
+        }
+        if self.codec in lookup:
+            return lookup[self.codec]
+        else:
+            return self.codec.capitalize()
 
     def __repr__(self):
         return '<AudioStream {} {} ({})>'.format(self.codec, self.language, self.title)
