@@ -2,6 +2,7 @@ import json
 import logging
 import re
 import subprocess
+import datetime
 from webcine.utils.config import get_storage_path
 
 from webcine.structs import VideoMetadata, AudioStream, SubtitleStream
@@ -33,6 +34,8 @@ def ffmpeg_wrapper(command, metadata, progress_callback):
     process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, universal_newlines=True)
     regex_time = re.compile(r'time=(\d+:\d+:\d+)')
     last_progress = 0
+    start_time = datetime.datetime.now()
+
     for line in process.stdout:
         time = regex_time.search(line)
         if time:
@@ -50,7 +53,11 @@ def ffmpeg_wrapper(command, metadata, progress_callback):
                 if progress_callback is not None:
                     progress_callback(progress)
     process.stdout.close()
-    return process.wait()
+    process.wait()
+    end_time = datetime.datetime.now()
+    transcode_duration = (end_time - start_time).total_seconds()
+    video_duration = metadata.length
+    return round(video_duration/transcode_duration, 2)
 
 
 def get_video_metadata(path, is_absolute_path=False):

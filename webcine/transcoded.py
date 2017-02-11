@@ -36,8 +36,8 @@ def transcode(ch, method, properties, body):
         parameters['progress_callback'] = progress_callback
         task_id = body['id']
         print('    start transcode')
-        ffmpeg.transcode_x264(**parameters)
-        requests.get('http://{}/mark-transcode-done/{}'.format(args.host, body['id']))
+        speedfactor = ffmpeg.transcode_x264(**parameters)
+        requests.get('http://{}/mark-transcode-done/{}/{}'.format(args.host, body['id'], speedfactor))
         print('    finished transcode')
         ch.basic_ack(delivery_tag=method.delivery_tag)
 

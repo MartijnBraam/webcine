@@ -41,9 +41,10 @@ def create_transcode_task(media, settings):
                           properties=pika.BasicProperties(delivery_mode=2))
 
 
-def finished_transcode_task(id):
+def finished_transcode_task(id, speedfactor):
     tm = TranscodedMedia.get(TranscodedMedia.id == id)
     tm.done = True
+    tm.speedfactor = speedfactor
     tm.save()
 
 

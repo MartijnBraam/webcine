@@ -152,9 +152,9 @@ def mark_transcode_progress(transcode_id, progress):
     return '{}'
 
 
-@app.route('/mark-transcode-done/<int:id>')
-def mark_transcode_done(id):
-    transcoder.finished_transcode_task(id)
+@app.route('/mark-transcode-done/<int:id>/<float:speedfactor>')
+def mark_transcode_done(id, speedfactor):
+    transcoder.finished_transcode_task(id, speedfactor)
     return '{}'
 
 
