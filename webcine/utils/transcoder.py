@@ -20,6 +20,7 @@ def create_transcode_task(media, settings):
     if len(existing) == 0:
         tm = TranscodedMedia.create(media=media, settings=settings)
     else:
+        print(existing)
         print('Database row already exists for this media file. Re-adding task to transode queue only')
         tm = existing[0]
 

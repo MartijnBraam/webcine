@@ -82,6 +82,9 @@ class TranscodedMedia(db.Model):
     done = BooleanField(default=False)
     progress = IntegerField(default=0)
 
+    def __repr__(self):
+        return '<TranscodedMedia media {} to setting{}>'.format(self.media.id, self.settings.id)
+
     class Meta:
         indexes = (
             (('media', 'settings'), True),
