@@ -116,6 +116,8 @@ def index_sickbeard_season(path, library, series):
                         if show_actor.role:
                             media_actor.personage = show_actor.role
                             media_actor.save()
+                else:
+                    print("Missing metadata file: {}".format(episode_nfo))
 
 
 def index_sickbeard(path, library):
