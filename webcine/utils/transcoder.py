@@ -15,7 +15,7 @@ channel.queue_declare(queue='transcode', durable=True)
 
 
 def create_transcode_task(media, settings):
-    existing = list(TranscodedMedia.select().where((media == media) & (settings == settings)))
+    existing = list(TranscodedMedia.select().where((TranscodedMedia.media == media) & (TranscodedMedia.settings == settings)))
 
     if len(existing) == 0:
         tm = TranscodedMedia.create(media=media, settings=settings)
