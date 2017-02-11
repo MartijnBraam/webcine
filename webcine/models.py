@@ -65,6 +65,7 @@ class Media(db.Model):
     dual_episode = BooleanField(default=False)
     part = IntegerField(null=True)
     name = CharField()
+    codec = CharField(null=True, max_length=50)
 
     class Meta:
         order_by = ('series', 'episode', 'name', 'part')

@@ -8,6 +8,12 @@ class VideoMetadata:
         self.length = 0
         self.bitrate = 0
 
+    def get_human(self):
+        return "{}/{}".format(self.video.get_name(), self.audio[0].get_name())
+
+    def __repr__(self):
+        return '<VideoMetaData {}>'.format(self.get_human())
+
 
 class AudioStream:
     def __init__(self):
@@ -17,6 +23,16 @@ class AudioStream:
         self.title = None
         self.channels = 2
         self.bitrate = 0
+
+        def get_name():
+            lookup = {
+                "aac": "AAC",
+                "ac3": "AC-3"
+            }
+            if self.codec in lookup:
+                return lookup[self.codec]
+            else:
+                return self.codec.capitalize()
 
     def __repr__(self):
         return '<AudioStream {} {} ({})>'.format(self.codec, self.language, self.title)
@@ -29,6 +45,16 @@ class VideoStream:
         self.bitrate = 0
         self.width = 0
         self.height = 0
+
+    def get_name(self):
+        lookup = {
+            "hevc": "HEVC",
+            "h264": "H.264"
+        }
+        if self.codec in lookup:
+            return lookup[self.codec]
+        else:
+            return self.codec.capitalize()
 
 
 class SubtitleStream:
