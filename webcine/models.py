@@ -66,6 +66,7 @@ class Media(db.Model):
     part = IntegerField(null=True)
     name = CharField()
     codec = CharField(null=True, max_length=50)
+    bitrate = IntegerField(null=True)
 
     class Meta:
         order_by = ('series', 'episode', 'name', 'part')

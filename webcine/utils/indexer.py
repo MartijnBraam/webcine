@@ -213,6 +213,7 @@ def index_movie(path, library, name, year):
         media.library = library
         media.path = movie_file
         media.name = name
+        media.bitrate = probe.bitrate
         media.save()
 
         print("Downloading poster")
@@ -240,6 +241,7 @@ def preprocess_media_file(media_id):
         metadata = get_video_metadata(media.path)
         media.length = metadata.length
         media.codec = metadata.get_human()
+        media.bitrate = metadata.bitrate
     except subprocess.CalledProcessError as e:
         media.playable = False
     media.save()
