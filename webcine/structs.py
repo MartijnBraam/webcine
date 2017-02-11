@@ -27,7 +27,8 @@ class AudioStream:
     def get_name(self):
         lookup = {
             "aac": "AAC",
-            "ac3": "AC-3"
+            "ac3": "AC-3",
+            "eac3": "E-AC-3"
         }
         if self.codec in lookup:
             return lookup[self.codec]
