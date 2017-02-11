@@ -38,7 +38,7 @@ class Series(db.Model):
 
 
 class Season(db.Model):
-    series = ForeignKeyField(Series)
+    series = ForeignKeyField(Series, on_delete='CASCADE', on_update='CASCADE')
     number = IntegerField()
     episodes = IntegerField()
     description = TextField(null=True)
@@ -55,11 +55,11 @@ class Season(db.Model):
 class Media(db.Model):
     type = CharField(max_length=10)
     length = IntegerField(null=True)
-    library = ForeignKeyField(Library)
+    library = ForeignKeyField(Library, on_delete='CASCADE', on_update='CASCADE')
     path = CharField()
     description = TextField(null=True)
     playable = BooleanField(default=True)
-    series = ForeignKeyField(Series, null=True)
+    series = ForeignKeyField(Series, null=True, on_delete='CASCADE', on_update='CASCADE')
     season = IntegerField(null=True)
     episode = IntegerField(null=True)
     dual_episode = BooleanField(default=False)
@@ -77,39 +77,64 @@ class TranscodingSettings(db.Model):
 
 
 class TranscodedMedia(db.Model):
-    media = ForeignKeyField(Media, related_name='transcodes')
-    settings = ForeignKeyField(TranscodingSettings)
+    media = ForeignKeyField(Media, related_name='transcodes', on_delete='CASCADE', on_update='CASCADE')
+    settings = ForeignKeyField(TranscodingSettings, on_delete='CASCADE', on_update='CASCADE')
     done = BooleanField(default=False)
     progress = IntegerField(default=0)
 
+    class Meta:
+        indexes = (
+            (('media', 'settings'), True),
+        )
+
 
 class MediaActor(db.Model):
-    media = ForeignKeyField(Media)
-    actor = ForeignKeyField(Actor)
+    media = ForeignKeyField(Media, on_delete='CASCADE', on_update='CASCADE')
+    actor = ForeignKeyField(Actor, on_delete='CASCADE', on_update='CASCADE')
     personage = CharField(null=True)
+
+    class Meta:
+        indexes = (
+            (('media', 'actor'), True),
+        )
 
 
 class SeriesActor(db.Model):
-    series = ForeignKeyField(Series)
-    actor = ForeignKeyField(Actor)
+    series = ForeignKeyField(Series, on_delete='CASCADE', on_update='CASCADE')
+    actor = ForeignKeyField(Actor, on_delete='CASCADE', on_update='CASCADE')
     personage = CharField(null=True)
+
+    class Meta:
+        indexes = (
+            (('series', 'actor'), True),
+        )
 
 
 class WatchInfo(db.Model):
-    user = ForeignKeyField(User)
-    media = ForeignKeyField(Media)
+    user = ForeignKeyField(User, on_delete='CASCADE', on_update='CASCADE')
+    media = ForeignKeyField(Media, on_delete='CASCADE', on_update='CASCADE')
     watched = BooleanField(default=False)
     progress = IntegerField(default=0)
     visible = BooleanField(default=True)
     permissions = BooleanField(default=False)
 
+    class Meta:
+        indexes = (
+            (('user', 'media'), True),
+        )
+
 
 class SeriesWatchInfo(db.Model):
-    user = ForeignKeyField(User)
-    series = ForeignKeyField(Series)
+    user = ForeignKeyField(User, on_delete='CASCADE', on_update='CASCADE')
+    series = ForeignKeyField(Series, on_delete='CASCADE', on_update='CASCADE')
     visible = BooleanField(default=True)
     following = BooleanField(default=False)
     permissions = BooleanField(default=False)
+
+    class Meta:
+        indexes = (
+            (('user', 'series'), True),
+        )
 
 
 if not User.table_exists():
