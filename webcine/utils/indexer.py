@@ -60,7 +60,7 @@ def load_xbmc_episode_metadata(filename):
 def index_sickbeard_season(path, library, series):
     for episode in glob(path + '*'):
         test = REGEX_VIDEOEXT.search(episode)
-        if test:
+        if test and not '.sample.' in episode:
             logging.info('Processing episode file')
             season_number, episode_number = parse_episode_number(episode)
             logging.info('Episode file is season {} episode {}'.format(season_number, episode_number))
