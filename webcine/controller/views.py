@@ -99,7 +99,7 @@ def play_media(media_id, transcode_id):
 def progress(media_id, progress):
     user = auth.get_logged_in_user()
     media = Media.get(Media.id == media_id)
-    info = WatchInfo().get(WatchInfo.user == user and WatchInfo.media == media)
+    info = WatchInfo().get((WatchInfo.user == user) & (WatchInfo.media == media))
     info.progress = progress
 
     if progress > media.length * 0.9:
