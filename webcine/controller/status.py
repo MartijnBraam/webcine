@@ -13,9 +13,9 @@ def transcoder_status():
       done,
       progress,
       speedfactor,
-      media.codec               AS input_codec,
-      media.bitrate             AS input_bitrate,
-      transcodingsettings.codec AS output_codec
+      media.codec                           AS input_codec,
+      round(media.bitrate / 1024 / 1024, 2) AS input_bitrate,
+      transcodingsettings.codec             AS output_codec
     FROM transcodedmedia, media, transcodingsettings
     WHERE transcodedmedia.media_id = media.id
           AND transcodingsettings.id = transcodedmedia.settings_id
