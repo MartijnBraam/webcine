@@ -3,7 +3,13 @@
 {% block content_title %}Status{% endblock %}
 
 {% block main %}
+    <table class="table table-striped">
     {% for transcode in transcoding %}
-        {{ transcode | tojson }}
+        <tr>
+        {% for cell in transcode %}
+            <td>{{ cell }}</td>
+        {% endfor %}
+        </tr>
     {% endfor %}
+    </table>
 {% endblock %}

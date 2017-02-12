@@ -9,7 +9,7 @@ from webcine.utils.auth import auth
 @auth.admin_required
 def transcoder_status():
     sql = """SELECT
-      transcodedmedia.id,
+      CONCAT(media.name, " (S", media.season," E", media.episode, ")"),
       done,
       progress,
       speedfactor,
