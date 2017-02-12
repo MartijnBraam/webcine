@@ -248,6 +248,14 @@ def preprocess_media_file(media_id):
     return True
 
 
+def reprobe_for_missing_codec_data():
+    for media in Media.select().where((Media.bitrate >> None) | (Media.codec >> None)):
+        metadata = get_video_metadata(media.path)
+        media.bitrate = metadata.bitrate
+        media.codec = metadata.get_human()
+        media.save()
+
+
 def index():
     for library in list(Library.select()):
         path = '{}/{}'.format(app.config['STORAGE'], library.name)

@@ -21,6 +21,7 @@ if __name__ == '__main__':
     parser.add_argument('--transcode', help='Scan for media that needs transcoding', action='store_true', default=False)
     parser.add_argument('--transcodeone', help='Transcode one media id', type=int)
     parser.add_argument('--cleanup', help='Clean various database inconsistencies', action='store_true', default=False)
+    parser.add_argument('--probe', help='Probe all media for metadata', action='store_true', default=False)
 
     args = parser.parse_args()
     if args.verbose:
@@ -36,3 +37,5 @@ if __name__ == '__main__':
         transcoder.transcode_one(args.transcodeone)
     if args.cleanup:
         cleaner.remove_broken_media()
+    if args.probe:
+        indexer.reprobe_for_missing_codec_data()
