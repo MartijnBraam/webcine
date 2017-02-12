@@ -21,6 +21,6 @@ def transcoder_status():
           AND transcodingsettings.id = transcodedmedia.settings_id
     """
 
-    cursor = db.database.execute_sql()
+    cursor = db.database.execute_sql(sql)
     transcoding = list(cursor.fetchall())
     return render_template('status/transcoder.html', transcoding=transcoding)
