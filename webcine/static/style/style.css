@@ -349,3 +349,21 @@ section.actor p {
   padding-bottom: 0;
   margin-bottom: 0;
 }
+.progress-bar {
+  min-width: 200px;
+  height: 24px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.1);
+  position: relative;
+}
+.progress-bar .progress-bar-inner {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 24px;
+  text-align: center;
+  color: white;
+  overflow: hidden;
+  background: #5eb95e;
+  font-size: 0.8em;
+}
