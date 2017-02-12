@@ -4,12 +4,38 @@
 
 {% block main %}
     <table class="table table-striped">
-    {% for transcode in transcoding %}
         <tr>
-        {% for cell in transcode %}
-            <td>{{ cell }}</td>
-        {% endfor %}
+            <th>Name</th>
+            <th>Done</th>
+            <th>Progress</th>
+            <th>Speed ratio</th>
+            <th>Source codec</th>
+            <th>Source bitrate</th>
+            <th>Output codec</th>
         </tr>
-    {% endfor %}
+        {% for transcode in transcoding %}
+            <tr>
+                <td>{{ transcode[0] }}</td>
+                <td>
+                    {% if transcode[1] %}
+                        Yes
+                    {% else %}
+                        No
+                    {% endif %}
+                </td>
+                <td>
+                    <div class="progress-bar">
+                        <div class="progress-bar-inner" style="width: {{ transcode[2] }}%;">
+                            {{ transcode[2] }}%
+                        </div>
+                    </div>
+                </td>
+                <td>{{ transcode[3] }}</td>
+                <td>{{ transcode[4] }}</td>
+                <td>{{ transcode[5] }}</td>
+                <td>{{ transcode[6] }}</td>
+
+            </tr>
+        {% endfor %}
     </table>
 {% endblock %}
