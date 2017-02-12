@@ -8,5 +8,5 @@ from webcine.utils.auth import auth
 @app.route('/status')
 @auth.admin_required
 def transcoder_status():
-    transcoding = TranscodedMedia.select().join(Media).join(TranscodingSettings)
+    transcoding = TranscodedMedia.select(TranscodedMedia, Media, TranscodingSettings).join(Media).join(TranscodingSettings)
     return render_template('status/transcoder.html', transcoding=transcoding)
