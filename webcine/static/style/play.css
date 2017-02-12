@@ -20,7 +20,7 @@ video {
   display: none;
 }
 #icon-volume-change {
-  color: #5eb95e;
+  color: #6b9432;
 }
 #icon-volume-change .name {
   text-align: center;
@@ -83,7 +83,7 @@ nav {
   height: 5px;
 }
 #controls #progress #progress-inner {
-  background: #5eb95e;
+  background: #6b9432;
 }
 #controls #progress #progress-hover {
   display: none;

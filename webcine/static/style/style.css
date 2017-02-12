@@ -26,7 +26,7 @@ ul.settings li {
   list-style: none;
   display: block;
   padding: 10px 15px;
-  color: #8C9440;
+  color: #6b9432;
 }
 div.settings-panel {
   float: right;
@@ -94,11 +94,11 @@ h6 {
   padding: 15px;
 }
 a[href] {
-  color: #8C9440;
+  color: #6b9432;
   text-decoration: none;
 }
 a[href]:hover {
-  color: #383b1a;
+  color: #263512;
 }
 nav {
   width: 100%;
@@ -174,14 +174,14 @@ article.serie a.add {
   position: absolute;
   top: 0;
   right: 0;
-  background-color: #8C9440;
+  background-color: #6b9432;
   color: black;
   display: inline-block;
   padding: 6px 15px;
   border-radius: 0 0 0 5px;
 }
 article.serie a.add:hover {
-  background: #383b1a;
+  background: #263512;
 }
 article.movie {
   width: 200px;
@@ -208,7 +208,7 @@ article.movie div.progress {
 }
 article.movie div.progress .progress-inner {
   height: 5px;
-  background-color: #8C9440;
+  background-color: #6b9432;
 }
 article.movie div.hoverlay {
   opacity: 0;
@@ -263,7 +263,7 @@ article.episode div.progress {
 }
 article.episode div.progress .progress-inner {
   height: 5px;
-  background-color: #8C9440;
+  background-color: #6b9432;
 }
 article.episode:hover div.hoverlay {
   opacity: 1;
@@ -363,7 +363,7 @@ section.actor p {
   text-align: center;
   color: white;
   overflow: hidden;
-  background: #8C9440;
+  background: #6b9432;
   font-size: 0.8em;
   line-height: 24px;
 }
