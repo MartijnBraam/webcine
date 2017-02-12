@@ -32,7 +32,11 @@
                 </td>
                 <td>{{ transcode[3] }}</td>
                 <td>{{ transcode[4] }}</td>
-                <td>{{ transcode[5] / 1024 / 1024 | round(2) }} Mbit</td>
+                <td>
+                    {% if transcode[5] %}
+                        {{ transcode[5] / 1024 / 1024 | round(2) }} Mbit
+                    {% endif %}
+                </td>
                 <td>{{ transcode[6] }}</td>
 
             </tr>
