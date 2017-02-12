@@ -67,7 +67,6 @@ def get_video_metadata(path, is_absolute_path=False):
     command = ['ffprobe', '-v', 'quiet', '-print_format', 'json', '-show_format', '-show_streams', path]
     result = subprocess.check_output(command)
     data = json.loads(result.decode('utf-8'))
-    print(data)
     try:
         result = VideoMetadata()
         result.container = data['format']['format_name']
