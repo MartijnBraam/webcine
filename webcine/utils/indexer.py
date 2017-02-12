@@ -249,10 +249,15 @@ def preprocess_media_file(media_id):
 
 
 def reprobe_for_missing_codec_data():
-    for media in Media.select().where((Media.bitrate >> None) | (Media.codec >> None)):
-        metadata = get_video_metadata(media.path)
+    for media in Media.select().where((Media.bitrate >> None) | (Media.codec >> None) | (Media.length >> None)):
+        try:
+            metadata = get_video_metadata(media.path)
+        except:
+            media.delete_instance(recursive=True)
+            continue
         media.bitrate = metadata.bitrate
         media.codec = metadata.get_human()
+        media.length = metadata.length
         media.save()
 
 
