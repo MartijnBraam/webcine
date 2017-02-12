@@ -1,0 +1,9 @@
+{% extends "base_auth.html" %}
+
+{% block content_title %}Status{% endblock %}
+
+{% block main %}
+    {% for transcode in transcoding %}
+        {{ transcode | tojson }}
+    {% endfor %}
+{% endblock %}

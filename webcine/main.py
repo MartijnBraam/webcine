@@ -5,6 +5,7 @@ pymysql.install_as_MySQLdb()
 from webcine.utils import metadata, indexer, cleaner
 from webcine.controller.views import *
 from webcine.controller.settings import *
+from webcine.controller.status import *
 
 # mod_wsgi support
 application = app
