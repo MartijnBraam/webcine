@@ -330,3 +330,22 @@ section.actor {
     margin-bottom: 0;
   }
 }
+
+.progress-bar {
+  min-width: 200px;
+  height: 24px;
+  border-radius: 3px;
+  background: @panel-color;
+  position: relative;
+
+  .progress-bar-inner {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 24px;
+    text-align: center;
+    color: white;
+    overflow: hidden;
+    background: @primary-color;
+  }
+}
