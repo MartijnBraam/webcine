@@ -3,7 +3,10 @@ import pymysql
 pymysql.install_as_MySQLdb()
 
 from webcine.utils import metadata, indexer, cleaner
-from webcine.controller.views import *
+from webcine.controller.api import *
+from webcine.controller.dashboard import *
+from webcine.controller.player import *
+from webcine.controller.seriesdetails import *
 from webcine.controller.settings import *
 from webcine.controller.status import *
 
