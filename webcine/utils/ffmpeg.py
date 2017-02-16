@@ -10,15 +10,20 @@ from webcine.structs import VideoMetadata, AudioStream, SubtitleStream
 
 def transcode_x264(path, target, crf=23, max_bitrate=None, tune='film', twopass=False, progress_callback=None):
     probe = get_video_metadata(path, True)
+    command = ['ffmpeg', '-v', 'quiet', '-stats', '-y', '-i', path]
 
-    command = ['ffmpeg', '-v', 'quiet', '-stats', '-y', '-i', path, '-c:v', 'libx264', '-crf', str(crf)]
-    if max_bitrate:
-        command.append('-maxrate')
-        command.append('{}k'.format(max_bitrate * 1000))
-    command.append('-tune')
-    command.append(tune)
-    command.append('-movflags')
-    command.append('+faststart')
+    if probe.video.codec == 'h264':
+        command.extend(['-c:v', 'copy'])
+    else:
+        command.extend(['-c:v', 'libx264', '-crf', str(crf)])
+
+        if max_bitrate:
+            command.append('-maxrate')
+            command.append('{}k'.format(max_bitrate * 1000))
+        command.append('-tune')
+        command.append(tune)
+        command.append('-movflags')
+        command.append('+faststart')
     command.append('-c:a')
     command.append('libfdk_aac')
     command.append('-b:a')
