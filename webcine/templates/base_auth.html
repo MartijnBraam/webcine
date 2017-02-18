@@ -4,6 +4,10 @@
     <nav>
         <a href="{{ url_for('homepage') }}" class="nav-btn">Dashboard</a>
         <a href="{{ url_for('available_series') }}" class="nav-btn">Available series</a>
+        {% if user.admin %}
+            <a href="{{ url_for('transcoder_status') }}" class="nav-btn">Status</a>
+            <a href="{{ url_for('admin_users') }}" class="nav-btn">Settings</a>
+        {% endif %}
         <div id="user">
             <img src="{{ user.gravatar_url(size=32) }}">
             <a href="{{ url_for('auth.logout') }}">log out</a>
