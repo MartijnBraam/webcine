@@ -2,10 +2,13 @@ import mimetypes
 import os
 import re
 
+from flask import redirect
 from flask import request, render_template, send_file, Response
+from flask import url_for
 
 from webcine.app import app
 from webcine.models import WatchInfo, Media, TranscodedMedia
+from webcine.utils import transcoder
 from webcine.utils.auth import auth
 
 
@@ -37,6 +40,13 @@ def progress(media_id, progress):
 
     info.save()
     return '{}'
+
+
+@app.route('/transcode-one/<int:media_id>')
+@auth.admin_required
+def transcode_one_media(media_id):
+    transcoder.transcode_one(media_id)
+    return redirect(url_for('homepage'))
 
 
 @app.route('/stream/<path:filename>')

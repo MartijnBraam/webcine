@@ -37,6 +37,9 @@
                class="control-format {% if not format.done %}disabled{% endif %}">
                 {{ format.settings.label }}{% if not format.done %} ({{ format.progress }}%){% endif %}</a>
         {% endfor %}
+        {% if user.admin %}
+            <a href="#">Transcode</a>
+        {% endif %}
     </div>
     <script>
         function moved() {
