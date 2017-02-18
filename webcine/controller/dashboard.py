@@ -14,7 +14,6 @@ def homepage():
     query = WatchInfo.select().join(Media).where(
         (WatchInfo.user == user) & (WatchInfo.visible == True) & (WatchInfo.watched == False)).order_by(
         Media.season, Media.episode)
-    print(query.sql())
     watch_next = list(query)
 
     movies = []
