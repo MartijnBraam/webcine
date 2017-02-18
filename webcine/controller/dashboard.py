@@ -11,9 +11,11 @@ from webcine.utils.auth import auth
 @auth.login_required
 def homepage():
     user = auth.get_logged_in_user()
-    watch_next = list(WatchInfo.select().join(Media).where(
+    query = WatchInfo.select().join(Media).where(
         (WatchInfo.user == user) & (WatchInfo.visible == True) & (WatchInfo.watched == False)).order_by(
-        Media.season, Media.episode))
+        Media.season, Media.episode)
+    print(query.sql())
+    watch_next = list(query)
 
     movies = []
     series = []
