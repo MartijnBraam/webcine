@@ -38,7 +38,7 @@
                 {{ format.settings.label }}{% if not format.done %} ({{ format.progress }}%){% endif %}</a>
         {% endfor %}
         {% if user.admin %}
-            <a href="#">Transcode</a>
+            <a href="{{ url_for('transcode_one_media', media_id=media.id) }}">Transcode</a>
         {% endif %}
     </div>
     <script>
