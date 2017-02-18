@@ -19,6 +19,7 @@ def transcoder_status():
     FROM transcodedmedia, media, transcodingsettings
     WHERE transcodedmedia.media_id = media.id
           AND transcodingsettings.id = transcodedmedia.settings_id
+    ORDER BY transcodedmedia.id DESC
     """
 
     cursor = db.database.execute_sql(sql)
