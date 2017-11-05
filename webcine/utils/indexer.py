@@ -231,6 +231,7 @@ def index_movie_directory(path, library):
             name, year = parsed.groups()
             year = int(year)
             name = name.strip()
+            print("Indexing {} ({})".format(name, year))
             index_movie(movie, library, name, year)
 
 
@@ -264,17 +265,16 @@ def reprobe_for_missing_codec_data():
 def index():
     for library in list(Library.select()):
         path = '{}/{}'.format(app.config['STORAGE'], library.name)
-        logging.info('Indexing root is {}'.format(path))
         logging.info('Running indexer for {} library'.format(library.name))
         if library.type == 'tvseries':
             logging.info('Library format is tv series')
             if library.structure == 'sickbeard':
-                print("Indexing {}/{}".format(path, library.name))
+                print("Indexing {}".format(path, library.name))
                 logging.info('Library format is Sickbeard/Sickrage')
                 index_sickbeard(path, library)
         if library.type == 'movies':
             logging.info('Library format is movies')
             if library.structure == 'couchpotato':
-                print("Indexing {}/{}".format(path, library.name))
+                print("Indexing {}".format(path, library.name))
                 logging.info('Library format is Couchpotato')
                 index_movie_directory(path, library)
