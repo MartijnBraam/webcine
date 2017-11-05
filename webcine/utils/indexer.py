@@ -189,7 +189,7 @@ def index_movie(path, library, name, year):
         print("  No movie found in directory")
         return
     try:
-        probe = get_video_metadata(movie_file)
+        probe = get_video_metadata(movie_file, is_absolute_path=True)
     except Exception as e:
         print("  Media probe failed on {}".format(movie_file))
         print(e)
