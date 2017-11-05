@@ -269,10 +269,12 @@ def index():
         if library.type == 'tvseries':
             logging.info('Library format is tv series')
             if library.structure == 'sickbeard':
+                print("Indexing {}/{}".format(path, library.name))
                 logging.info('Library format is Sickbeard/Sickrage')
                 index_sickbeard(path, library)
         if library.type == 'movies':
             logging.info('Library format is movies')
             if library.structure == 'couchpotato':
+                print("Indexing {}/{}".format(path, library.name))
                 logging.info('Library format is Couchpotato')
                 index_movie_directory(path, library)
