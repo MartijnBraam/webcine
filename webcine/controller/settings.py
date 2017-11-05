@@ -72,7 +72,7 @@ def admin_movies():
         watchinfo[wi.media.id][wi.user.id] = wi
 
     movies = {}
-    for m in Media.select().where(Media.series is None):
+    for m in Media.select().where(Media.series.is_null()):
         movies[m.id] = movies
 
     return render_template('settings/movies.html', users=users, watchinfo=watchinfo, movies=movies)
