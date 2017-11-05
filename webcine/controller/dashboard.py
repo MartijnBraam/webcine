@@ -12,8 +12,7 @@ from webcine.utils.auth import auth
 def homepage():
     user = auth.get_logged_in_user()
     query = WatchInfo.select().join(Media).where(
-        (WatchInfo.user == user) & (WatchInfo.visible == True) & (WatchInfo.watched == False) & (
-        WatchInfo.permissions == True)).order_by(
+        (WatchInfo.user == user) & (WatchInfo.visible == True) & (WatchInfo.watched == False)).order_by(
         Media.season, Media.episode)
     watch_next = list(query)
 
@@ -22,7 +21,8 @@ def homepage():
     episodes = []
     for watchable in watch_next:
         if watchable.media.type == 'movie':
-            movies.append(watchable)
+            if watchable.permissions or user.admin:
+                movies.append(watchable)
         elif watchable.media.type == 'tvepisode':
             if watchable.media.series.name not in series:
                 episodes.append(watchable)
