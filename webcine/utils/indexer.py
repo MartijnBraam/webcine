@@ -264,9 +264,15 @@ def reprobe_for_missing_codec_data():
 def index():
     for library in list(Library.select()):
         path = '{}/{}'.format(app.config['STORAGE'], library.name)
+        logging.info('Indexing root is {}'.format(path))
+        logging.info('Running indexer for {} library'.format(library.name))
         if library.type == 'tvseries':
+            logging.info('Library format is tv series')
             if library.structure == 'sickbeard':
+                logging.info('Library format is Sickbeard/Sickrage')
                 index_sickbeard(path, library)
         if library.type == 'movies':
+            logging.info('Library format is movies')
             if library.structure == 'couchpotato':
+                logging.info('Library format is Couchpotato')
                 index_movie_directory(path, library)
