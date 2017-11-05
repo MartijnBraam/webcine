@@ -190,8 +190,9 @@ def index_movie(path, library, name, year):
         return
     try:
         probe = get_video_metadata(movie_file)
-    except:
+    except Exception as e:
         print("  Media probe failed on {}".format(movie_file))
+        print(e)
         return
     try:
         Media.get(Media.path == movie_file)
