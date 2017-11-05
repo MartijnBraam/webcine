@@ -186,10 +186,12 @@ def add_media_watchinfo(media_id):
 def index_movie(path, library, name, year):
     movie_file = get_largest_file(path)
     if not movie_file:
+        print("  No movie found in directory")
         return
     try:
         probe = get_video_metadata(movie_file)
     except:
+        print("  Media probe failed on {}".format(movie_file))
         return
     try:
         Media.get(Media.path == movie_file)
