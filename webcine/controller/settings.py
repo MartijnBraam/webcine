@@ -75,6 +75,10 @@ def admin_movies():
     for m in Media.select().where(Media.series.is_null()):
         movies[m.id] = movies
 
+    for wi in watchinfo:
+        if wi not in movies.keys():
+            del watchinfo[wi]
+
     return render_template('settings/movies.html', users=users, watchinfo=watchinfo, movies=movies)
 
 
