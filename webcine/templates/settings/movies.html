@@ -15,7 +15,7 @@
             </tr>
             {% for wiId in watchinfo %}
                 <tr>
-                    <td>{{ movies[wiId].name }}</td>
+                    <td>{{ movies[wiId].name }} (wiId)</td>
                     {% for user in users %}
                         <td>
                             {% if user.id in watchinfo[wiId] %}
