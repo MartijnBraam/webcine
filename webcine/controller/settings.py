@@ -1,7 +1,7 @@
 from flask import render_template, request, redirect, url_for
 
 from webcine.app import app
-from webcine.models import User, SeriesWatchInfo, Series
+from webcine.models import User, SeriesWatchInfo, Series, WatchInfo, Media
 from webcine.utils.auth import auth
 
 
@@ -61,6 +61,23 @@ def admin_series():
     return render_template('settings/series.html', users=users, watchinfo=watchinfo, series=series)
 
 
+@app.route('/admin/movies')
+@auth.admin_required
+def admin_movies():
+    users = list(User.select())
+    watchinfo = {}
+    for wi in WatchInfo.select():
+        if wi.media.id not in watchinfo:
+            watchinfo[wi.media.id] = {}
+        watchinfo[wi.media.id][wi.user.id] = wi
+
+    movies = {}
+    for m in Media.select().where(Media.series is None):
+        movies[m.id] = movies
+
+    return render_template('settings/movies.html', users=users, watchinfo=watchinfo, movies=movies)
+
+
 @app.route('/admin/series/set/<int:series_id>/<int:user_id>/<state>')
 @auth.admin_required
 def admin_series_set_permission(series_id, user_id, state):
@@ -75,5 +92,22 @@ def admin_series_set_permission(series_id, user_id, state):
         permissions = state == 'on'
         watchinfo = SeriesWatchInfo.create(series=series, user=user, visible=True, following=False,
                                            permissions=permissions)
+        watchinfo.save()
+    return '{}'
+
+
+@app.route('/admin/movies/set/<int:media_id>/<int:user_id>/<state>')
+@auth.admin_required
+def admin_media_set_permission(media_id, user_id, state):
+    user = User.get(User.id == user_id)
+    media = Media.get(Media.id == media_id)
+
+    try:
+        watchinfo = WatchInfo.get((WatchInfo.media == media_id) & (WatchInfo.user == user))
+        watchinfo.permissions = state == 'on'
+        watchinfo.save()
+    except:
+        permissions = state == 'on'
+        watchinfo = WatchInfo.create(media=media, user=user, visible=True, permissions=permissions)
         watchinfo.save()
     return '{}'

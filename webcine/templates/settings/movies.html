@@ -1,0 +1,64 @@
+{% extends "base_auth.html" %}
+
+{% block content_title %}Movies | Admin{% endblock %}
+
+{% block main %}
+    {% include "settings/menu.html" %}
+    <div class="settings-panel">
+        <h1>Movies</h1>
+        <table id="series">
+            <tr>
+                <th>Movies</th>
+                {% for user in users %}
+                    <th>{{ user.username }}</th>
+                {% endfor %}
+            </tr>
+            {% for wiId in watchinfo %}
+                <tr>
+                    <td>{{ movies[wiId].name }}</td>
+                    {% for user in users %}
+                        <td>
+                            {% if user.id in watchinfo[wiId] %}
+                                {% if watchinfo[wiId][user.id].permissions %}
+                                    <input type="checkbox" checked data-media="{{ wiId }}" data-user="{{ user.id }}">
+                                {% else %}
+                                    <input type="checkbox" data-media="{{ wiId }}" data-user="{{ user.id }}">
+                                {% endif %}
+                            {% else %}
+                                <input type="checkbox" data-media="{{ wiId }}" data-user="{{ user.id }}">
+                            {% endif %}
+                        </td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+{% endblock %}
+
+{% block javascript %}
+    <script>
+        var seriesTable = document.getElementById('series');
+        seriesTable.addEventListener('click', function (event) {
+            if (event.target.tagName == 'INPUT') {
+                var media = event.target.dataset.media;
+                var user = event.target.dataset.user;
+                var state = event.target.checked;
+
+                event.target.disabled = true;
+
+                var xhr = new XMLHttpRequest();
+                xhr.addEventListener('load', function () {
+                    event.target.disabled = false;
+                });
+                var url = '/admin/movies/set/' + media + '/' + user + '/';
+                if (state) {
+                    url += 'on';
+                } else {
+                    url += 'off';
+                }
+                xhr.open('GET', url);
+                xhr.send();
+            }
+        });
+    </script>
+{% endblock %}
