@@ -75,7 +75,7 @@ def admin_movies():
     for m in Media.select().where(Media.series.is_null()):
         movies[m.id] = movies
 
-    for wi in watchinfo:
+    for wi in list(watchinfo.keys()):
         if wi not in movies.keys():
             del watchinfo[wi]
 
