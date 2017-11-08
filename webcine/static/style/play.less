@@ -1,5 +1,6 @@
 @primary-color: #6b9432;
 @primary-color-hover: darken(@primary-color, 25%);
+@popup-background: #041c23;
 
 video {
   position: absolute;
@@ -21,6 +22,32 @@ video {
   height: 100px;
 
   img {
+    display: none;
+  }
+}
+
+#video-popup {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: none;
+  .window {
+    display: block;
+    margin: 0 auto;
+    width: 400px;
+    background: @popup-background;
+    min-height: 200px;
+    color: white;
+    margin-top: 100px;
+    padding: 20px;
+    h2 {
+      padding: 0;
+      margin: 0;
+    }
+  }
+  .popup-hidden {
     display: none;
   }
 }

@@ -19,6 +19,31 @@ video {
 #cornerhint img {
   display: none;
 }
+#video-popup {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: none;
+}
+#video-popup .window {
+  display: block;
+  margin: 0 auto;
+  width: 400px;
+  background: #041c23;
+  min-height: 200px;
+  color: white;
+  margin-top: 100px;
+  padding: 20px;
+}
+#video-popup .window h2 {
+  padding: 0;
+  margin: 0;
+}
+#video-popup .popup-hidden {
+  display: none;
+}
 #icon-volume-change {
   color: #6b9432;
 }

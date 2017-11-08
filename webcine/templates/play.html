@@ -15,6 +15,24 @@
             <div class="volume">100%</div>
         </div>
     </div>
+    <div id="video-popup">
+        <div class="window">
+            <div id="popup-transcode-needed" class="popup-hidden">
+                <h2>Transcoding needed</h2>
+                <p>The video you're trying to play needs to be transcoded</p>
+                {% for format in transcodes %}
+                    <a href="{{ url_for('play_media_transcoded', media_id=media.id, transcode_id=format.settings.id) }}"
+                       class="control-format {% if not format.done %}disabled{% endif %}">
+                        {{ format.settings.label }}{% if not format.done %} ({{ format.progress }}%){% endif %}</a>
+                {% endfor %}
+
+                {% if user.admin %}
+                    <a href="{{ url_for('transcode_one_media', media_id=media.id) }}">Transcode</a>
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
     <div id="controls">
         <a href="#" id="control-play" style="display: none;">Play</a>
         <a href="#" id="control-pause">Pause</a>
@@ -37,9 +55,6 @@
                class="control-format {% if not format.done %}disabled{% endif %}">
                 {{ format.settings.label }}{% if not format.done %} ({{ format.progress }}%){% endif %}</a>
         {% endfor %}
-        {% if user.admin %}
-            <a href="{{ url_for('transcode_one_media', media_id=media.id) }}">Transcode</a>
-        {% endif %}
     </div>
     <script>
         function moved() {
@@ -144,10 +159,26 @@
 
         video.addEventListener('loadeddata', function () {
             iconLoading.style.display = 'none';
+            if (!hasAudio(video)) {
+                video.pause();
+                console.error('Video has no valid audio stream, triggering transcode popup');
+                var popupLayer = document.getElementById('video-popup');
+                var popupContents = document.getElementById('popup-transcode-needed');
+                popupLayer.style.display = 'block';
+                popupContents.style.display = 'block';
+            }
         });
 
-        video.addEventListener('error', function (){
-            console.error('Video error '+video.error.code+': '+video.error.message);
+        video.addEventListener('error', function () {
+            console.error('Video error ' + video.error.code);
+            console.log(video.error);
+            if (video.error.code == 4) {
+                video.pause();
+                var popupLayer = document.getElementById('video-popup');
+                var popupContents = document.getElementById('popup-transcode-needed');
+                popupLayer.style.display = 'block';
+                popupContents.style.display = 'block';
+            }
         });
 
         progressControlContainer.addEventListener('click', function (event) {
@@ -161,6 +192,13 @@
             var hoverPixels = event.pageX - this.clientLeft;
             progressBarHover.style.width = hoverPixels + 'px';
         });
+
+        function hasAudio(video) {
+            return video.mozHasAudio ||
+                Boolean(video.webkitAudioDecodedByteCount) ||
+                Boolean(video.audioTracks && video.audioTracks.length);
+        }
+
 
         function secondsToTime(sec_num) {
             sec_num = Math.floor(sec_num);
