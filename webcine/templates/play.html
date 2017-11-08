@@ -19,7 +19,7 @@
         <div class="window">
             <div id="popup-transcode-needed" class="popup-hidden">
                 <h2>Transcoding needed</h2>
-                {% if len(transcodes) > 0 %}
+                {% if transcodes|length > 0 %}
                     <p>You can't play the original file directly, choose one of the transcoded versions below:</p>
 
                     {% for format in transcodes %}
