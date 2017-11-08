@@ -19,15 +19,18 @@
         <div class="window">
             <div id="popup-transcode-needed" class="popup-hidden">
                 <h2>Transcoding needed</h2>
-                <p>The video you're trying to play needs to be transcoded</p>
-                {% for format in transcodes %}
-                    <a href="{{ url_for('play_media_transcoded', media_id=media.id, transcode_id=format.settings.id) }}"
-                       class="control-format {% if not format.done %}disabled{% endif %}">
-                        {{ format.settings.label }}{% if not format.done %} ({{ format.progress }}%){% endif %}</a>
-                {% endfor %}
+                {% if len(transcodes) > 0 %}
+                    <p>You can't play the original file directly, choose one of the transcoded versions below:</p>
 
-                {% if user.admin %}
-                    <a href="{{ url_for('transcode_one_media', media_id=media.id) }}">Transcode</a>
+                    {% for format in transcodes %}
+                        <a href="{{ url_for('play_media_transcoded', media_id=media.id, transcode_id=format.settings.id) }}"
+                           class="button {% if not format.done %}disabled{% endif %}">
+                            {{ format.settings.label }}{% if not format.done %} ({{ format.progress }}%){% endif %}</a>
+                    {% endfor %}
+                {% else %}
+                    <p>The video you're trying to play needs to be transcoded</p>
+
+                    <a href="{{ url_for('transcode_one_media', media_id=media.id) }}" class="button">Transcode</a>
                 {% endif %}
 
             </div>

@@ -41,6 +41,17 @@ video {
   padding: 0;
   margin: 0;
 }
+#video-popup .window a.button {
+  padding: 6px 12px;
+  border-radius: 3px;
+  display: inline-block;
+}
+#video-popup .window a.button:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+#video-popup .window a.button:active {
+  background: rgba(255, 255, 255, 0.2);
+}
 #video-popup .popup-hidden {
   display: none;
 }
