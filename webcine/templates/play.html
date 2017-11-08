@@ -146,6 +146,10 @@
             iconLoading.style.display = 'none';
         });
 
+        video.addEventListener('error', function (){
+            console.error('Video error '+video.error.code+': '+video.error.message);
+        });
+
         progressControlContainer.addEventListener('click', function (event) {
             var clickedPixels = event.pageX - this.clientLeft;
             var totalPixels = this.clientWidth;
