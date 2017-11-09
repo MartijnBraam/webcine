@@ -83,7 +83,7 @@ def cache(type, id):
 def mark_watched(media_id):
     user = auth.get_logged_in_user()
     media = Media.get(Media.id == media_id)
-    info = WatchInfo().get(WatchInfo.user == user and WatchInfo.media == media)
+    info = WatchInfo().get((WatchInfo.user == user) & (WatchInfo.media == media))
     info.watched = True
     info.save()
     return redirect(url_for('homepage'))
@@ -94,7 +94,7 @@ def mark_watched(media_id):
 def mark_hidden(media_id):
     user = auth.get_logged_in_user()
     media = Media.get(Media.id == media_id)
-    info = WatchInfo().get(WatchInfo.user == user and WatchInfo.media == media)
+    info = WatchInfo().get((WatchInfo.user == user) & (WatchInfo.media == media))
     info.visible = False
     info.save()
     return redirect(url_for('homepage'))
