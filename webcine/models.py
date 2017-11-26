@@ -84,6 +84,7 @@ class TranscodedMedia(db.Model):
     done = BooleanField(default=False)
     progress = IntegerField(default=0)
     speedfactor = FloatField(null=True)
+    error = TextField()
 
     def __repr__(self):
         return '<TranscodedMedia media {} to setting{}>'.format(self.media.id, self.settings.id)

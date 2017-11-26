@@ -15,7 +15,8 @@ channel.queue_declare(queue='transcode', durable=True)
 
 
 def create_transcode_task(media, settings):
-    existing = list(TranscodedMedia.select().where((TranscodedMedia.media == media) & (TranscodedMedia.settings == settings)))
+    existing = list(
+        TranscodedMedia.select().where((TranscodedMedia.media == media) & (TranscodedMedia.settings == settings)))
 
     if len(existing) == 0:
         tm = TranscodedMedia.create(media=media, settings=settings)
@@ -45,6 +46,13 @@ def finished_transcode_task(id, speedfactor):
     tm = TranscodedMedia.get(TranscodedMedia.id == id)
     tm.done = True
     tm.speedfactor = speedfactor
+    tm.save()
+
+
+def failed_transcode_task(id):
+    tm = TranscodedMedia.get(TranscodedMedia.id == id)
+    tm.done = False
+    tm.error = "Transcoding failed"
     tm.save()
 
 

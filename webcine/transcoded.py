@@ -36,9 +36,13 @@ def transcode(ch, method, properties, body):
         parameters['progress_callback'] = progress_callback
         task_id = body['id']
         print('    start transcode')
-        speedfactor = ffmpeg.transcode_x264(**parameters)
-        requests.get('http://{}/mark-transcode-done/{}/{}'.format(args.host, body['id'], speedfactor))
-        print('    finished transcode')
+        try:
+            speedfactor = ffmpeg.transcode_x264(**parameters)
+            requests.get('http://{}/mark-transcode-done/{}/{}'.format(args.host, body['id'], speedfactor))
+            print('    finished transcode')
+        except:
+            requests.get('http://{}/mark-transcode-fail/{}'.format(args.host, body['id']))
+            print('    transcode failed')
         ch.basic_ack(delivery_tag=method.delivery_tag)
 
 

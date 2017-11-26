@@ -12,3 +12,9 @@ def mark_transcode_progress(transcode_id, progress):
 def mark_transcode_done(id, speedfactor):
     transcoder.finished_transcode_task(id, speedfactor)
     return '{}'
+
+
+@app.route('/mark-transcode-fail/<int:id>')
+def mark_transcode_fail(id):
+    transcoder.failed_transcode_task(id)
+    return '{}'
