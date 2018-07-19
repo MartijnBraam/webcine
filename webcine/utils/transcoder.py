@@ -1,17 +1,11 @@
-import json
 import os
 
-import pika
+import requests
+
 import webcine.app
-from webcine.utils.queue import create_connection_from_url
 from webcine.app import app
 
 from webcine.models import TranscodingSettings, Media, TranscodedMedia
-
-connection = create_connection_from_url(webcine.app.app.config['QUEUE'])
-channel = connection.channel()
-
-channel.queue_declare(queue='transcode', durable=True)
 
 
 def create_transcode_task(media, settings):
@@ -25,21 +19,18 @@ def create_transcode_task(media, settings):
         print('Database row already exists for this media file. Re-adding task to transode queue only')
         tm = existing[0]
 
-    target_file = '{}/transcoded/{}/{}.mkv'.format(app.config['STORAGE'], settings.id, media.id)
+    target_file = '{}/transcoded/{}/{}.mp4'.format(app.config['STORAGE'], settings.profile, media.id)
     if not os.path.isdir(os.path.dirname(target_file)):
         os.makedirs(os.path.dirname(target_file))
 
     task = {
         'id': tm.id,
-        'file': media.path,
-        'codec': settings.codec,
-        'target': target_file
+        'source': media.path,
+        'profile': settings.profile,
+        'destination': target_file
     }
-    task.update(json.loads(settings.settings))
-    task = json.dumps(task)
-
-    channel.basic_publish(exchange='', routing_key='transcode', body=task.encode(),
-                          properties=pika.BasicProperties(delivery_mode=2))
+    config = webcine.app.app.config['TRANSCODED']
+    requests.post('{}jobs'.format(config['url']), json=task, auth=(config['username'], config['password']))
 
 
 def finished_transcode_task(id, speedfactor):
@@ -65,7 +56,7 @@ def progress_transcode_task(id, progress):
 def transcode_one(id):
     media = Media.get(Media.id == id)
     for setting in TranscodingSettings.select():
-        print("Transcode {} to {}".format(media.name, setting.label))
+        print("Transcode {} to {}".format(media.name, setting.profile))
 
         create_transcode_task(media, setting)
 
@@ -77,5 +68,5 @@ def create_transcode_tasks():
             try:
                 TranscodedMedia.get(TranscodedMedia.media == media, TranscodedMedia.settings == setting)
             except:
-                print("Transcode {} to {}".format(media.name, setting.label))
+                print("Transcode {} to {}".format(media.name, setting.profile))
                 create_transcode_task(media, setting)

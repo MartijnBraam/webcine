@@ -1,7 +1,6 @@
 flask
 pymysql
 sqlalchemy
-pika
 flask-peewee
 xmltodict
 requests

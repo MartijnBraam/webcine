@@ -1,3 +1,5 @@
+from flask import request
+
 from webcine.app import app
 from webcine.utils import transcoder
 
@@ -18,3 +20,15 @@ def mark_transcode_done(id, speedfactor):
 def mark_transcode_fail(id):
     transcoder.failed_transcode_task(id)
     return '{}'
+
+
+@app.route('/transcode-callback', methods=['POST'])
+def transcode_callback():
+    data = request.get_json()
+    id = int(data['id'])
+    if data['status'] == 'started':
+        transcoder.progress_transcode_task(id, 1)
+    elif data['status'] == 'running':
+        transcoder.progress_transcode_task(id, data['progress'])
+    elif data['status'] == 'done':
+        transcoder.finished_transcode_task(id, 0)

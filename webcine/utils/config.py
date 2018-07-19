@@ -27,7 +27,11 @@ def get_config(app):
                     'user': parser.get('database', 'user'),
                     'password': parser.get('database', 'password')
                 },
-                'QUEUE': parser.get('rabbitmq', 'url'),
+                'TRANSCODED': {
+                    'url': parser.get('transcoded', 'url'),
+                    'username': parser.get('transcoded', 'username'),
+                    'password': parser.get('transcoded', 'password')
+                },
                 'STORAGE': parser.get('webcine', 'storage')
             }
 

@@ -74,8 +74,7 @@ class Media(db.Model):
 
 class TranscodingSettings(db.Model):
     label = CharField(unique=True)
-    codec = CharField()
-    settings = TextField(default='{}')
+    profile = CharField()
 
 
 class TranscodedMedia(db.Model):
@@ -170,6 +169,6 @@ if not SeriesWatchInfo.table_exists():
     SeriesWatchInfo.create_table()
 if not TranscodingSettings.table_exists():
     TranscodingSettings.create_table()
-    TranscodingSettings.create(label='H264 HD', codec='x264', settings='{}')
+    TranscodingSettings.create(label='H264 HD', profile='h264')
 if not TranscodedMedia.table_exists():
     TranscodedMedia.create_table()
