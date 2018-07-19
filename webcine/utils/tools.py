@@ -25,6 +25,9 @@ def cache_image(url, type, id, ext='jpg'):
     response = requests.get(url)
     path = '{}/cache/{}/{}.{}'.format(app.config['STORAGE'], type, id, ext)
 
+    if not os.path.isdir('{}/cache'.format(app.config['STORAGE'])):
+        os.mkdir('{}/cache'.format(app.config['STORAGE']))
+
     if not os.path.isdir('{}/cache/{}'.format(app.config['STORAGE'], type)):
         os.mkdir('{}/cache/{}'.format(app.config['STORAGE'], type))
 

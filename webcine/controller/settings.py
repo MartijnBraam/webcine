@@ -74,6 +74,16 @@ def admin_movies():
     movies = {}
     for m in Media.select().where(Media.series.is_null()):
         movies[m.id] = m
+        if m.id not in watchinfo:
+            newwi = WatchInfo()
+            newwi.user = users[0]
+            newwi.media = m
+            newwi.watched = False
+            newwi.visible = True
+            newwi.permissions = True
+            newwi.progress = 0
+            newwi.save()
+            watchinfo[m.id] = {users[0].id: newwi}
 
     for wi in list(watchinfo.keys()):
         if wi not in movies.keys():

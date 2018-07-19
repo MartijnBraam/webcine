@@ -32,3 +32,4 @@ def transcode_callback():
         transcoder.progress_transcode_task(id, data['progress'])
     elif data['status'] == 'done':
         transcoder.finished_transcode_task(id, 0)
+    return 'OK'
